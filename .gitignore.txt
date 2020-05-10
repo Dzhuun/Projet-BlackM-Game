@@ -1,8 +1,0 @@
-Library
-Build
-obj
-Temp
-*.csproj
-*.sln
-.vscode
-.vs
