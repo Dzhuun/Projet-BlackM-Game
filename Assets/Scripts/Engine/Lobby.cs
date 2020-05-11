@@ -3,6 +3,7 @@ using Photon.Realtime;
 using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Photon.Pun.Demo.Asteroids;
 
@@ -34,20 +35,22 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
     public Button StartGameButton;
     public GameObject PlayerListEntryPrefab;
 
-    [Header("Utility")]
-    public float blurDuration;
-    [Range(0f,5f)] public float blurMaxStrengh;
-    public Image blurEffect;
 
     private Dictionary<string, RoomInfo> cachedRoomList;
     private Dictionary<string, GameObject> roomListEntries;
     private Dictionary<int, GameObject> playerListEntries;
+
+    private RaiseEventOptions _raiseEventOptions;
 
     #region UNITY
 
     public void Awake()
     {
         //PhotonNetwork.AutomaticallySyncScene = true;
+        _raiseEventOptions = new RaiseEventOptions()
+        {
+            Receivers = ReceiverGroup.All
+        };
 
         cachedRoomList = new Dictionary<string, RoomInfo>();
         roomListEntries = new Dictionary<string, GameObject>();
@@ -103,7 +106,7 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
             entry.GetComponent<MyPlayerListEntry>().Initialize(p.ActorNumber, p.NickName);
 
             object isPlayerReady;
-            if (p.CustomProperties.TryGetValue(SettingsManager.PLAYER_READY, out isPlayerReady))
+            if (p.CustomProperties.TryGetValue(SettingsManager.KEY_PLAYER_READY, out isPlayerReady))
             {
                 entry.GetComponent<MyPlayerListEntry>().SetPlayerReady((bool) isPlayerReady);
             }
@@ -115,7 +118,7 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
 
         Hashtable props = new Hashtable
         {
-            {SettingsManager.PLAYER_LOADED_LEVEL, false}
+            {SettingsManager.KEY_PLAYER_LOADED_LEVEL, false}
         };
         PhotonNetwork.LocalPlayer.SetCustomProperties(props);
     }
@@ -172,7 +175,7 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
         if (playerListEntries.TryGetValue(targetPlayer.ActorNumber, out entry))
         {
             object isPlayerReady;
-            if (changedProps.TryGetValue(SettingsManager.PLAYER_READY, out isPlayerReady))
+            if (changedProps.TryGetValue(SettingsManager.KEY_PLAYER_READY, out isPlayerReady))
             {
                 entry.GetComponent<MyPlayerListEntry>().SetPlayerReady((bool) isPlayerReady);
             }
@@ -185,6 +188,7 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         if(photonEvent.Code == 1)
         {
+            SettingsManager.transition.FadeIn();
 
         }
     }
@@ -252,7 +256,7 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
         PhotonNetwork.CurrentRoom.IsOpen = false;
         PhotonNetwork.CurrentRoom.IsVisible = false;
 
-        StartCoroutine(LoadGameScene());
+        PhotonNetwork.RaiseEvent(1, null, _raiseEventOptions, SendOptions.SendReliable);
         //PhotonNetwork.LoadLevel(SettingsManager.GAME_SCENE);
     }
 
@@ -273,7 +277,7 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
         foreach (Player p in PhotonNetwork.PlayerList)
         {
             object isPlayerReady;
-            if (p.CustomProperties.TryGetValue(SettingsManager.PLAYER_READY, out isPlayerReady))
+            if (p.CustomProperties.TryGetValue(SettingsManager.KEY_PLAYER_READY, out isPlayerReady))
             {
                 if (!(bool) isPlayerReady)
                 {
@@ -354,21 +358,4 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
         }
     }
     
-    private System.Collections.IEnumerator LoadGameScene()
-    {
-        yield return null;
-        
-        // Initializes the blur effect
-        Material blurMat = blurEffect.GetComponent<Renderer>().material;
-
-        blurMat.SetFloat("_Radius", 0);
-
-        float increment = 0.05f * blurMaxStrengh / blurDuration;
-
-        for(float f = 0; f < blurMaxStrengh; f+= increment)
-        {
-            blurMat.SetFloat("_Radius", f);
-            yield return new WaitForSeconds(increment);
-        }
-    }
 }

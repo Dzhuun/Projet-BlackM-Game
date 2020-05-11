@@ -43,7 +43,7 @@ public class MyPlayerListEntry : MonoBehaviour
         }
         else
         {
-            Hashtable initialProps = new Hashtable() {{SettingsManager.PLAYER_READY, isPlayerReady}};
+            Hashtable initialProps = new Hashtable() {{SettingsManager.KEY_PLAYER_READY, isPlayerReady}};
             PhotonNetwork.LocalPlayer.SetCustomProperties(initialProps);
             PhotonNetwork.LocalPlayer.SetScore(0);
 
@@ -52,7 +52,7 @@ public class MyPlayerListEntry : MonoBehaviour
                 isPlayerReady = !isPlayerReady;
                 SetPlayerReady(isPlayerReady);
 
-                Hashtable props = new Hashtable() {{ SettingsManager.PLAYER_READY, isPlayerReady}};
+                Hashtable props = new Hashtable() {{ SettingsManager.KEY_PLAYER_READY, isPlayerReady}};
                 PhotonNetwork.LocalPlayer.SetCustomProperties(props);
 
                 if (PhotonNetwork.IsMasterClient)

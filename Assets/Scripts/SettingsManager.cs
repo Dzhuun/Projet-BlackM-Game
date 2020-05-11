@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class SettingsManager : MonoBehaviour
 {
-    public static string PLAYER_LOADED_LEVEL = "PlayerLoadedLevel";
+    public static string KEY_PLAYER_READY = "PlayerReady";
 
-    public static string PLAYER_READY = "PlayerReady";
+    public static string KEY_PLAYER_LOADED_LEVEL = "PlayerLoadedLevel";
 
-    public static string GAME_SCENE = "room";
+    public static string KEY_CHARACTER = "Character";
+
+    public static string GAME_SCENE = "GameScene";
 
     public static Color GetColor(int colorChoice)
     {
@@ -27,8 +29,14 @@ public class SettingsManager : MonoBehaviour
         return Color.black;
     }
 
+    public static SceneTransition transition;
+
+    [SerializeField] private SceneTransition _transition;
+
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
+
+        transition = _transition;
     }
 }
