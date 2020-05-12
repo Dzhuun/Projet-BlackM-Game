@@ -53,15 +53,26 @@ public class NetworkPlayer : MonoBehaviour, IPunObservable, IOnEventCallback
         //}
     }
 
-    public void SetCharacter(Character character)
+    /// <summary>
+    /// Send the player's state update through network.
+    /// </summary>
+    /// <param name="character">The character assigned to the player.</param>
+    /// <param name="playerOrder">The turn order assigned to the player.</param>
+    public void SetCharacter(Character character, int playerOrder)
     {
-        photonView.RPC("SetCharacter", RpcTarget.All, character.nickname);
+        photonView.RPC("SetCharacter", RpcTarget.All, character.nickname, playerOrder);
     }
 
+    /// <summary>
+    /// Stores the character linked to the player and its turn order.
+    /// </summary>
+    /// <param name="name">The name of the character.</param>
+    /// <param name="playerOrder">The turn order of the player.</param>
     [PunRPC]
-    private void SetCharacter(string name)
+    private void SetCharacter(string name, int playerOrder)
     {
         _character = Database.characters.Find(x => x.nickname == name);
+        GameManager.SetPlayerOrder(this, playerOrder);
     }
 
 

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ed0b425978b0b84491defdd4b9d6b04, type: 3}
-  m_Name: Felindra
+  m_Name: Marc
   m_EditorClassIdentifier: 
-  nickname: Machin
+  nickname: Mazrc
   age: 0

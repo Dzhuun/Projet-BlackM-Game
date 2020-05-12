@@ -7,5 +7,17 @@ public class Character : ScriptableObject
 {
     public string nickname;
 
+    public int age;
+
     // traits, etc..
+}
+
+
+
+[System.Serializable]
+public class Reponse
+{
+    public string character;
+
+    public string text;
 }

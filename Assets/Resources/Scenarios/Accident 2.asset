@@ -9,8 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ed0b425978b0b84491defdd4b9d6b04, type: 3}
-  m_Name: Felindra
+  m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
+  m_Name: Accident 2
   m_EditorClassIdentifier: 
-  nickname: Machin
-  age: 0
+  title: dqskuidgki
+  starCost: 3
+  commonAnswers:
+  - qsdfs
+  - fdsf
+  specificAnswers:
+  - character: 2sdfsd
+    text: sdf
