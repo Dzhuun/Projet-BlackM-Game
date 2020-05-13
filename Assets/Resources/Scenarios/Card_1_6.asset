@@ -10,13 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
-  m_Name: Accident 2
+  m_Name: Card_1_6
   m_EditorClassIdentifier: 
-  title: dqskuidgki
-  starCost: 3
+  title: 
+  starCost: 1
   commonAnswers:
-  - qsdfs
-  - fdsf
+  - 
+  - 
+  - 
   specificAnswers:
-  - character: 2sdfsd
-    text: sdf
+  - character: Toby Gordon
+    text: 
+  - character: Olga Giordano
+    text: 
+  - character: "Garence L\xE9opold"
+    text: 
+  - character: Karim Kacem
+    text: 

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
+  m_Name: Card_4_2
+  m_EditorClassIdentifier: 
+  title: "Vous avez r\xE9serv\xE9 une table dans ce restaurant dont tout le monde
+    parle. Le jour J on vous annonce qu\u2019il y a eu une erreur. Vous r\xE9fl\xE9chissez
+    \xE0 un moyen de convaincre la personne. "
+  starCost: 4
+  commonAnswers:
+  - "Peut-\xEAtre un peu d\u2019argent de mani\xE8re discr\xE8te ?"
+  - "Vous demandez \xE0 utiliser les commodit\xE9s (dans l'espoir de voir une connaissance)."
+  - Vous demandez le Patron sous peine de faire de la mauvaise pub.
+  specificAnswers:
+  - character: Toby Gordon
+    text: "Vous dites au manager, que s\u2019il vous d\xE9gote une table, vous lui
+      ferez de la pub en plus."
+  - character: Olga Giordano
+    text: "Vous expliquez que c\u2019est dommage que la personne qui devait faire
+      les r\xE9servations ait mal fait son travail."
+  - character: "Garence L\xE9opold"
+    text: "Vous r\xE9pondez que pour la peine vous ne r\xE9serverez plus dans ce restaurant."
+  - character: Karim Kacem
+    text: "Vous vous dites que la situation se r\xE9glera bien d\u2019elle m\xEAme
+      si vous restez charmant."
