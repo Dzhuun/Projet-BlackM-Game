@@ -52,8 +52,6 @@ public class NetworkPlayer : MonoBehaviour, IPunObservable, IOnEventCallback
         //cursor = GetComponentInChildren<PlayerCursor>();
         //NetworkInputManager.playerInputs.Add(cursor);
 
-        Debug.LogFormat("Instanciated player {0}", photonView.Owner.NickName);
-
         //if(PhotonNetwork.IsMasterClient)
         //{
         //    SendPlayerID(photonView.Owner.NickName, PhotonNetwork.CurrentRoom.PlayerCount-1);

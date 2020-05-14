@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
@@ -16,6 +18,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static NetworkPlayer currentPlayer;
 
     private static List<NetworkPlayer> _players = new List<NetworkPlayer>();
+
+    private Scenario _currentScenario;
 
     private int _currentIndexTurn = -1;
 
@@ -94,15 +98,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             throw new System.Exception("Not enough characters were created. Add more Characters to the Resources/Characters folder.");
         }
 
-
         // Create a list of int from 1 to PlayerCount to manager players turn order
         List<int> playerOrder = new List<int>();
         for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
             playerOrder.Add(i);
         }
-
-        //List<NetworkPlayer> players = new List<NetworkPlayer>(_players.Count);
 
         int charToAssignIndex;
         int orderToAssignIndex;
@@ -127,8 +128,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void StartGame()
     {
-        Debug.Log("Start Game");
-
         gameUI.DisplayCharacters();
 
         SettingsManager.transition.FadeOut();
@@ -152,10 +151,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="order">The order of the player.</param>
     public static void SetPlayerOrder(NetworkPlayer player, int order)
     {
-        Debug.Log("Set player " + player.PlayerName + " to order " + order);
         orderedPlayers[order] = player;
     }
 
+    /// <summary>
+    /// Starts the game after a short delay.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator StartGameDelay()
     {
         yield return new WaitForSeconds(4);
@@ -209,6 +211,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// Starts a turn.
+    /// </summary>
     private void BeginTurn()
     {
         _currentIndexTurn = (int)Mathf.Repeat(_currentIndexTurn + 1, orderedPlayers.Count);
@@ -218,6 +223,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         gameUI.ShowDrawCardDisplay(NetworkPlayer.LocalPlayerInstance == currentPlayer);
     }
 
+    /// <summary>
+    /// Performs the phase where the player draws a card.
+    /// </summary>
     private void DrawScenarioPhase()
     {
         // If the local player has to draw, show the draw UI
@@ -225,19 +233,50 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Else if the local player waits for the currently playing player to draw, show the 'wait for player to draw' UI
     }
 
+    /// <summary>
+    /// Performs the phase where the player selects an answer.
+    /// </summary>
     private void SelectAnswerPhase()
     {
 
     }
 
+    /// <summary>
+    /// Performs the phase where the players give their opinion.
+    /// </summary>
     private void OpinionPhase()
     {
 
     }
 
+    /// <summary>
+    /// Performs the phase where the player shops.
+    /// </summary>
     private void ShoppingPhase()
     {
         // Check win condition only locally
+    }
+
+    /// <summary>
+    /// Checks if the given ID corresponds to a scenario card.
+    /// </summary>
+    /// <param name="inputField"></param>
+    public void OnDrawValidate(TMP_InputField inputField)
+    {
+        int cardID = 0;
+        int.TryParse(inputField.text, out cardID);
+
+        _currentScenario = Database.scenarios.Find(x => x.id == cardID);
+
+        if(_currentScenario != null)
+        {
+            // 
+        }
+        else
+        {
+            // Display error message
+
+        }
     }
 
 }

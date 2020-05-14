@@ -10,7 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ed0b425978b0b84491defdd4b9d6b04, type: 3}
-  m_Name: New Char 2
+  m_Name: Karim Kacem
   m_EditorClassIdentifier: 
   nickname: 
-  age: 0
+  description: 
+  avatar: {fileID: 0}
+  personality_1: 
+  personality_2: 
+  personality_3: 

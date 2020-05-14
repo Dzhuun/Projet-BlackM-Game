@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New scenario", menuName = "Game Assets/Scenario")]
 public class Scenario : ScriptableObject
 {
+    public int id;
+
     public string title;
 
     public int starCost;
