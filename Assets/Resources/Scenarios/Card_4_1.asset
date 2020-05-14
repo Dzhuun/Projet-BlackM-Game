@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
+  m_Name: Card_4_1
+  m_EditorClassIdentifier: 
+  title: "Vous \xE9tiez en train de marcher dans la rue, une personne d\u2019un groupe
+    associatif vous aborde. Il est tr\xE8s souriant, vous refusez poliment, mais il
+    semble insister. Vous d\xE9cidez malgr\xE9 tout de lui consacrer du temps, apr\xE8s
+    tout, c\u2019est une bonne cause et vous lui donnez un peu d'argent."
+  starCost: 4
+  commonAnswers:
+  - "Vous d\xE9cidez malgr\xE9 tout de lui consacrer du temps, apr\xE8s tout c\u2019est
+    une bonne cause et vous lui donnez un peu d'argent."
+  - "Vous constatez qu\u2019il s\u2019agit d\u2019un 2 \xE9toiles. Vous faites mine
+    que votre t\xE9l\xE9phone sonne en guise d\u2019excuse pour partir, il ne faut
+    pas qu\u2019on vous y associe."
+  - "Vous restez souriant, mais n\u2019\xE9coutez pas ce qu\u2019il dit. Finalement
+    il comprend la supercherie et s\u2019en va de lui m\xEAme."
+  specificAnswers:
+  - character: Toby Gordon
+    text: "Vous d\xE9cidez de lui faire un tour de passe-passe avec une pi\xE8ce.
+      S\u2019il trouve o\xF9 elle se trouve, vous l\u2019aiderez."
+  - character: Olga Giordano
+    text: "Vous expliquez que dans la vie, on a rien sans rien, si les personnes qu\u2019il
+      essaye d\u2019aider travaillaient plus, ils n\u2019auraient pas ce probl\xE8me."
+  - character: "Garence L\xE9opold"
+    text: "Vous lui faites un cours sur les choses prioritaire dans la vie, comme
+      l\u2019\xE9cologie. Les SDF trouveront bien d\u2019autres personnes pour leur
+      cause."
+  - character: Karim Kacem
+    text: "Vous bavardez avec lui quelques minutes sur son association. Il n\u2019a
+      pas eu ce qu\u2019il voulait et vous \xEAtre tranquille."

@@ -7,10 +7,19 @@ public class Character : ScriptableObject
 {
     public string nickname;
 
-    public int age;
-
+    public string description;
+    
     public Sprite avatar;
-    // traits, etc..
+
+	public string personality_1;
+
+	public string personality_2;
+	
+	public string personality_3;
+
+  	// public int age;
+	// Etoile (popularité) de base du personnage : 2 Etoile / 5
+	// Possiblité de gagner ou perdre des "traits de personnality" en fonction du classement, max 5 (?)
 }
 
 

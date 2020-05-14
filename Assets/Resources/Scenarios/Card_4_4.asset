@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
+  m_Name: Card_4_4
+  m_EditorClassIdentifier: 
+  title: "Vous attendez \xE0 l'ext\xE9rieur vos amis en costume pour une soir\xE9e
+    d\xE9guis\xE9e, mais pas de nouvelle."
+  starCost: 4
+  commonAnswers:
+  - Vous prennez des selfi avec les gens qui vous parlent.
+  - "Vous avez choisi un costume pr\xE9cis dans l'espoir de vous faire remarquer."
+  - Vous critiquerez les costumes de vos amis.
+  specificAnswers:
+  - character: Toby Gordon
+    text: "Vous testez vos talents d\u2019acteur aupr\xE8s des passants."
+  - character: Olga Giordano
+    text: "Vous patientez \xE0 une terrasse en face."
+  - character: "Garence L\xE9opold"
+    text: Vous envoyez un message de reproche au groupe.
+  - character: Karim Kacem
+    text: "Vous envoyez des messages jusqu'\xE0 avoir une r\xE9ponse."
