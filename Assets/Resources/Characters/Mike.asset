@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Mike
   m_EditorClassIdentifier: 
   nickname: Mike
+  age: 43
+  avatar: {fileID: 21300000, guid: 92fe90a89e0243e468ecda552e747378, type: 3}

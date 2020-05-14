@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed0b425978b0b84491defdd4b9d6b04, type: 3}
   m_Name: Marc
   m_EditorClassIdentifier: 
-  nickname: Mazrc
-  age: 0
+  nickname: Marc
+  age: 283
+  avatar: {fileID: 21300000, guid: cba24723c6eac8946a3c7548bd4d44b1, type: 3}

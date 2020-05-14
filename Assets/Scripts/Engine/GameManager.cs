@@ -7,13 +7,15 @@ using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    public GameUI gameUI;
+
     public GameObject playerPrefab;
 
-    private static List<NetworkPlayer> _players;
+    public static List<NetworkPlayer> orderedPlayers;
 
-    private static List<NetworkPlayer> _orderedPlayers;
+    public static NetworkPlayer currentPlayer;
 
-    private NetworkPlayer _currentPlayer;
+    private static List<NetworkPlayer> _players = new List<NetworkPlayer>();
 
     private int _currentIndexTurn = -1;
 
@@ -24,32 +26,23 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region MonoBehaviour
     private void Awake()
     {
-        _orderedPlayers = new List<NetworkPlayer>(PhotonNetwork.CurrentRoom.PlayerCount);
-        _players = new List<NetworkPlayer>(PhotonNetwork.CurrentRoom.PlayerCount);
+        // Fill the ordererd players list with null value
+        // These null values will be replaced by the players and their index will correspond to their turn order
+        orderedPlayers = new List<NetworkPlayer>();
+        for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        {
+            orderedPlayers.Add(null);
+        }
     }
 
     void Start()
     {
         if(NetworkPlayer.LocalPlayerInstance == null)
         {
-            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
-            {
-                {SettingsManager.KEY_PLAYER_LOADED_LEVEL, true}
-            };
-
-            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
             PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
         }
     }
-
-    void Update()
-    {
-        //if(!_playersReady)
-        //{
-        //    return;
-        //}
-        
-    }
+    
 
     #endregion
 
@@ -57,7 +50,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // When a player updates its properties, check if all players are ready
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        if(!_playersReady && PhotonNetwork.IsMasterClient && CheckPlayersReady())
+        if(!_playersReady && PhotonNetwork.IsMasterClient && CheckPlayersLoadedLevel())
         {
             _playersReady = true;
 
@@ -71,12 +64,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// Checks if all players in the room are ready (i.e. joined the game scene).
     /// </summary>
     /// <returns>True if all players are ready.</returns>
-    private bool CheckPlayersReady()
+    private bool CheckPlayersLoadedLevel()
     {
         foreach(Player player in PhotonNetwork.CurrentRoom.Players.Values)
         {
             object isReady;
-            if(player.CustomProperties.TryGetValue(SettingsManager.KEY_PLAYER_READY, out isReady))
+            if(player.CustomProperties.TryGetValue(SettingsManager.KEY_PLAYER_LOADED_LEVEL, out isReady))
             {
                 if(!((bool)isReady))
                 {
@@ -101,15 +94,15 @@ public class GameManager : MonoBehaviourPunCallbacks
             throw new System.Exception("Not enough characters were created. Add more Characters to the Resources/Characters folder.");
         }
 
-        List<int> playerOrder = new List<int>()
-        {
-            1,
-            2,
-            3,
-            4
-        };
 
-        List<NetworkPlayer> players = new List<NetworkPlayer>(_players.Count);
+        // Create a list of int from 1 to PlayerCount to manager players turn order
+        List<int> playerOrder = new List<int>();
+        for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        {
+            playerOrder.Add(i);
+        }
+
+        //List<NetworkPlayer> players = new List<NetworkPlayer>(_players.Count);
 
         int charToAssignIndex;
         int orderToAssignIndex;
@@ -117,9 +110,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         foreach(NetworkPlayer player in _players)
         {
             charToAssignIndex = Random.Range(0, characters.Count);
-            orderToAssignIndex = Random.Range(0, characters.Count);
+            orderToAssignIndex = Random.Range(0, playerOrder.Count);
 
-            player.SetCharacter(characters[charToAssignIndex], orderToAssignIndex);
+            player.SetCharacter(characters[charToAssignIndex], playerOrder[orderToAssignIndex]);
 
             characters.RemoveAt(charToAssignIndex);
             playerOrder.RemoveAt(orderToAssignIndex);
@@ -134,9 +127,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void StartGame()
     {
+        Debug.Log("Start Game");
+
+        gameUI.DisplayCharacters();
+
         SettingsManager.transition.FadeOut();
-        
-        MoveToNextState();
+
+        StartCoroutine(StartGameDelay());
     }
 
     /// <summary>
@@ -155,7 +152,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="order">The order of the player.</param>
     public static void SetPlayerOrder(NetworkPlayer player, int order)
     {
-        _orderedPlayers[order] = player;
+        Debug.Log("Set player " + player.PlayerName + " to order " + order);
+        orderedPlayers[order] = player;
+    }
+
+    private IEnumerator StartGameDelay()
+    {
+        yield return new WaitForSeconds(4);
+
+        gameUI.HideCharacters();
+
+        MoveToNextState();
     }
 
     enum GameState
@@ -196,7 +203,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Shopping:
-                DrawScenarioPhase();
+                BeginTurn();
                 break;
 
         }
@@ -204,11 +211,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void BeginTurn()
     {
-        _currentIndexTurn = (int)Mathf.Repeat(_currentIndexTurn + 1, _orderedPlayers.Count);
+        _currentIndexTurn = (int)Mathf.Repeat(_currentIndexTurn + 1, orderedPlayers.Count);
 
-        _currentPlayer = _orderedPlayers[_currentIndexTurn];
+        currentPlayer = orderedPlayers[_currentIndexTurn];
 
-
+        gameUI.ShowDrawCardDisplay(NetworkPlayer.LocalPlayerInstance == currentPlayer);
     }
 
     private void DrawScenarioPhase()

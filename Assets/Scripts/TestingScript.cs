@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class TestingScript : MonoBehaviour
 {
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Debug.Log(Random.Range(0, 4));
-            Debug.Log(Random.Range(0, 4));
-        }
+        Debug.Log("On Enable");
+    }
+
+    private void OnDisable()
+    {
+        Debug.Log("On Disable");
     }
 }

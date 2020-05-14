@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Pierre
   m_EditorClassIdentifier: 
   nickname: Pierre
+  age: 2803542
+  avatar: {fileID: 21300000, guid: 19ec42e30345ee145978cb32d37901ee, type: 3}

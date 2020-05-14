@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Sandra
   m_EditorClassIdentifier: 
   nickname: Sandra
+  age: 32
+  avatar: {fileID: 21300000, guid: 3b5e23c44bb767641a0657edbfc8f40d, type: 3}

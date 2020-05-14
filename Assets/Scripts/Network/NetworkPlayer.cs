@@ -9,13 +9,13 @@ using ExitGames.Client.Photon;
 public class NetworkPlayer : MonoBehaviour, IPunObservable, IOnEventCallback
 {
     [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
-    public static GameObject LocalPlayerInstance;
+    public static NetworkPlayer LocalPlayerInstance;
 
     public int PlayerID = -1; // -1 means uninitialized
 
     public string PlayerName = "default";
 
-    private Character _character;
+    public Character character;
 
     public PlayerCursor cursor;
 
@@ -31,7 +31,14 @@ public class NetworkPlayer : MonoBehaviour, IPunObservable, IOnEventCallback
         // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
         if (photonView.IsMine)
         {
-            NetworkPlayer.LocalPlayerInstance = this.gameObject;
+            LocalPlayerInstance = this;
+
+            ExitGames.Client.Photon.Hashtable props = new ExitGames.Client.Photon.Hashtable
+            {
+                {SettingsManager.KEY_PLAYER_LOADED_LEVEL, true}
+            };
+
+            PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
 
         // #Critical
@@ -71,7 +78,7 @@ public class NetworkPlayer : MonoBehaviour, IPunObservable, IOnEventCallback
     [PunRPC]
     private void SetCharacter(string name, int playerOrder)
     {
-        _character = Database.characters.Find(x => x.nickname == name);
+        character = Database.characters.Find(x => x.nickname == name);
         GameManager.SetPlayerOrder(this, playerOrder);
     }
 

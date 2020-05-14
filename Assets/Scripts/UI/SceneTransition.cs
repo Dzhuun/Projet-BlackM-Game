@@ -49,4 +49,9 @@ public class SceneTransition : MonoBehaviour
     {
         transitionAnimator.SetTrigger("FadeOut");
     }
+
+    public void StopTransition()
+    {
+        gameObject.SetActive(false);
+    }
 }

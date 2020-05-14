@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerID: -1
   PlayerName: default
+  character: {fileID: 0}
   cursor: {fileID: 0}
   scores: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!114 &114245543697400752
