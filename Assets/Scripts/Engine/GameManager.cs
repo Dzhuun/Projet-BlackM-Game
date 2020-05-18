@@ -263,20 +263,27 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="inputField"></param>
     public void OnDrawValidate(TMP_InputField inputField)
     {
-        int cardID = 0;
+        int cardID = -1;
         int.TryParse(inputField.text, out cardID);
 
         _currentScenario = Database.scenarios.Find(x => x.id == cardID);
 
         if(_currentScenario != null)
         {
-            // 
+            // Inform all clients to load and show the answers
+            photonView.RPC("ShowAnswers", RpcTarget.All, _currentScenario.id);
         }
         else
         {
             // Display error message
 
         }
+    }
+
+    [PunRPC]
+    private void ShowAnswers(int scenarioID)
+    {
+        gameUI.ShowAnswers(scenarioID, currentPlayer.character, currentPlayer == NetworkPlayer.LocalPlayerInstance);
     }
 
 }
