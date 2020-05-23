@@ -1,6 +1,6 @@
 .vs
 .vscode
-Build
+/Build
 Library
 Logs
 obj
