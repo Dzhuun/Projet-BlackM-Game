@@ -15,8 +15,9 @@ MonoBehaviour:
   SwitchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../../../Desktop/Social Network Feedbacks/Social Network Feedbacks.fspro
-  sourceBankPath: ..\..\..\Desktop\Social Network Feedbacks\Build
+  sourceProjectPath: Assets/Editor Default Resources/Feedbacks-Sons/Social Network
+    Feedbacks/Social Network Feedbacks.fspro
+  sourceBankPath: Assets\Editor Default Resources\Feedbacks-Sons\Social Network Feedbacks\Build
   SourceBankPathUnformatted: 
   AutomaticEventLoading: 1
   BankLoadType: 0

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.01.10.00">
+    <object class="AudioFile" id="{5ac09123-6976-40b0-9846-c8e4766ca556}">
+        <property name="assetPath">
+            <value>free-ui-ux-interface-sounds.mp3</value>
+        </property>
+        <property name="isStreaming">
+            <value>true</value>
+        </property>
+        <property name="frequencyInKHz">
+            <value>48</value>
+        </property>
+        <property name="channelCount">
+            <value>2</value>
+        </property>
+        <property name="length">
+            <value>180.14400000000001</value>
+        </property>
+        <relationship name="masterAssetFolder">
+            <destination>{be5fecdb-407b-456e-8039-ab2adf5af3a5}</destination>
+        </relationship>
+    </object>
+</objects>
