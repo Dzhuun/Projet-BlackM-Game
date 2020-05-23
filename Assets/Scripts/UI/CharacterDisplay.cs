@@ -20,8 +20,6 @@ public class CharacterDisplay : MonoBehaviour
     /// <param name="avatarSprite">The sprite of the character.</param>
     public void SetupInfos(string nickname, string playerName, Sprite avatarSprite)
     {
-        gameObject.SetActive(true);
-
         character.text = nickname;
         player.text = playerName;
         avatar.sprite = avatarSprite;

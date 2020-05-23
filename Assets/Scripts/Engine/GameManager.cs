@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public GameObject playerPrefab;
 
+    public float showOpinionDuration;
+
     public static List<NetworkPlayer> orderedPlayers;
 
     public static NetworkPlayer currentPlayer;
@@ -23,9 +25,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private int _currentIndexTurn = -1;
 
+    private int _currentTurnCount = 0;
+
+    private int _maxTurnCount = 0;
+
     private bool _playersReady;
 
     private GameState _state = GameState.Start;
+
+    private int _opinionValue = 0;
+
+    private int _opinionCount = 0;
+
+    private int _selectedAnswerID = -1;
 
     #region MonoBehaviour
     private void Awake()
@@ -47,7 +59,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
     
-
     #endregion
 
     #region PUN Callbacks
@@ -64,6 +75,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #endregion
 
+    enum GameState
+    {
+        Start,
+        BeginTurn,
+        DrawScenario,
+        SelectAnswer,
+        Opinion,
+        Shopping
+    };
+    
     /// <summary>
     /// Checks if all players in the room are ready (i.e. joined the game scene).
     /// </summary>
@@ -119,6 +140,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             playerOrder.RemoveAt(orderToAssignIndex);
         }
 
+
         photonView.RPC("StartGame", RpcTarget.All);
     }
 
@@ -128,6 +150,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void StartGame()
     {
+        // The game will end after 10 complete rounds
+        _maxTurnCount = PhotonNetwork.CurrentRoom.PlayerCount * 10;
+
         gameUI.DisplayCharacters();
 
         SettingsManager.transition.FadeOut();
@@ -151,6 +176,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="order">The order of the player.</param>
     public static void SetPlayerOrder(NetworkPlayer player, int order)
     {
+        player.orderIndex = order;
         orderedPlayers[order] = player;
     }
 
@@ -167,16 +193,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         MoveToNextState();
     }
 
-    enum GameState
-    {
-        Start,
-        BeginTurn,
-        DrawScenario,
-        SelectAnswer,
-        Opinion,
-        Shopping
-    };
-    
     /// <summary>
     /// Move to the next state of the game according to the current state.
     /// </summary>
@@ -185,26 +201,32 @@ public class GameManager : MonoBehaviourPunCallbacks
         switch(_state)
         {
             case GameState.Start:
+                _state = GameState.BeginTurn;
                 BeginTurn();
                 break;
 
             case GameState.BeginTurn:
+                _state = GameState.DrawScenario;
                 DrawScenarioPhase();
                 break;
 
             case GameState.DrawScenario:
+                _state = GameState.SelectAnswer;
                 SelectAnswerPhase();
                 break;
                 
             case GameState.SelectAnswer:
+                _state = GameState.Opinion;
                 OpinionPhase();
                 break;
 
             case GameState.Opinion:
+                _state = GameState.Shopping;
                 ShoppingPhase();
                 break;
 
             case GameState.Shopping:
+                _state = GameState.BeginTurn;
                 BeginTurn();
                 break;
 
@@ -216,11 +238,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void BeginTurn()
     {
-        _currentIndexTurn = (int)Mathf.Repeat(_currentIndexTurn + 1, orderedPlayers.Count);
+        _currentTurnCount++;
+        _currentIndexTurn++;
+
+        if(_currentIndexTurn >= orderedPlayers.Count)
+        {
+            _currentIndexTurn = 0;
+        }
 
         currentPlayer = orderedPlayers[_currentIndexTurn];
 
-        gameUI.ShowDrawCardDisplay(NetworkPlayer.LocalPlayerInstance == currentPlayer);
+        gameUI.BeginTurn(currentPlayer);
+
+        MoveToNextState();
     }
 
     /// <summary>
@@ -228,33 +258,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void DrawScenarioPhase()
     {
-        // If the local player has to draw, show the draw UI
+        gameUI.BeginTurn(currentPlayer);
 
-        // Else if the local player waits for the currently playing player to draw, show the 'wait for player to draw' UI
-    }
-
-    /// <summary>
-    /// Performs the phase where the player selects an answer.
-    /// </summary>
-    private void SelectAnswerPhase()
-    {
-
-    }
-
-    /// <summary>
-    /// Performs the phase where the players give their opinion.
-    /// </summary>
-    private void OpinionPhase()
-    {
-
-    }
-
-    /// <summary>
-    /// Performs the phase where the player shops.
-    /// </summary>
-    private void ShoppingPhase()
-    {
-        // Check win condition only locally
+        gameUI.ShowDrawCardDisplay();
     }
 
     /// <summary>
@@ -263,15 +269,16 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="inputField"></param>
     public void OnDrawValidate(TMP_InputField inputField)
     {
-        int cardID = -1;
-        int.TryParse(inputField.text, out cardID);
+        int scenarioID = -1;
+        int.TryParse(inputField.text, out scenarioID);
 
-        _currentScenario = Database.scenarios.Find(x => x.id == cardID);
+        _currentScenario = Database.scenarios.Find(x => x.id == scenarioID);
 
         if(_currentScenario != null)
         {
-            // Inform all clients to load and show the answers
-            photonView.RPC("ShowAnswers", RpcTarget.All, _currentScenario.id);
+            photonView.RPC("SetScenario", RpcTarget.Others, _currentScenario.id);
+
+            MoveToNextState();
         }
         else
         {
@@ -280,10 +287,174 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// Sets the scenario drawn and continue to the answer phase.
+    /// </summary>
+    /// <param name="scenarioID">The ID of the scenario drawn.</param>
     [PunRPC]
-    private void ShowAnswers(int scenarioID)
+    private void SetScenario(int scenarioID)
     {
-        gameUI.ShowAnswers(scenarioID, currentPlayer.character, currentPlayer == NetworkPlayer.LocalPlayerInstance);
+        _currentScenario = Database.scenarios.Find(x => x.id == scenarioID);
+
+        MoveToNextState();
+    }
+
+    /// <summary>
+    /// Performs the phase where the player selects an answer.
+    /// </summary>
+    private void SelectAnswerPhase()
+    {
+        gameUI.ShowAnswers(_currentScenario.id, currentPlayer.character);
+    }
+
+    /// <summary>
+    /// Indicates all the clients the selected answer.
+    /// </summary>
+    /// <param name="answerID">The ID of the selected answer.</param>
+    public void SelectAnswer(int answerID)
+    {
+        photonView.RPC("ReceiveSelectedAnswer", RpcTarget.All, answerID);
+    }
+
+    /// <summary>
+    /// Receive the answer selected by the currently playing player.
+    /// </summary>
+    /// <param name="answerID">The ID of the answer selected.</param>
+    [PunRPC]
+    private void ReceiveSelectedAnswer(int answerID)
+    {
+        _selectedAnswerID = answerID;
+
+        MoveToNextState();
+    }
+
+    /// <summary>
+    /// Performs the phase where the players give their opinion.
+    /// </summary>
+    private void OpinionPhase()
+    {
+        _opinionCount = 0;
+        _opinionValue = 0;
+
+        gameUI.ShowChooseOpinion(_selectedAnswerID);
+    }
+    
+    /// <summary>
+    /// Gives an opinion on a player's choice.
+    /// </summary>
+    /// <param name="value">The opinion value given.</param>
+    public void GiveOpinion(int value)
+    {
+        photonView.RPC("ReceiveOpinion", RpcTarget.All, value);
+    }
+
+    /// <summary>
+    /// Receive the result of an opinion from a player.
+    /// </summary>
+    /// <param name="value">The opinion value received.</param>
+    [PunRPC]
+    private void ReceiveOpinion(int value)
+    {
+        if (currentPlayer == NetworkPlayer.LocalPlayerInstance)
+        {
+            _opinionValue += value;
+            _opinionCount++;
+
+            // If all other players have given their opinion
+            if(_opinionCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
+            {
+                int newLikeValue = NetworkPlayer.LocalPlayerInstance.likes + _opinionValue;
+
+                if(newLikeValue < 0)
+                {
+                    newLikeValue = 0;
+                }
+
+                photonView.RPC("ComputeOpinion", RpcTarget.All, NetworkPlayer.LocalPlayerInstance.orderIndex, newLikeValue);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Updates the like value of the playing character and move to the next game state.
+    /// </summary>
+    /// <param name="orderIndex">The order index of the character that has its like value updated.</param>
+    /// <param name="newValue">The new like value of the character.</param>
+    [PunRPC]
+    private void ComputeOpinion(int orderIndex, int newValue)
+    {
+        orderedPlayers[orderIndex].likes = newValue;
+
+        StartCoroutine(ShowOpinion());
+    }
+
+    /// <summary>
+    /// Shows the opnion results.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ShowOpinion()
+    {
+        gameUI.ShowOpinionResults();
+
+        yield return new WaitForSeconds(showOpinionDuration);
+
+        MoveToNextState();
+    }
+
+    /// <summary>
+    /// Performs the phase where the player shops.
+    /// </summary>
+    private void ShoppingPhase()
+    {
+        gameUI.ShowShop();
+    }
+
+    /// <summary>
+    /// Check if the game is over or begin an other turn.
+    /// </summary>
+    public void ValidateShopping()
+    {
+        Debug.LogError($"Current count : {_currentTurnCount} / Max : {_maxTurnCount}");
+
+        // Game end condition
+        if(_currentTurnCount >= _maxTurnCount)
+        {
+            NetworkPlayer winner = null;
+
+            foreach(NetworkPlayer player in orderedPlayers)
+            {
+                if(winner == null)
+                {
+                    winner = player;
+                }
+                else
+                {
+                    // TO DO : handle draw
+                    if(player.popularity > winner.popularity)
+                    {
+                        winner = player;
+                    }
+                }
+            }
+
+            photonView.RPC("EndGame", RpcTarget.All, winner.PlayerID);
+        }
+        else
+        {
+            photonView.RPC("EndTurn", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void EndGame(int playerID)
+    {
+        gameUI.ShowEndUI(orderedPlayers.Find(x => x.PlayerID == playerID));
+    }
+
+    [PunRPC]
+    private void EndTurn()
+    {
+        MoveToNextState();
     }
 
 }

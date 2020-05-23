@@ -42,6 +42,14 @@ MonoBehaviour:
   - SetCharacter
   - StartGame
   - ShowAnswers
+  - ShowOpinion
+  - ReceiveOpinion
+  - ReceiveSelectedAnswer
+  - SetLikesValue
+  - ComputeOpinion
+  - SetScenario
+  - EndGame
+  - EndTurn
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed0b425978b0b84491defdd4b9d6b04, type: 3}
   m_Name: Toby Gordon
   m_EditorClassIdentifier: 
-  nickname: 
+  nickname: Toby Gordon
   description: 
-  avatar: {fileID: 0}
+  avatar: {fileID: 21300000, guid: 92fe90a89e0243e468ecda552e747378, type: 3}
   personality_1: 
   personality_2: 
   personality_3: 

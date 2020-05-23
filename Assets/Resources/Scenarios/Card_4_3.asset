@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_4_3
   m_EditorClassIdentifier: 
-  title: "Vous \xEAtes \xE0 l'a\xE9roport, il n\u2019y a plus de place en \xE9conomique
-    pour la femme 2 Etoiles, enceinte devant vous."
+  id: 0
+  description: "Il se passe quelque chose, on ne sait pas encore quoi, mais on le
+    saura bient\xF4t."
   starCost: 4
   commonAnswers:
   - "ous annoncez \xE0 la personne au guichet que vous lui c\xE9dez votre place."
@@ -22,15 +23,11 @@ MonoBehaviour:
   - "Apr\xE8s tout, c\u2019est une 2 Etoiles, elle patientera bien d\u2019ici le prochain
     vol."
   specificAnswers:
-  - character: Toby Gordon
-    text: "Vous lui dites que vous auriez pu faire un geste si elle \xE9tait \xE0
-      votre niveau."
-  - character: Olga Giordano
-    text: "Vous lui dites de n\xE9gocier avec les gens qui doivent embarquer, mais
-      n\u2019allez pas non plus le faire pour elle."
-  - character: "Garence L\xE9opold"
-    text: "Vous lui demandez d\u2019\xE9viter de monopoliser l\u2019h\xF4tesse. Vous
-      \xEAtes plusieurs \xE0 attendre pour votre vol."
-  - character: Karim Kacem
-    text: "Vous lui demandez avec un sourire de lib\xE9rer l\u2019espace pour que
-      vous puissiez embarquer."
+  - character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+    text: "R\xE9ponse 4"
+  - character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
+    text: "R\xE9ponse 4"
+  - character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+    text: "R\xE9ponse 4"
+  - character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
+    text: "R\xE9ponse 4"

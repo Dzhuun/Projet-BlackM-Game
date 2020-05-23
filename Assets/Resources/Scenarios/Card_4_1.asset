@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_4_1
   m_EditorClassIdentifier: 
-  title: "Vous \xE9tiez en train de marcher dans la rue, une personne d\u2019un groupe
-    associatif vous aborde. Il est tr\xE8s souriant, vous refusez poliment, mais il
-    semble insister. Vous d\xE9cidez malgr\xE9 tout de lui consacrer du temps, apr\xE8s
-    tout, c\u2019est une bonne cause et vous lui donnez un peu d'argent."
+  id: 0
+  description: "Il se passe quelque chose, on ne sait pas encore quoi, mais on le
+    saura bient\xF4t."
   starCost: 4
   commonAnswers:
   - "Vous d\xE9cidez malgr\xE9 tout de lui consacrer du temps, apr\xE8s tout c\u2019est
@@ -26,16 +25,11 @@ MonoBehaviour:
   - "Vous restez souriant, mais n\u2019\xE9coutez pas ce qu\u2019il dit. Finalement
     il comprend la supercherie et s\u2019en va de lui m\xEAme."
   specificAnswers:
-  - character: Toby Gordon
-    text: "Vous d\xE9cidez de lui faire un tour de passe-passe avec une pi\xE8ce.
-      S\u2019il trouve o\xF9 elle se trouve, vous l\u2019aiderez."
-  - character: Olga Giordano
-    text: "Vous expliquez que dans la vie, on a rien sans rien, si les personnes qu\u2019il
-      essaye d\u2019aider travaillaient plus, ils n\u2019auraient pas ce probl\xE8me."
-  - character: "Garence L\xE9opold"
-    text: "Vous lui faites un cours sur les choses prioritaire dans la vie, comme
-      l\u2019\xE9cologie. Les SDF trouveront bien d\u2019autres personnes pour leur
-      cause."
-  - character: Karim Kacem
-    text: "Vous bavardez avec lui quelques minutes sur son association. Il n\u2019a
-      pas eu ce qu\u2019il voulait et vous \xEAtre tranquille."
+  - character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+    text: "R\xE9ponse 4"
+  - character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
+    text: "R\xE9ponse 4"
+  - character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+    text: "R\xE9ponse 4"
+  - character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
+    text: "R\xE9ponse 4"

@@ -7,7 +7,7 @@ public class Scenario : ScriptableObject
 {
     public int id;
 
-    public string title;
+    public string description;
 
     public int starCost;
 

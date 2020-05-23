@@ -48,7 +48,9 @@ MonoBehaviour:
   PlayerName: default
   character: {fileID: 0}
   cursor: {fileID: 0}
-  scores: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  popularity: 2
+  likes: 0
+  orderIndex: 0
 --- !u!114 &114245543697400752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64,10 +66,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 1
+  Synchronization: 0
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 3757348657125922755}
+  - {fileID: 0}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

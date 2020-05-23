@@ -27,7 +27,7 @@ public class Character : ScriptableObject
 [System.Serializable]
 public class Reponse
 {
-    public string character;
+    public Character character;
 
     public string text;
 }

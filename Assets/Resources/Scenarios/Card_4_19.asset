@@ -12,7 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_4_19
   m_EditorClassIdentifier: 
-  title: 
-  starCost: 0
-  commonAnswers: []
-  specificAnswers: []
+  id: 0
+  description: "Il se passe quelque chose, on ne sait pas encore quoi, mais on le
+    saura bient\xF4t."
+  starCost: 4
+  commonAnswers:
+  - "R\xE9ponse 1"
+  - "R\xE9ponse 2"
+  - "R\xE9ponse 3"
+  specificAnswers:
+  - character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+    text: "R\xE9ponse 4"
+  - character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
+    text: "R\xE9ponse 4"
+  - character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+    text: "R\xE9ponse 4"
+  - character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
+    text: "R\xE9ponse 4"
