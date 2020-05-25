@@ -11,7 +11,24 @@ public class Scenario : ScriptableObject
 
     public int starCost;
 
-    public List<string> commonAnswers;
+    public List<Answer> commonAnswers;
 
-    public List<Reponse> specificAnswers;
+    public List<SpecificAnswer> specificAnswers;
+
+    //public void GetAnswer()
+}
+
+
+[System.Serializable]
+public class Answer
+{
+    public string text;
+
+    public int likesValue;
+}
+
+[System.Serializable]
+public class SpecificAnswer : Answer
+{
+    public Character character;
 }

@@ -9,10 +9,10 @@ public class AnswerDisplay : MonoBehaviour
     
     public Text answerText;
 
-    public void SetupInfos(string answer)
+    public void SetupInfos(Answer answer)
     {
         gameObject.SetActive(true);
 
-        answerText.text = answer;
+        answerText.text = answer.text;
     }
 }

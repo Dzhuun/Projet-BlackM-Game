@@ -31,7 +31,11 @@ public class GameUI : MonoBehaviour
     [Header("ChooseOpinion")]
     public GameObject chooseOpinionDisplay;
     public GameObject waitForOpinionDisplay;
+    public LikesSlider likesSlider;
     public List<CharacterDisplay> charactersOpinionInfos;
+
+    [Header("ShowOpinion")]
+    public Text likesUpdateText;
 
     [Header("Shopping")]
     public GameObject shoppingDisplay;
@@ -154,7 +158,7 @@ public class GameUI : MonoBehaviour
         {
             // Find the answer that correspond to the current character
             // Then setups the UI
-            answers[3].SetupInfos(scenario.specificAnswers.Find(x => x.character.nickname == character.nickname).text);
+            answers[3].SetupInfos(scenario.specificAnswers.Find(x => x.character.nickname == character.nickname));
             scenarioDescription.text = scenario.description;
         }
         else
@@ -164,6 +168,21 @@ public class GameUI : MonoBehaviour
             answers[3].gameObject.SetActive(false);
             scenarioDescriptionWhenWaiting.text = scenario.description;
             waitingAnswerText.text = string.Format("Le joueur {0} choisit une réponse", GameManager.currentPlayer.PlayerName);
+        }
+
+        // Randomize answers order
+        List<int> transformOrder = new List<int>();
+        for(int i = 0; i < 4; i++)
+        {
+            transformOrder.Add(i);
+        }
+
+        int randomIndex;
+        for(int i = 0; i < 4; i++)
+        {
+            randomIndex = Random.Range(0, transformOrder.Count);
+            answers[transformOrder[randomIndex]].transform.SetSiblingIndex(i);
+            transformOrder.RemoveAt(randomIndex);
         }
         
         animatorUI.SetTrigger("ShowAnswers");
@@ -178,6 +197,8 @@ public class GameUI : MonoBehaviour
         chooseOpinionDisplay.SetActive(!_isLocal);
         waitForOpinionDisplay.SetActive(_isLocal);
 
+        likesSlider.UpdateSettings(NetworkPlayer.LocalPlayerInstance.popularity);
+
         //for (int i = 0; i < charactersOpinionInfos.Count; i++)
         //{
         //    charactersOpinionInfos[i].SetupInfos(GameManager.currentPlayer.character.nickname,
@@ -191,8 +212,21 @@ public class GameUI : MonoBehaviour
     /// <summary>
     /// Activates the UI that shows the results of the opinion phase.
     /// </summary>
-    public void ShowOpinionResults()
+    public void ShowOpinionResults(int likesUpdate)
     {
+        if(likesUpdate < 0)
+        {
+            likesUpdateText.text = string.Format("-{0}", likesUpdate);
+        }
+        else if(likesUpdate > 0)
+        {
+            likesUpdateText.text = string.Format("+{0}", likesUpdate);
+        }
+        else
+        {
+            likesUpdateText.text = likesUpdate.ToString();
+        }
+
         animatorUI.SetTrigger("ShowOpinion");
     }
 

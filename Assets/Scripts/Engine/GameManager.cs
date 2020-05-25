@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private static List<NetworkPlayer> _players = new List<NetworkPlayer>();
 
+    private List<Answer> _answers = new List<Answer>();
+
     private Scenario _currentScenario;
 
     private int _currentIndexTurn = -1;
@@ -33,7 +35,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private GameState _state = GameState.Start;
 
-    private int _opinionValue = 0;
+    private int _updateLikesValue = 0;
 
     private int _opinionCount = 0;
 
@@ -190,6 +192,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         gameUI.HideCharacters();
 
+        // State : Start -> BeginTurn
         MoveToNextState();
     }
 
@@ -250,6 +253,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         gameUI.BeginTurn(currentPlayer);
 
+        // State : BeginTurn -> DrawScenario
         MoveToNextState();
     }
 
@@ -276,9 +280,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if(_currentScenario != null)
         {
-            photonView.RPC("SetScenario", RpcTarget.Others, _currentScenario.id);
-
-            MoveToNextState();
+            photonView.RPC("SetScenario", RpcTarget.All, _currentScenario.id);
         }
         else
         {
@@ -295,7 +297,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void SetScenario(int scenarioID)
     {
         _currentScenario = Database.scenarios.Find(x => x.id == scenarioID);
+        _answers.Clear();
+        _answers.AddRange(_currentScenario.commonAnswers);
+        _answers.Add(_currentScenario.specificAnswers.Find(x => x.character.nickname == currentPlayer.character.nickname));
 
+        // State : DrawScenario -> SelectAnswer 
         MoveToNextState();
     }
 
@@ -304,6 +310,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void SelectAnswerPhase()
     {
+        _updateLikesValue = 0;
         gameUI.ShowAnswers(_currentScenario.id, currentPlayer.character);
     }
 
@@ -325,6 +332,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         _selectedAnswerID = answerID;
 
+        if(currentPlayer == NetworkPlayer.LocalPlayerInstance)
+        {
+            Answer selectedAnswer = _answers[answerID - 1];
+            _updateLikesValue += selectedAnswer.likesValue;
+        }
+
+        // State : SelectAnswer -> Opinion
         MoveToNextState();
     }
 
@@ -334,7 +348,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void OpinionPhase()
     {
         _opinionCount = 0;
-        _opinionValue = 0;
 
         gameUI.ShowChooseOpinion(_selectedAnswerID);
     }
@@ -343,9 +356,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// Gives an opinion on a player's choice.
     /// </summary>
     /// <param name="value">The opinion value given.</param>
-    public void GiveOpinion(int value)
+    public void GiveOpinion(Slider slider)
     {
-        photonView.RPC("ReceiveOpinion", RpcTarget.All, value);
+        photonView.RPC("ReceiveOpinion", RpcTarget.All, (int)slider.value);
     }
 
     /// <summary>
@@ -357,20 +370,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (currentPlayer == NetworkPlayer.LocalPlayerInstance)
         {
-            _opinionValue += value;
+            _updateLikesValue += value;
             _opinionCount++;
 
             // If all other players have given their opinion
             if(_opinionCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
             {
-                int newLikeValue = NetworkPlayer.LocalPlayerInstance.likes + _opinionValue;
-
-                if(newLikeValue < 0)
-                {
-                    newLikeValue = 0;
-                }
-
-                photonView.RPC("ComputeOpinion", RpcTarget.All, NetworkPlayer.LocalPlayerInstance.orderIndex, newLikeValue);
+                photonView.RPC("ComputeOpinion", RpcTarget.All, NetworkPlayer.LocalPlayerInstance.orderIndex, _updateLikesValue);
             }
         }
     }
@@ -381,23 +387,32 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="orderIndex">The order index of the character that has its like value updated.</param>
     /// <param name="newValue">The new like value of the character.</param>
     [PunRPC]
-    private void ComputeOpinion(int orderIndex, int newValue)
+    private void ComputeOpinion(int orderIndex, int likesUpdate)
     {
-        orderedPlayers[orderIndex].likes = newValue;
+        orderedPlayers[orderIndex].likes += likesUpdate;
 
-        StartCoroutine(ShowOpinion());
+        if(orderedPlayers[orderIndex].likes < 0)
+        {
+            orderedPlayers[orderIndex].likes = 0;
+        }
+
+        orderedPlayers[orderIndex].popularity += likesUpdate * 0.02f;
+
+        StartCoroutine(ShowOpinion(likesUpdate));
     }
 
     /// <summary>
     /// Shows the opnion results.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator ShowOpinion()
+    private IEnumerator ShowOpinion(int likesUpdate)
     {
-        gameUI.ShowOpinionResults();
+        gameUI.ShowOpinionResults(likesUpdate);
 
         yield return new WaitForSeconds(showOpinionDuration);
 
+
+        // State : Opinion -> Shopping
         MoveToNextState();
     }
 
@@ -454,6 +469,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void EndTurn()
     {
+        // State : Shopping -> BeginTurn
         MoveToNextState();
     }
 

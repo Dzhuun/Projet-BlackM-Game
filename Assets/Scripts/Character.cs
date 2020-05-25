@@ -23,11 +23,3 @@ public class Character : ScriptableObject
 }
 
 
-
-[System.Serializable]
-public class Reponse
-{
-    public Character character;
-
-    public string text;
-}
