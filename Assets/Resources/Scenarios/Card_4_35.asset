@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
+  m_Name: Card_4_35
+  m_EditorClassIdentifier: 
+  title: "A quelle fr\xE9quence je publie des choses :"
+  starCost: 4
+  commonAnswers:
+  - Tout le temps.
+  - "A des heures pr\xE9cises."
+  - "Je laisse mon assistant g\xE9rer."
+  specificAnswers:
+  - character: 
+    text: 
+  - character: 
+    text: 
+  - character: 
+    text: 
+  - character: 
+    text: 

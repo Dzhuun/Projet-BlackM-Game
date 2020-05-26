@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
+  m_Name: Card_4_33
+  m_EditorClassIdentifier: 
+  title: 'Je veux que mon profil reste populaire  :'
+  starCost: 4
+  commonAnswers:
+  - Je suis les mouvements de mode.
+  - Je reste simple et en accord avec mes valeurs.
+  - "Je fais dans l\u2019originalit\xE9, et sors des sentiers battus."
+  specificAnswers:
+  - character: 
+    text: 
+  - character: 
+    text: 
+  - character: 
+    text: 
+  - character: 
+    text: 

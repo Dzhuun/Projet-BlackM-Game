@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
+  m_Name: Card_4_31
+  m_EditorClassIdentifier: 
+  title: "Je suis en vacances avec ma famille, sur le r\xE9seau :"
+  starCost: 4
+  commonAnswers:
+  - "Je poste un nombre de photos \xE0 des heures pr\xE9cises."
+  - "Je d\xE9connecte compl\xE8tement."
+  - Je partage tout.
+  specificAnswers:
+  - character: 
+    text: 
+  - character: 
+    text: 
+  - character: 
+    text: 
+  - character: 
+    text: 
