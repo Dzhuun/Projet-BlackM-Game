@@ -14,8 +14,6 @@ public class Scenario : ScriptableObject
     public List<Answer> commonAnswers;
 
     public List<SpecificAnswer> specificAnswers;
-
-    //public void GetAnswer()
 }
 
 
@@ -25,6 +23,8 @@ public class Answer
     public string text;
 
     public int likesValue;
+
+    public List<AnswerTrait> traits;
 }
 
 [System.Serializable]

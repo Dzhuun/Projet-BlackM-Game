@@ -134,7 +134,7 @@ public class GameUI : MonoBehaviour
     /// <param name="isLocal">Indicates if the local player has to select the answer.</param>
     public void ShowAnswers(int scenarioID, Character character)
     {
-        Scenario scenario = Database.scenarios.Find(x => x.id == scenarioID);
+        Scenario scenario = Database.GetScenario(GameManager.currentPlayer.popularity, scenarioID);
 
         if(scenario.commonAnswers.Count < 3)
         {

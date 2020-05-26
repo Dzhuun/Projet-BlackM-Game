@@ -15,6 +15,8 @@ MonoBehaviour:
   nickname: Olga Giordano
   description: 
   avatar: {fileID: 21300000, guid: 5e334fcda7108384ca73ef4565ba770e, type: 3}
-  personality_1: 
-  personality_2: 
-  personality_3: 
+  traits:
+  - trait: {fileID: 11400000, guid: 497e152b48f35e1479823acc041b7ed7, type: 2}
+    isActive: 0
+  - trait: {fileID: 11400000, guid: 6d217d114b7cfea4c9cb273c12f1633d, type: 2}
+    isActive: 0

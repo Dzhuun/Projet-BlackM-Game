@@ -12,18 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_3_10
   m_EditorClassIdentifier: 
-  title: 
+  id: 10
+  description: "Ma nouvelle moiti\xE9 tombe sur des photos de mon ex encore sur mon
+    profil : "
   starCost: 3
   commonAnswers:
-  - 
-  - 
-  - 
+  - text: 'Je la rassure et garde mes photos. '
+    likesValue: 0
+    traits: []
+  - text: "Je les supprime imm\xE9diatement. "
+    likesValue: 0
+    traits: []
+  - text: "Je n\u2019y pr\xEAte pas attention, c\u2019est du pass\xE9. "
+    likesValue: 0
+    traits: []
   specificAnswers:
-  - character: Toby Gordon
-    text: 
-  - character: Olga Giordano
-    text: 
-  - character: "Garence L\xE9opold"
-    text: 
-  - character: Karim Kacem
-    text: 
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}

@@ -12,18 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_4_1
   m_EditorClassIdentifier: 
-  title: 'Vous ne savez plus qui est la personne qui vous parle :'
+  id: 1
+  description: 'Vous ne savez plus qui est la personne qui vous parle : '
   starCost: 4
   commonAnswers:
-  - Franc, vous lui demandez quel est son nom.
-  - "Vous regardez discr\xE8tement sur votre smartphone."
-  - "Vous faites mine de savoir qui c\u2019est."
+  - text: 'Franc, vous lui demandez quel est son nom. '
+    likesValue: 0
+    traits: []
+  - text: "Vous regardez discr\xE8tement sur votre smartphone."
+    likesValue: 0
+    traits: []
+  - text: "Vous faites mine de savoir qui c\u2019est. "
+    likesValue: 0
+    traits: []
   specificAnswers:
-  - character: Toby Gordon
-    text: 
-  - character: Olga Giordano
-    text: 
-  - character: "Garence L\xE9opold"
-    text: 
-  - character: Karim Kacem
-    text: 
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}

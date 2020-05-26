@@ -12,18 +12,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_4_31
   m_EditorClassIdentifier: 
-  title: "Je suis en vacances avec ma famille, sur le r\xE9seau :"
+  id: 31
+  description: "Je suis en vacances avec ma famille, sur le r\xE9seau : "
   starCost: 4
   commonAnswers:
-  - "Je poste un nombre de photos \xE0 des heures pr\xE9cises."
-  - "Je d\xE9connecte compl\xE8tement."
-  - Je partage tout.
+  - text: "Je poste un nombre de photos \xE0 des heures pr\xE9cises."
+    likesValue: 0
+    traits: []
+  - text: "Je d\xE9connecte compl\xE8tement."
+    likesValue: 0
+    traits: []
+  - text: Je partage tout.
+    likesValue: 0
+    traits: []
   specificAnswers:
-  - character: 
-    text: 
-  - character: 
-    text: 
-  - character: 
-    text: 
-  - character: 
-    text: 
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}

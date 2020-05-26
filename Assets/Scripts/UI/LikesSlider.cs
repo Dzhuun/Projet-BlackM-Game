@@ -12,11 +12,11 @@ public class LikesSlider : MonoBehaviour
     {
         if(popularity > 1)
         {
-            popularity = Mathf.Floor(popularity) * 10;
+            popularity = Mathf.Floor(popularity) * 5;
         }
         else
         {
-            popularity = 10;
+            popularity = 5;
         }
 
         valueSlider.minValue = -popularity;
@@ -28,7 +28,6 @@ public class LikesSlider : MonoBehaviour
 
     public void OnValueUpdate(float likesValue)
     {
-        Debug.Log("OnValueUpdate");
         likesText.text = likesValue.ToString();
     }
 }

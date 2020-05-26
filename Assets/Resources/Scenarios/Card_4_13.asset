@@ -12,18 +12,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_4_13
   m_EditorClassIdentifier: 
-  title: "Je suis chez des amis, je n\u2019ai pas de poche pour mon smartphone :"
+  id: 13
+  description: "Je suis chez des amis, je n\u2019ai pas de poche pour mon smartphone
+    :"
   starCost: 4
   commonAnswers:
-  - "Je le d\xE9pose sur un coin de table."
-  - "Je le range dans ma veste \xE0 l\u2019entr\xE9e."
-  - Je le garde en main.
+  - text: "Je le d\xE9pose sur un coin de table."
+    likesValue: 0
+    traits: []
+  - text: "Je le range dans ma veste \xE0 l\u2019entr\xE9e."
+    likesValue: 0
+    traits: []
+  - text: 'Je le garde en main. '
+    likesValue: 0
+    traits: []
   specificAnswers:
-  - character: Toby Gordon
-    text: 
-  - character: Olga Giordano
-    text: 
-  - character: "Garence L\xE9opold"
-    text: 
-  - character: Karim Kacem
-    text: 
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}

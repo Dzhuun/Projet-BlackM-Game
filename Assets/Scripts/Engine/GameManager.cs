@@ -9,11 +9,16 @@ using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    #region Inspector
+    [Header("Component")]
     public GameUI gameUI;
 
     public GameObject playerPrefab;
 
+    [Header("Settings")]
     public float showOpinionDuration;
+
+    #endregion
 
     public static List<NetworkPlayer> orderedPlayers;
 
@@ -251,6 +256,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         currentPlayer = orderedPlayers[_currentIndexTurn];
 
+        currentPlayer.ResetActiveTraits();
+
         gameUI.BeginTurn(currentPlayer);
 
         // State : BeginTurn -> DrawScenario
@@ -276,7 +283,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         int scenarioID = -1;
         int.TryParse(inputField.text, out scenarioID);
 
-        _currentScenario = Database.scenarios.Find(x => x.id == scenarioID);
+        _currentScenario = Database.GetScenario(currentPlayer.popularity, scenarioID);
 
         if(_currentScenario != null)
         {
@@ -296,7 +303,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetScenario(int scenarioID)
     {
-        _currentScenario = Database.scenarios.Find(x => x.id == scenarioID);
+        _currentScenario = Database.GetScenario(currentPlayer.popularity, scenarioID);
         _answers.Clear();
         _answers.AddRange(_currentScenario.commonAnswers);
         _answers.Add(_currentScenario.specificAnswers.Find(x => x.character.nickname == currentPlayer.character.nickname));
@@ -336,10 +343,49 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Answer selectedAnswer = _answers[answerID - 1];
             _updateLikesValue += selectedAnswer.likesValue;
+
+            bool traitRespected = false;
+
+            foreach(AnswerTrait answerTrait in selectedAnswer.traits)
+            {
+                traitRespected = false;
+
+                foreach(CharacterTrait charTrait in currentPlayer.character.traits)
+                {
+                    if(charTrait.trait == answerTrait.trait)
+                    {
+                        traitRespected = charTrait.isActive;
+                        break;
+                    }
+                }
+
+                UpdateMentalHealth(answerTrait, traitRespected);
+            }
         }
 
         // State : SelectAnswer -> Opinion
         MoveToNextState();
+    }
+
+    /// <summary>
+    /// Updates the player's mental health according to the answer trait condition.
+    /// </summary>
+    /// <param name="trait">An answer trait.</param>
+    /// <param name="isRespected">True if the trait was respected, false otherwise.</param>
+    private void UpdateMentalHealth(AnswerTrait trait, bool isRespected)
+    {
+        int previousMentalHealth = currentPlayer.mentalHealth;
+
+        if(isRespected)
+        {
+            currentPlayer.mentalHealth += trait.traitRespected;
+        }
+        else
+        {
+            currentPlayer.mentalHealth += trait.traitNotRespected;
+        }
+
+        currentPlayer.mentalHealth = Mathf.Clamp(currentPlayer.mentalHealth, 0, 100);
     }
 
     /// <summary>
@@ -376,7 +422,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             // If all other players have given their opinion
             if(_opinionCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
             {
-                photonView.RPC("ComputeOpinion", RpcTarget.All, NetworkPlayer.LocalPlayerInstance.orderIndex, _updateLikesValue);
+                photonView.RPC("ComputeLikes", RpcTarget.All, NetworkPlayer.LocalPlayerInstance.orderIndex, _updateLikesValue);
             }
         }
     }
@@ -387,8 +433,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="orderIndex">The order index of the character that has its like value updated.</param>
     /// <param name="newValue">The new like value of the character.</param>
     [PunRPC]
-    private void ComputeOpinion(int orderIndex, int likesUpdate)
+    private void ComputeLikes(int orderIndex, int likesUpdate)
     {
+        // Likes value must be between -100 and 100
+        likesUpdate = Mathf.Clamp(likesUpdate, -100, 100);
+
         orderedPlayers[orderIndex].likes += likesUpdate;
 
         if(orderedPlayers[orderIndex].likes < 0)

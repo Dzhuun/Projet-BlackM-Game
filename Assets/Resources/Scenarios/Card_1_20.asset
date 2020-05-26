@@ -10,10 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
-  m_Name: Card_1_21
+  m_Name: Card_1_20
   m_EditorClassIdentifier: 
-  id: 0
-  description: 
-  starCost: 0
-  commonAnswers: []
-  specificAnswers: []
+  id: 20
+  description: "Vous poussez une porte en verre qui se brise, c\u2019est votre faute
+    : "
+  starCost: 1
+  commonAnswers:
+  - text: "Vous essayez de vous d\xE9fendre. "
+    likesValue: 0
+    traits: []
+  - text: "Vous essayez de scotcher grossi\xE8rement les morceaux. "
+    likesValue: 0
+    traits: []
+  - text: "Vous vous en moquez et laissez comme \xE7a. "
+    likesValue: 0
+    traits: []
+  specificAnswers:
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+  - text: 
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}

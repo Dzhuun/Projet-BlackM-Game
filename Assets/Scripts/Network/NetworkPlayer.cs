@@ -8,27 +8,64 @@ using ExitGames.Client.Photon;
 // IPunObservable : dit que ce component est compatible avec une photon view
 public class NetworkPlayer : MonoBehaviourPunCallbacks
 {
-    [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+    /// <summary>
+    /// The local player instance. Use this to know if the local player is represented in the Scene.
+    /// </summary>
     public static NetworkPlayer LocalPlayerInstance;
 
+    /// <summary>
+    /// The ID of the player.
+    /// </summary>
     public int PlayerID = -1; // -1 means uninitialized
 
-    public string PlayerName = "default";
+    /// <summary>
+    /// The pseudonyme of the player.
+    /// </summary>
+    public string PlayerName;
 
+    /// <summary>
+    /// The character linked to the player.
+    /// </summary>
     public Character character;
 
-    public PlayerCursor cursor;
-
+    /// <summary>
+    /// The popularity of the player. Starts at 2, value between 0 and 5.
+    /// </summary>
     public float popularity = 2;
 
+    /// <summary>
+    /// The amount of likes owned by the player.
+    /// </summary>
     public int likes = 0;
 
+    /// <summary>
+    /// The mental health value of the player. Starts at 100, value between 0 and 100.
+    /// </summary>
+    public int mentalHealth = 100;
+
+    /// <summary>
+    /// The turn order index of the player.
+    /// </summary>
     public int orderIndex = 0;
+
+    //public GameManager GameManager
+    //{
+    //    get
+    //    {
+    //        if(_gameManager == null)
+    //        {
+    //            _gameManager = FindObjectOfType<GameManager>();
+    //        }
+
+    //        return _gameManager;
+    //    }
+    //}
+
+    //private GameManager _gameManager;
   
     void Awake()
     {
         PlayerID = photonView.Owner.ActorNumber;
-
         GameManager.AddPlayer(this);
         
         // #Important
@@ -86,4 +123,23 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
         GameManager.SetPlayerOrder(this, playerOrder);
     }
     
+    /// <summary>
+    /// Gets the current sanity level of the player according to its mental health.
+    /// </summary>
+    /// <returns>The mental health level, from 0 to 4.</returns>
+    public int GetMentalHealthLevel()
+    {
+        return mentalHealth % 20;
+    }
+
+    /// <summary>
+    /// Resets the active state of the traits to true at the beginning of each turn.
+    /// </summary>
+    public void ResetActiveTraits()
+    {
+        foreach(CharacterTrait trait in character.traits)
+        {
+            trait.isActive = true;
+        }
+    }
 }
