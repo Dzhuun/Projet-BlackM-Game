@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class AnswerDisplay : MonoBehaviour
 {
     public int answerID;
-    
     public Text answerText;
 
     public void SetupInfos(Answer answer)

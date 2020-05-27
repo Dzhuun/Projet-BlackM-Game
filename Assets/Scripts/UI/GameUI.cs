@@ -27,7 +27,6 @@ public class GameUI : MonoBehaviour
     public List<AnswerDisplay> answersToSelect;
     public List<AnswerDisplay> answersWhenWaiting;
 
-
     [Header("ChooseOpinion")]
     public GameObject chooseOpinionDisplay;
     public GameObject waitForOpinionDisplay;
@@ -35,19 +34,26 @@ public class GameUI : MonoBehaviour
     public List<CharacterDisplay> charactersOpinionInfos;
 
     [Header("ShowOpinion")]
-    public Text likesUpdateText;
+    public Text likesUpdateValue;
+    public Text popularityUpdateValue;
+    public Text likesValue;
+    public Text popularityValue;
+    public Text itemsLostText;
 
     [Header("Shopping")]
     public GameObject shoppingDisplay;
     public GameObject waitForShoppingDisplay;
+    public Text likesCountText;
 
     private bool _isLocal;
     private NetworkPlayer _currentPlayer;
+    private CharacterDisplay[] _allCharacterDisplays;
+    private ItemDisplay[] _allItemDisplays;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        charactersDisplay.SetActive(false);
+        _allCharacterDisplays = Resources.FindObjectsOfTypeAll<CharacterDisplay>();
+        _allItemDisplays = Resources.FindObjectsOfTypeAll<ItemDisplay>();
     }
     
     /// <summary>
@@ -87,16 +93,17 @@ public class GameUI : MonoBehaviour
     {
         _currentPlayer = currentPlayer;
         _isLocal = _currentPlayer == NetworkPlayer.LocalPlayerInstance;
+
+        itemsLostText.text = "";
     }
 
     /// <summary>
     /// Initializes the UI that displays the currently playing character.
+    /// This function is called in an animation event, during the DrawCard animation.
     /// </summary>
     public void InitializeCharactersDisplay()
     {
-        CharacterDisplay[] currentPlayerDisplay = Resources.FindObjectsOfTypeAll<CharacterDisplay>();
-
-        foreach (CharacterDisplay charDisplay in currentPlayerDisplay)
+        foreach (CharacterDisplay charDisplay in _allCharacterDisplays)
         {
             charDisplay.SetupInfos(_currentPlayer.character.nickname,
                                    _currentPlayer.PlayerName,
@@ -198,34 +205,40 @@ public class GameUI : MonoBehaviour
         waitForOpinionDisplay.SetActive(_isLocal);
 
         likesSlider.UpdateSettings(NetworkPlayer.LocalPlayerInstance.popularity);
-
-        //for (int i = 0; i < charactersOpinionInfos.Count; i++)
-        //{
-        //    charactersOpinionInfos[i].SetupInfos(GameManager.currentPlayer.character.nickname,
-        //                                         GameManager.currentPlayer.PlayerName,
-        //                                         GameManager.currentPlayer.character.avatar);
-        //}
-
+        
         animatorUI.SetTrigger("ChooseOpinion");
+    }
+
+    public void AddLostItem(ItemType itemType, int previousLevel, int newLevel)
+    {
+        itemsLostText.text = string.Format("{0} Vous avez perdu votre {1} niveau {2}. Ce bien a été rétrogradé au niveau {3}.", itemsLostText.text, itemType.ToString(), previousLevel, newLevel);
     }
 
     /// <summary>
     /// Activates the UI that shows the results of the opinion phase.
     /// </summary>
-    public void ShowOpinionResults(int likesUpdate)
+    public void ShowOpinionResults(int likesUpdate, float popularityUpdate)
     {
-        if(likesUpdate < 0)
+        if(likesUpdate > 0)
         {
-            likesUpdateText.text = string.Format("-{0}", likesUpdate);
-        }
-        else if(likesUpdate > 0)
-        {
-            likesUpdateText.text = string.Format("+{0}", likesUpdate);
+            likesUpdateValue.text = string.Format("+{0}", likesUpdate);
         }
         else
         {
-            likesUpdateText.text = likesUpdate.ToString();
+            likesUpdateValue.text = likesUpdate.ToString();
         }
+
+        if(popularityUpdate > 0)
+        {
+            popularityUpdateValue.text = string.Format("+{0}", popularityUpdate);
+        }
+        else
+        {
+            popularityUpdateValue.text = popularityUpdate.ToString("D2");
+        }
+
+        likesValue.text = GameManager.currentPlayer.likes.ToString();
+        popularityValue.text = GameManager.currentPlayer.popularity.ToString("D2");
 
         animatorUI.SetTrigger("ShowOpinion");
     }
@@ -238,14 +251,30 @@ public class GameUI : MonoBehaviour
         shoppingDisplay.SetActive(_isLocal);
         waitForShoppingDisplay.SetActive(!_isLocal);
 
-        //for (int i = 0; i < charactersOpinionInfos.Count; i++)
-        //{
-        //    charactersOpinionInfos[i].SetupInfos(GameManager.currentPlayer.character.nickname,
-        //                                         GameManager.currentPlayer.PlayerName,
-        //                                         GameManager.currentPlayer.character.avatar);
-        //}
+        if(_isLocal)
+        {
+            foreach(ItemDisplay itemDisplay in _allItemDisplays)
+            {
+                itemDisplay.SetupInfos();
+            }
+        }
+
+        likesCountText.text = GameManager.currentPlayer.likes.ToString();
 
         animatorUI.SetTrigger("Shop");
+    }
+
+    /// <summary>
+    /// Updates the shop UI.
+    /// </summary>
+    public void UpdateShop()
+    {
+        foreach (ItemDisplay itemDisplay in _allItemDisplays)
+        {
+            itemDisplay.SetupInfos();
+        }
+        
+        likesCountText.text = GameManager.currentPlayer.likes.ToString();
     }
 
     /// <summary>

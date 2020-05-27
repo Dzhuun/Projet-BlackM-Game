@@ -8,7 +8,6 @@ public class Database : MonoBehaviour
     public static List<Character> characters;
 
     private List<Scenario> scenarios;
-
     private static List<Scenario> scenarios_1;
     private static List<Scenario> scenarios_2;
     private static List<Scenario> scenarios_3;

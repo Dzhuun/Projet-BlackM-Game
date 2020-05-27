@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item
 {
+    public int level;
     private ItemType _itemType;
-
-    private int _level;
 
     public Item(ItemType itemType)
     {
+        level = 1;
         _itemType = itemType;
-        _level = 1;
     }
 }
 
 public enum ItemType
 {
-    House,
-    Car,
-    Work,
+    Maison,
+    Voiture,
+    Travail,
     Entourage
 }

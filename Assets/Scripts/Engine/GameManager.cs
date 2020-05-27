@@ -11,8 +11,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     #region Inspector
     [Header("Component")]
-    public GameUI gameUI;
-
     public GameObject playerPrefab;
 
     [Header("Settings")]
@@ -20,30 +18,31 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #endregion
 
+    private static GameUI _gameUI;
+    public static GameUI gameUI
+    {
+        get
+        {
+            if(_gameUI == null)
+            {
+                _gameUI = FindObjectOfType<GameUI>();
+            }
+
+            return _gameUI;
+        }
+    }
     public static List<NetworkPlayer> orderedPlayers;
-
     public static NetworkPlayer currentPlayer;
-
     private static List<NetworkPlayer> _players = new List<NetworkPlayer>();
-
     private List<Answer> _answers = new List<Answer>();
-
     private Scenario _currentScenario;
-
     private int _currentIndexTurn = -1;
-
     private int _currentTurnCount = 0;
-
     private int _maxTurnCount = 0;
-
     private bool _playersReady;
-
     private GameState _state = GameState.Start;
-
     private int _updateLikesValue = 0;
-
     private int _opinionCount = 0;
-
     private int _selectedAnswerID = -1;
 
     #region MonoBehaviour
@@ -445,18 +444,68 @@ public class GameManager : MonoBehaviourPunCallbacks
             orderedPlayers[orderIndex].likes = 0;
         }
 
-        orderedPlayers[orderIndex].popularity += likesUpdate * 0.02f;
+        float popularityUpdate = likesUpdate * 0.02f;
 
-        StartCoroutine(ShowOpinion(likesUpdate));
+        if(orderedPlayers[orderIndex].popularity + popularityUpdate > 5)
+        {
+            popularityUpdate = 5 - orderedPlayers[orderIndex].popularity;
+            orderedPlayers[orderIndex].popularity = 5;
+        }
+        else
+        {
+            orderedPlayers[orderIndex].popularity += popularityUpdate;
+        }
+
+        ComputeLostItems();
+
+        StartCoroutine(ShowOpinion(likesUpdate, popularityUpdate));
+    }
+
+    private void ComputeLostItems()
+    {
+        float popularityLevel = Mathf.Floor(currentPlayer.popularity);
+
+        if(popularityLevel < 1)
+        {
+            popularityLevel = 1;
+        }
+
+        if (currentPlayer.car.level > popularityLevel)
+        {
+            gameUI.AddLostItem(ItemType.Voiture, currentPlayer.car.level, (int)popularityLevel);
+            currentPlayer.car.level = (int)popularityLevel;
+        }
+
+        if (currentPlayer.house.level > popularityLevel)
+        {
+            gameUI.AddLostItem(ItemType.Maison, currentPlayer.house.level, (int)popularityLevel);
+            currentPlayer.house.level = (int)popularityLevel;
+
+        }
+
+        if (currentPlayer.work.level > popularityLevel)
+        {
+            gameUI.AddLostItem(ItemType.Travail, currentPlayer.work.level, (int)popularityLevel);
+            currentPlayer.work.level = (int)popularityLevel;
+
+        }
+
+        if (currentPlayer.entourage.level > popularityLevel)
+        {
+            gameUI.AddLostItem(ItemType.Entourage, currentPlayer.entourage.level, (int)popularityLevel);
+            currentPlayer.entourage.level = (int)popularityLevel;
+
+        }
+
     }
 
     /// <summary>
     /// Shows the opnion results.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator ShowOpinion(int likesUpdate)
+    private IEnumerator ShowOpinion(int likesUpdate, float popularityUpdate)
     {
-        gameUI.ShowOpinionResults(likesUpdate);
+        gameUI.ShowOpinionResults(likesUpdate, popularityUpdate);
 
         yield return new WaitForSeconds(showOpinionDuration);
 
@@ -471,6 +520,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void ShoppingPhase()
     {
         gameUI.ShowShop();
+    }
+
+    /// <summary>
+    /// Upgrades an item and update the shop UI.
+    /// </summary>
+    /// <param name="itemType">The item to upgrade.</param>
+    /// <param name="upgradeCost">The upgrade cost as likes.</param>
+    public static void BuyUpgrade(ItemType itemType, int upgradeCost)
+    {
+        currentPlayer.BuyUpgrade(itemType, upgradeCost);
+
+        gameUI.UpdateShop();
     }
 
     /// <summary>
@@ -509,12 +570,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+    /// <summary>
+    /// Ends the game.
+    /// </summary>
+    /// <param name="playerID">The ID of the winning player.</param>
     [PunRPC]
     private void EndGame(int playerID)
     {
         gameUI.ShowEndUI(orderedPlayers.Find(x => x.PlayerID == playerID));
     }
 
+    /// <summary>
+    /// Ends the turn.
+    /// </summary>
     [PunRPC]
     private void EndTurn()
     {

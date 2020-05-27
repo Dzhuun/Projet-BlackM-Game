@@ -6,7 +6,6 @@ using UnityEngine;
 public class Trait : ScriptableObject
 {
     public string trait;
-
     public bool isNegative;
 
     public static bool operator ==(Trait v1, Trait v2)
@@ -32,9 +31,7 @@ public class CharacterTrait
 public class AnswerTrait
 {
     public Trait trait;
-
     public int traitRespected = 0;
-
     public int traitNotRespected = 0;
 }
 

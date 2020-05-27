@@ -6,11 +6,8 @@ using UnityEngine;
 public class Character : ScriptableObject
 {
     public string nickname;
-
     public string description;
-    
     public Sprite avatar;
-
 	public List<CharacterTrait> traits;
 }
 

@@ -6,13 +6,9 @@ using UnityEngine;
 public class Scenario : ScriptableObject
 {
     public int id;
-
     public string description;
-
     public int starCost;
-
     public List<Answer> commonAnswers;
-
     public List<SpecificAnswer> specificAnswers;
 }
 
@@ -21,9 +17,7 @@ public class Scenario : ScriptableObject
 public class Answer
 {
     public string text;
-
     public int likesValue;
-
     public List<AnswerTrait> traits;
 }
 

@@ -48,21 +48,26 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     /// </summary>
     public int orderIndex = 0;
 
-    //public GameManager GameManager
-    //{
-    //    get
-    //    {
-    //        if(_gameManager == null)
-    //        {
-    //            _gameManager = FindObjectOfType<GameManager>();
-    //        }
+    /// <summary>
+    /// The car item of the player.
+    /// </summary>
+    public Item car;
 
-    //        return _gameManager;
-    //    }
-    //}
+    /// <summary>
+    /// The house item of the player.
+    /// </summary>
+    public Item house;
 
-    //private GameManager _gameManager;
-  
+    /// <summary>
+    /// The work item of the player.
+    /// </summary>
+    public Item work;
+
+    /// <summary>
+    /// The entourage item of the player.
+    /// </summary>
+    public Item entourage;
+    
     void Awake()
     {
         PlayerID = photonView.Owner.ActorNumber;
@@ -82,21 +87,13 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
 
-        // #Critical
-        // we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load.
-        //DontDestroyOnLoad(this.gameObject);
-
         PlayerName = photonView.Owner.NickName;
         gameObject.name = PlayerName;
 
-        // Add ourself to InputManager
-        //cursor = GetComponentInChildren<PlayerCursor>();
-        //NetworkInputManager.playerInputs.Add(cursor);
-
-        //if(PhotonNetwork.IsMasterClient)
-        //{
-        //    SendPlayerID(photonView.Owner.NickName, PhotonNetwork.CurrentRoom.PlayerCount-1);
-        //}
+        car = new Item(ItemType.Voiture);
+        house = new Item(ItemType.Maison);
+        work = new Item(ItemType.Travail);
+        entourage = new Item(ItemType.Entourage);
     }
 
     /// <summary>
@@ -140,6 +137,39 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
         foreach(CharacterTrait trait in character.traits)
         {
             trait.isActive = true;
+        }
+    }
+
+    /// <summary>
+    /// Upgrades an item.
+    /// </summary>
+    /// <param name="itemType">The item to upgrade.</param>
+    /// <param name="upgradeCost">The upgrade cost as likes.</param>
+    public void BuyUpgrade(ItemType itemType, int upgradeCost)
+    {
+        likes -= upgradeCost;
+
+        switch(itemType)
+        {
+            case ItemType.Voiture:
+
+                car.level++;
+                break;
+
+            case ItemType.Maison:
+
+                house.level++;
+                break;
+
+            case ItemType.Entourage:
+
+                entourage.level++;
+                break;
+
+            case ItemType.Travail:
+
+                work.level++;
+                break;
         }
     }
 }
