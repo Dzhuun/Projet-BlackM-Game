@@ -51,6 +51,8 @@ MonoBehaviour:
   - EndGame
   - EndTurn
   - ComputeLikes
+  - SendBuyUpgrade
+  - SendLostItem
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

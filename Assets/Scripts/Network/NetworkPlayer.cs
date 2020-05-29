@@ -87,6 +87,7 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
 
+        ResetActiveTraits();
         PlayerName = photonView.Owner.NickName;
         gameObject.name = PlayerName;
 
@@ -126,7 +127,7 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     /// <returns>The mental health level, from 0 to 4.</returns>
     public int GetMentalHealthLevel()
     {
-        return mentalHealth % 20;
+        return Mathf.Clamp((100 - mentalHealth) % 20, 0, 4);
     }
 
     /// <summary>
@@ -147,9 +148,15 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     /// <param name="upgradeCost">The upgrade cost as likes.</param>
     public void BuyUpgrade(ItemType itemType, int upgradeCost)
     {
+        photonView.RPC("SendBuyUpgrade", RpcTarget.All, itemType, upgradeCost);
+    }
+
+    [PunRPC]
+    private void SendBuyUpgrade(ItemType itemType, int upgradeCost)
+    {
         likes -= upgradeCost;
 
-        switch(itemType)
+        switch (itemType)
         {
             case ItemType.Voiture:
 

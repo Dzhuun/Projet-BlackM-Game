@@ -234,11 +234,11 @@ public class GameUI : MonoBehaviour
         }
         else
         {
-            popularityUpdateValue.text = popularityUpdate.ToString("D2");
+            popularityUpdateValue.text = popularityUpdate.ToString("F2");
         }
 
         likesValue.text = GameManager.currentPlayer.likes.ToString();
-        popularityValue.text = GameManager.currentPlayer.popularity.ToString("D2");
+        popularityValue.text = GameManager.currentPlayer.popularity.ToString("F2");
 
         animatorUI.SetTrigger("ShowOpinion");
     }

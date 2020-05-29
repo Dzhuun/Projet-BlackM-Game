@@ -255,8 +255,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         currentPlayer = orderedPlayers[_currentIndexTurn];
 
-        currentPlayer.ResetActiveTraits();
-
         gameUI.BeginTurn(currentPlayer);
 
         // State : BeginTurn -> DrawScenario
@@ -345,6 +343,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             bool traitRespected = false;
 
+            // Check all the respected traits
+            // Add or remove mental health depending whether the traits were respected or not
             foreach(AnswerTrait answerTrait in selectedAnswer.traits)
             {
                 traitRespected = false;
@@ -435,7 +435,18 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void ComputeLikes(int orderIndex, int likesUpdate)
     {
         // Likes value must be between -100 and 100
-        likesUpdate = Mathf.Clamp(likesUpdate, -100, 100);
+        //likesUpdate = Mathf.Clamp(likesUpdate, -100, 100);
+
+        if(currentPlayer.GetMentalHealthLevel() > 1)
+        {
+            likesUpdate -= 5;
+
+            if(currentPlayer.GetMentalHealthLevel() == 4)
+            {
+                likesUpdate -= 30;
+            }
+        }
+
 
         orderedPlayers[orderIndex].likes += likesUpdate;
 
@@ -461,6 +472,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(ShowOpinion(likesUpdate, popularityUpdate));
     }
 
+    /// <summary>
+    /// Checks if any item has to be downgraded and sent it to the network.
+    /// </summary>
     private void ComputeLostItems()
     {
         float popularityLevel = Mathf.Floor(currentPlayer.popularity);
@@ -472,35 +486,58 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (currentPlayer.car.level > popularityLevel)
         {
-            gameUI.AddLostItem(ItemType.Voiture, currentPlayer.car.level, (int)popularityLevel);
-            currentPlayer.car.level = (int)popularityLevel;
+            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Voiture, currentPlayer.car.level, (int)popularityLevel);
         }
 
         if (currentPlayer.house.level > popularityLevel)
         {
-            gameUI.AddLostItem(ItemType.Maison, currentPlayer.house.level, (int)popularityLevel);
-            currentPlayer.house.level = (int)popularityLevel;
-
+            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Maison, currentPlayer.house.level, (int)popularityLevel);
         }
 
         if (currentPlayer.work.level > popularityLevel)
         {
-            gameUI.AddLostItem(ItemType.Travail, currentPlayer.work.level, (int)popularityLevel);
-            currentPlayer.work.level = (int)popularityLevel;
-
+            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Travail, currentPlayer.work.level, (int)popularityLevel);
         }
 
         if (currentPlayer.entourage.level > popularityLevel)
         {
-            gameUI.AddLostItem(ItemType.Entourage, currentPlayer.entourage.level, (int)popularityLevel);
-            currentPlayer.entourage.level = (int)popularityLevel;
-
+            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Entourage, currentPlayer.entourage.level, (int)popularityLevel);
         }
-
     }
 
     /// <summary>
-    /// Shows the opnion results.
+    /// Informs all the players that an item has been downgraded.
+    /// </summary>
+    /// <param name="itemType">The downgraded item.</param>
+    /// <param name="previousLevel">The previous level of the item.</param>
+    /// <param name="newLevel">The new level of the item.</param>
+    [PunRPC]
+    private void SendLostItem(ItemType itemType, int previousLevel, int newLevel)
+    {
+        gameUI.AddLostItem(itemType, previousLevel, newLevel);
+
+        switch(itemType)
+        {
+            case ItemType.Voiture:
+                currentPlayer.car.level = newLevel;
+                break;
+
+            case ItemType.Travail:
+                currentPlayer.work.level = newLevel;
+                break;
+
+            case ItemType.Entourage:
+                currentPlayer.entourage.level = newLevel;
+                break;
+
+            case ItemType.Maison:
+                currentPlayer.house.level = newLevel;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Shows the opinion results.
     /// </summary>
     /// <returns></returns>
     private IEnumerator ShowOpinion(int likesUpdate, float popularityUpdate)
@@ -539,8 +576,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     public void ValidateShopping()
     {
-        Debug.LogError($"Current count : {_currentTurnCount} / Max : {_maxTurnCount}");
-
         // Game end condition
         if(_currentTurnCount >= _maxTurnCount)
         {
