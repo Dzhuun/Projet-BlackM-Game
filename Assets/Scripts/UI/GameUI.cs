@@ -2,11 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameUI : MonoBehaviour
 {
     [Header("Core")]
     public Animator animatorUI;
+
+    [Header("Player Infos")]
+    public PlayerSelectorUI playerSelectorUI;
+    public FameGauge fameGauge;
+    public MentalHealthUI mentalHealthUI;
+    public Color disactivatedTraitColor = Color.gray;
+    public TextMeshProUGUI traitsList;
+    public TextMeshProUGUI playerName;
+    public TextMeshProUGUI playerLikes;
+    public TextMeshProUGUI playerFame;
+    public TextMeshProUGUI playerDescription;
 
     [Header("Start")]
     public GameObject charactersDisplay;
@@ -21,9 +33,9 @@ public class GameUI : MonoBehaviour
     [Header("Answer")]
     public GameObject answerDisplay;
     public GameObject waitForAnswerDisplay;
-    public Text scenarioDescription;
-    public Text scenarioDescriptionWhenWaiting;
-    public Text waitingAnswerText;
+    public TextMeshProUGUI scenarioDescription;
+    public TextMeshProUGUI scenarioDescriptionWhenWaiting;
+    public TextMeshProUGUI waitingAnswerText;
     public List<AnswerDisplay> answersToSelect;
     public List<AnswerDisplay> answersWhenWaiting;
 
@@ -47,6 +59,7 @@ public class GameUI : MonoBehaviour
 
     private bool _isLocal;
     private NetworkPlayer _currentPlayer;
+    private NetworkPlayer _observedPlayer;
     private CharacterDisplay[] _allCharacterDisplays;
     private ItemDisplay[] _allItemDisplays;
 
@@ -93,8 +106,65 @@ public class GameUI : MonoBehaviour
     {
         _currentPlayer = currentPlayer;
         _isLocal = _currentPlayer == NetworkPlayer.LocalPlayerInstance;
-
+        _observedPlayer = NetworkPlayer.LocalPlayerInstance;
         itemsLostText.text = "";
+        
+        InitializeAvatars();
+
+        ShowPlayerInfos(_observedPlayer);
+    }
+
+    /// <summary>
+    /// Initializes the displayed avatars.
+    /// </summary>
+    private void InitializeAvatars()
+    {
+        List<NetworkPlayer> players = new List<NetworkPlayer>(GameManager.orderedPlayers);
+
+        playerSelectorUI.SetPlayer(0, NetworkPlayer.LocalPlayerInstance);
+        
+        players.Remove(NetworkPlayer.LocalPlayerInstance);
+
+        for(int i = 1; i < 4; i++)
+        {
+            playerSelectorUI.SetPlayer(i, players[0]);
+            players.RemoveAt(0);
+        }
+    }
+
+    /// <summary>
+    /// Displays the informations of a player.
+    /// </summary>
+    /// <param name="player">The player to display.</param>
+    public void ShowPlayerInfos(NetworkPlayer player)
+    {
+        // Display texts
+        playerName.text = player.character.name;
+        playerFame.text = player.fame.ToString("F2");
+        playerLikes.text = player.likes.ToString();
+        playerDescription.text = player.character.description;
+
+        // Display graphics UI
+        fameGauge.SetGauge(player.fame);
+        mentalHealthUI.SetMentalHealth(player.mentalHealth);
+
+        // Display traits
+        traitsList.text = string.Empty;
+        for(int i = 0; i < player.character.traits.Count; i++)
+        {
+            if(player.character.traits[i].isActive)
+            {
+                traitsList.text += string.Format(", {0}", player.character.traits[i].trait.traitName);
+            }
+            else
+            {
+                // Strike and chagne the color of the inactive trait
+                traitsList.text += string.Format(", <s><color=#{0}>{1}</color></s>", ColorUtility.ToHtmlStringRGBA(disactivatedTraitColor), player.character.traits[i].trait.traitName);
+            }
+        }
+
+        // Remove the first two char which are a coma and a white space
+        traitsList.text.Remove(0, 2);
     }
 
     /// <summary>
@@ -120,17 +190,8 @@ public class GameUI : MonoBehaviour
         drawCardDisplay.SetActive(_isLocal);
         waitForDrawCardDisplay.SetActive(!_isLocal);
 
-
-        //for(int i = 0; i < charactersDrawInfos.Count; i++)
-        //{
-        //    charactersDrawInfos[i].SetupInfos(GameManager.currentPlayer.character.nickname,
-        //                                      GameManager.currentPlayer.PlayerName,
-        //                                      GameManager.currentPlayer.character.avatar);
-        //}
-
-        waitingDrawText.text = string.Format("Le joueur {0} pioche une carte", GameManager.currentPlayer.PlayerName);
-
-        animatorUI.SetTrigger("DrawCard");
+        //waitingDrawText.text = string.Format("Le joueur {0} pioche une carte", GameManager.currentPlayer.PlayerName);
+        //animatorUI.SetTrigger("DrawCard");
     }
 
     /// <summary>
@@ -141,7 +202,7 @@ public class GameUI : MonoBehaviour
     /// <param name="isLocal">Indicates if the local player has to select the answer.</param>
     public void ShowAnswers(int scenarioID, Character character)
     {
-        Scenario scenario = Database.GetScenario(GameManager.currentPlayer.popularity, scenarioID);
+        Scenario scenario = Database.GetScenario(GameManager.currentPlayer.fame, scenarioID);
 
         if(scenario.commonAnswers.Count < 3)
         {
@@ -160,22 +221,9 @@ public class GameUI : MonoBehaviour
             answers[i].SetupInfos(scenario.commonAnswers[i]);
         }
 
-        // Show the 4th answer only on the currently playing client
-        if(_isLocal)
-        {
-            // Find the answer that correspond to the current character
-            // Then setups the UI
-            answers[3].SetupInfos(scenario.specificAnswers.Find(x => x.character.nickname == character.nickname));
-            scenarioDescription.text = scenario.description;
-        }
-        else
-        {
-            // Deactivates the 4th answer
-            // TO DO : instead of deactivating it, we can replace its content by a big '?'
-            answers[3].gameObject.SetActive(false);
-            scenarioDescriptionWhenWaiting.text = scenario.description;
-            waitingAnswerText.text = string.Format("Le joueur {0} choisit une réponse", GameManager.currentPlayer.PlayerName);
-        }
+        // Find the answer that correspond to the current character then setups the UI
+        answers[3].SetupInfos(scenario.specificAnswers.Find(x => x.character.nickname == character.nickname));
+        scenarioDescription.text = scenario.description;
 
         // Randomize answers order
         List<int> transformOrder = new List<int>();
@@ -204,7 +252,7 @@ public class GameUI : MonoBehaviour
         chooseOpinionDisplay.SetActive(!_isLocal);
         waitForOpinionDisplay.SetActive(_isLocal);
 
-        likesSlider.UpdateSettings(NetworkPlayer.LocalPlayerInstance.popularity);
+        likesSlider.UpdateSettings(NetworkPlayer.LocalPlayerInstance.fame);
         
         animatorUI.SetTrigger("ChooseOpinion");
     }
@@ -238,7 +286,7 @@ public class GameUI : MonoBehaviour
         }
 
         likesValue.text = GameManager.currentPlayer.likes.ToString();
-        popularityValue.text = GameManager.currentPlayer.popularity.ToString("F2");
+        popularityValue.text = GameManager.currentPlayer.fame.ToString("F2");
 
         animatorUI.SetTrigger("ShowOpinion");
     }

@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // The game will end after 10 complete rounds
         _maxTurnCount = PhotonNetwork.CurrentRoom.PlayerCount * 10;
 
-        gameUI.DisplayCharacters();
+        //gameUI.DisplayCharacters();
 
         SettingsManager.transition.FadeOut();
 
@@ -194,7 +194,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(4);
 
-        gameUI.HideCharacters();
+        //gameUI.HideCharacters();
 
         // State : Start -> BeginTurn
         MoveToNextState();
@@ -266,7 +266,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void DrawScenarioPhase()
     {
-        gameUI.BeginTurn(currentPlayer);
+        //gameUI.BeginTurn(currentPlayer);
 
         gameUI.ShowDrawCardDisplay();
     }
@@ -280,7 +280,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         int scenarioID = -1;
         int.TryParse(inputField.text, out scenarioID);
 
-        _currentScenario = Database.GetScenario(currentPlayer.popularity, scenarioID);
+        _currentScenario = Database.GetScenario(currentPlayer.fame, scenarioID);
 
         if(_currentScenario != null)
         {
@@ -300,7 +300,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetScenario(int scenarioID)
     {
-        _currentScenario = Database.GetScenario(currentPlayer.popularity, scenarioID);
+        _currentScenario = Database.GetScenario(currentPlayer.fame, scenarioID);
         _answers.Clear();
         _answers.AddRange(_currentScenario.commonAnswers);
         _answers.Add(_currentScenario.specificAnswers.Find(x => x.character.nickname == currentPlayer.character.nickname));
@@ -457,14 +457,14 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         float popularityUpdate = likesUpdate * 0.02f;
 
-        if(orderedPlayers[orderIndex].popularity + popularityUpdate > 5)
+        if(orderedPlayers[orderIndex].fame + popularityUpdate > 5)
         {
-            popularityUpdate = 5 - orderedPlayers[orderIndex].popularity;
-            orderedPlayers[orderIndex].popularity = 5;
+            popularityUpdate = 5 - orderedPlayers[orderIndex].fame;
+            orderedPlayers[orderIndex].fame = 5;
         }
         else
         {
-            orderedPlayers[orderIndex].popularity += popularityUpdate;
+            orderedPlayers[orderIndex].fame += popularityUpdate;
         }
 
         ComputeLostItems();
@@ -477,7 +477,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ComputeLostItems()
     {
-        float popularityLevel = Mathf.Floor(currentPlayer.popularity);
+        float popularityLevel = Mathf.Floor(currentPlayer.fame);
 
         if(popularityLevel < 1)
         {
@@ -590,7 +590,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 else
                 {
                     // TO DO : handle draw
-                    if(player.popularity > winner.popularity)
+                    if(player.fame > winner.fame)
                     {
                         winner = player;
                     }

@@ -29,9 +29,9 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     public Character character;
 
     /// <summary>
-    /// The popularity of the player. Starts at 2, value between 0 and 5.
+    /// The fame of the player. Starts at 2.5, value between 0 and 5.
     /// </summary>
-    public float popularity = 2;
+    public float fame = 2.5f;
 
     /// <summary>
     /// The amount of likes owned by the player.
@@ -87,7 +87,6 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
             PhotonNetwork.LocalPlayer.SetCustomProperties(props);
         }
 
-        ResetActiveTraits();
         PlayerName = photonView.Owner.NickName;
         gameObject.name = PlayerName;
 
@@ -118,6 +117,8 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
         Debug.LogError($"Set character {name} at order '{playerOrder}'");
 
         character = Database.characters.Find(x => x.nickname == name);
+        ResetActiveTraits();
+
         GameManager.SetPlayerOrder(this, playerOrder);
     }
     

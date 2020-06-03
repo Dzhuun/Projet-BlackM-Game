@@ -10,7 +10,11 @@ public class LikesSlider : MonoBehaviour
 
     public void UpdateSettings(float popularity)
     {
-        if(popularity > 1)
+        if(popularity == 5)
+        {
+            popularity = 40;
+        }
+        else if(popularity > 1)
         {
             popularity = Mathf.Floor(popularity) * 5;
         }

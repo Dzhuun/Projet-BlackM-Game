@@ -5,17 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Trait", menuName = "Game Assets/Trait")]
 public class Trait : ScriptableObject
 {
-    public string trait;
+    [UnityEngine.Serialization.FormerlySerializedAs("trait")] public string traitName;
     public bool isNegative;
 
     public static bool operator ==(Trait v1, Trait v2)
     {
-        return (v1.trait == v2.trait);
+        return (v1.traitName == v2.traitName);
     }
 
     public static bool operator !=(Trait v1, Trait v2)
     {
-        return (v1.trait != v2.trait);
+        return (v1.traitName != v2.traitName);
     }
 }
 

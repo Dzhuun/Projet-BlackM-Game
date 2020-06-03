@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class AnswerDisplay : MonoBehaviour
 {
     public int answerID;
-    public Text answerText;
+    public TextMeshProUGUI answerText;
 
     public void SetupInfos(Answer answer)
     {
