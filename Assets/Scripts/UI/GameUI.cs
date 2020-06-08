@@ -46,16 +46,21 @@ public class GameUI : MonoBehaviour
     public List<CharacterDisplay> charactersOpinionInfos;
 
     [Header("ShowOpinion")]
-    public Text likesUpdateValue;
-    public Text popularityUpdateValue;
-    public Text likesValue;
-    public Text popularityValue;
-    public Text itemsLostText;
+    public GameObject showOpinionDisplay;
+    public TextMeshProUGUI societyLikesUpdateValue;
+    public TextMeshProUGUI likesUpdateValue;
+    public TextMeshProUGUI fameUpdateValue;
+    public TextMeshProUGUI mentalHealthUpdateValue;
+    public TextMeshProUGUI likesValue;
+    public TextMeshProUGUI fameValue;
+    public TextMeshProUGUI mentalHealthValue;
+    public TextMeshProUGUI itemsLostText;
+    public Button skipOpinionButton;
 
     [Header("Shopping")]
     public GameObject shoppingDisplay;
     public GameObject waitForShoppingDisplay;
-    public Text likesCountText;
+    public TextMeshProUGUI likesCountText;
 
     private bool _isLocal;
     private NetworkPlayer _currentPlayer;
@@ -67,6 +72,15 @@ public class GameUI : MonoBehaviour
     {
         _allCharacterDisplays = Resources.FindObjectsOfTypeAll<CharacterDisplay>();
         _allItemDisplays = Resources.FindObjectsOfTypeAll<ItemDisplay>();
+
+        drawCardDisplay.SetActive(false);
+        waitForDrawCardDisplay.SetActive(false);
+        answerDisplay.SetActive(false);
+        waitForAnswerDisplay.SetActive(false);
+        chooseOpinionDisplay.SetActive(false);
+        showOpinionDisplay.SetActive(false);
+        waitForOpinionDisplay.SetActive(false);
+        shoppingDisplay.SetActive(false);
     }
     
     /// <summary>
@@ -107,7 +121,7 @@ public class GameUI : MonoBehaviour
         _currentPlayer = currentPlayer;
         _isLocal = _currentPlayer == NetworkPlayer.LocalPlayerInstance;
         _observedPlayer = NetworkPlayer.LocalPlayerInstance;
-        itemsLostText.text = "";
+        //itemsLostText.text = "";
         
         InitializeAvatars();
 
@@ -125,7 +139,7 @@ public class GameUI : MonoBehaviour
         
         players.Remove(NetworkPlayer.LocalPlayerInstance);
 
-        for(int i = 1; i < 4; i++)
+        for(int i = 1; i < GameManager.orderedPlayers.Count; i++)
         {
             playerSelectorUI.SetPlayer(i, players[0]);
             players.RemoveAt(0);
@@ -149,22 +163,22 @@ public class GameUI : MonoBehaviour
         mentalHealthUI.SetMentalHealth(player.mentalHealth);
 
         // Display traits
-        traitsList.text = string.Empty;
+        string traitsText = string.Empty;
         for(int i = 0; i < player.character.traits.Count; i++)
         {
             if(player.character.traits[i].isActive)
             {
-                traitsList.text += string.Format(", {0}", player.character.traits[i].trait.traitName);
+                traitsText += string.Format(", {0}", player.character.traits[i].trait.traitName);
             }
             else
             {
-                // Strike and chagne the color of the inactive trait
-                traitsList.text += string.Format(", <s><color=#{0}>{1}</color></s>", ColorUtility.ToHtmlStringRGBA(disactivatedTraitColor), player.character.traits[i].trait.traitName);
+                // Strike and change the color of the inactive trait
+                traitsText += string.Format(", <s><color=#{0}>{1}</color></s>", ColorUtility.ToHtmlStringRGBA(disactivatedTraitColor), player.character.traits[i].trait.traitName);
             }
         }
-
+       
         // Remove the first two char which are a coma and a white space
-        traitsList.text.Remove(0, 2);
+        traitsList.text = traitsText.Remove(0, 2);
     }
 
     /// <summary>
@@ -187,6 +201,9 @@ public class GameUI : MonoBehaviour
     /// <param name="currentPlayer">True if it is the local player's turn.</param>
     public void ShowDrawCardDisplay()
     {
+        shoppingDisplay.SetActive(false);
+        waitForShoppingDisplay.SetActive(false);
+
         drawCardDisplay.SetActive(_isLocal);
         waitForDrawCardDisplay.SetActive(!_isLocal);
 
@@ -202,6 +219,9 @@ public class GameUI : MonoBehaviour
     /// <param name="isLocal">Indicates if the local player has to select the answer.</param>
     public void ShowAnswers(int scenarioID, Character character)
     {
+        drawCardDisplay.SetActive(false);
+        waitForDrawCardDisplay.SetActive(false);
+
         Scenario scenario = Database.GetScenario(GameManager.currentPlayer.fame, scenarioID);
 
         if(scenario.commonAnswers.Count < 3)
@@ -240,7 +260,7 @@ public class GameUI : MonoBehaviour
             transformOrder.RemoveAt(randomIndex);
         }
         
-        animatorUI.SetTrigger("ShowAnswers");
+        //animatorUI.SetTrigger("ShowAnswers");
     }
 
     /// <summary>
@@ -249,12 +269,15 @@ public class GameUI : MonoBehaviour
     /// <param name="answerID">The ID of the answer.</param>
     public void ShowChooseOpinion(int answerID)
     {
+        answerDisplay.SetActive(false);
+        waitForAnswerDisplay.SetActive(false);
+
         chooseOpinionDisplay.SetActive(!_isLocal);
         waitForOpinionDisplay.SetActive(_isLocal);
 
         likesSlider.UpdateSettings(NetworkPlayer.LocalPlayerInstance.fame);
         
-        animatorUI.SetTrigger("ChooseOpinion");
+        //animatorUI.SetTrigger("ChooseOpinion");
     }
 
     public void AddLostItem(ItemType itemType, int previousLevel, int newLevel)
@@ -265,9 +288,25 @@ public class GameUI : MonoBehaviour
     /// <summary>
     /// Activates the UI that shows the results of the opinion phase.
     /// </summary>
-    public void ShowOpinionResults(int likesUpdate, float popularityUpdate)
+    public void ShowOpinionResults(int societyLikes, int likesUpdate, float popularityUpdate, int mentalHealthUpdate)
     {
-        if(likesUpdate > 0)
+        chooseOpinionDisplay.SetActive(false);
+        waitForOpinionDisplay.SetActive(false);
+
+        showOpinionDisplay.SetActive(true);
+
+        skipOpinionButton.gameObject.SetActive(_isLocal);
+
+        if (societyLikes > 0)
+        {
+            societyLikesUpdateValue.text = string.Format("+{0}", societyLikes);
+        }
+        else
+        {
+            societyLikesUpdateValue.text = societyLikes.ToString();
+        }
+
+        if (likesUpdate > 0)
         {
             likesUpdateValue.text = string.Format("+{0}", likesUpdate);
         }
@@ -278,17 +317,27 @@ public class GameUI : MonoBehaviour
 
         if(popularityUpdate > 0)
         {
-            popularityUpdateValue.text = string.Format("+{0}", popularityUpdate);
+            fameUpdateValue.text = string.Format("+{0}", popularityUpdate);
         }
         else
         {
-            popularityUpdateValue.text = popularityUpdate.ToString("F2");
+            fameUpdateValue.text = popularityUpdate.ToString("F2");
         }
 
-        likesValue.text = GameManager.currentPlayer.likes.ToString();
-        popularityValue.text = GameManager.currentPlayer.fame.ToString("F2");
+        if(mentalHealthUpdate > 0)
+        {
+            mentalHealthUpdateValue.text = string.Format("+{0}", mentalHealthUpdate);
+        }
+        else
+        {
+            mentalHealthUpdateValue.text = mentalHealthUpdate.ToString();
+        }
 
-        animatorUI.SetTrigger("ShowOpinion");
+        //likesValue.text = GameManager.currentPlayer.likes.ToString();
+        //fameValue.text = GameManager.currentPlayer.fame.ToString("F2");
+        mentalHealthValue.text = string.Format("{0}%", GameManager.currentPlayer.mentalHealth);
+
+        //animatorUI.SetTrigger("ShowOpinion");
     }
 
     /// <summary>
@@ -296,6 +345,8 @@ public class GameUI : MonoBehaviour
     /// </summary>
     public void ShowShop()
     {
+        showOpinionDisplay.SetActive(false);
+
         shoppingDisplay.SetActive(_isLocal);
         waitForShoppingDisplay.SetActive(!_isLocal);
 
@@ -307,9 +358,9 @@ public class GameUI : MonoBehaviour
             }
         }
 
-        likesCountText.text = GameManager.currentPlayer.likes.ToString();
+        //likesCountText.text = GameManager.currentPlayer.likes.ToString();
 
-        animatorUI.SetTrigger("Shop");
+        //animatorUI.SetTrigger("Shop");
     }
 
     /// <summary>

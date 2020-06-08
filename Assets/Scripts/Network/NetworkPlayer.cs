@@ -29,6 +29,11 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     public Character character;
 
     /// <summary>
+    /// Indicates whether the player has an inactive trait, due to the mentalHealth effect.
+    /// </summary>
+    public bool hasInactiveTrait = false;
+
+    /// <summary>
     /// The fame of the player. Starts at 2.5, value between 0 and 5.
     /// </summary>
     public float fame = 2.5f;
@@ -67,6 +72,16 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     /// The entourage item of the player.
     /// </summary>
     public Item entourage;
+
+    /// <summary>
+    /// Indicates whether the player has earned it's first trait (after reaching 3.0 of fame).
+    /// </summary>
+    public bool firstTraitEarned = false;
+
+    /// <summary>
+    /// Indicates whether the player has earned it's second trait (after reaching 4.0 of fame).
+    /// </summary>
+    public bool secondTraitEarned = false;
     
     void Awake()
     {
@@ -117,24 +132,30 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
         Debug.LogError($"Set character {name} at order '{playerOrder}'");
 
         character = Database.characters.Find(x => x.nickname == name);
-        ResetActiveTraits();
+        ResetTraits();
 
         GameManager.SetPlayerOrder(this, playerOrder);
     }
     
     /// <summary>
     /// Gets the current sanity level of the player according to its mental health.
+    /// The effects are the following : 
+    /// Level 0 : No effects | 
+    /// Level 1 : -5 likes every scenario | 
+    /// Level 2 : Lose one trait | 
+    /// Level 3 : Double dislikes | 
+    /// Level 4 : -30 likes every scenario.
     /// </summary>
     /// <returns>The mental health level, from 0 to 4.</returns>
     public int GetMentalHealthLevel()
     {
-        return Mathf.Clamp((100 - mentalHealth) % 20, 0, 4);
+        return Mathf.Clamp((100 - mentalHealth) / 20, 0, 4);
     }
 
     /// <summary>
     /// Resets the active state of the traits to true at the beginning of each turn.
     /// </summary>
-    public void ResetActiveTraits()
+    public void ResetTraits()
     {
         foreach(CharacterTrait trait in character.traits)
         {

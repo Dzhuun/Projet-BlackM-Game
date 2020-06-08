@@ -24,7 +24,7 @@ public class PlayerSelectorUI : MonoBehaviour
     /// <param name="selectorIndex">The index of the avatar selected.</param>
     public void SelectPlayer(int selectorIndex)
     {
-        if(selectorIndex != 0)
+        if(selectorIndex != 0 && selectorIndex < GameManager.orderedPlayers.Count)
         {
             // Cache the selected player
             NetworkPlayer playerToObserve = selectors[selectorIndex].displayedPlayer;

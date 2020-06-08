@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class LikesSlider : MonoBehaviour
 {
-    public Text likesText;
+    public TextMeshProUGUI likesText;
     public Slider valueSlider;
 
     public void UpdateSettings(float popularity)

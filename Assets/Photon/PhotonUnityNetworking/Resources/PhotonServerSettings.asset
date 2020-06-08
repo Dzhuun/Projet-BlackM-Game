@@ -53,6 +53,11 @@ MonoBehaviour:
   - ComputeLikes
   - SendBuyUpgrade
   - SendLostItem
+  - SendSkipOpinion
+  - ResetInactiveTraits
+  - SendDeactivateTrait
+  - TestRPC
+  - SendNewTrait
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef7322a34146c74fbd93095adfe964c, type: 3}
   m_Name: Indifferent
   m_EditorClassIdentifier: 
-  trait: "Indiff\xE9rent"
+  traitName: "Indiff\xE9rent"
   isNegative: 1

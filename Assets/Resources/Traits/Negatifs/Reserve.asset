@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef7322a34146c74fbd93095adfe964c, type: 3}
   m_Name: Reserve
   m_EditorClassIdentifier: 
-  trait: "R\xE9serv\xE9"
+  traitName: "R\xE9serv\xE9"
   isNegative: 1

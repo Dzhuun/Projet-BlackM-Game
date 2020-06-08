@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         get
         {
-            if(_gameUI == null)
+            if (_gameUI == null)
             {
                 _gameUI = FindObjectOfType<GameUI>();
             }
@@ -41,7 +41,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int _maxTurnCount = 0;
     private bool _playersReady;
     private GameState _state = GameState.Start;
-    private int _updateLikesValue = 0;
+    private int[] _playersLikes;
+    private int _societyLikesValue = 0;
+    private int _updateMentalHealth = 0;
     private int _opinionCount = 0;
     private int _selectedAnswerID = -1;
 
@@ -51,7 +53,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Fill the ordererd players list with null value
         // These null values will be replaced by the players and their index will correspond to their turn order
         orderedPlayers = new List<NetworkPlayer>();
-        for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
             orderedPlayers.Add(null);
         }
@@ -59,19 +61,19 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if(NetworkPlayer.LocalPlayerInstance == null)
+        if (NetworkPlayer.LocalPlayerInstance == null)
         {
             PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
         }
     }
-    
+
     #endregion
 
     #region PUN Callbacks
     // When a player updates its properties, check if all players are ready
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        if(!_playersReady && PhotonNetwork.IsMasterClient && CheckPlayersLoadedLevel())
+        if (!_playersReady && PhotonNetwork.IsMasterClient && CheckPlayersLoadedLevel())
         {
             _playersReady = true;
 
@@ -90,19 +92,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         Opinion,
         Shopping
     };
-    
+
     /// <summary>
     /// Checks if all players in the room are ready (i.e. joined the game scene).
     /// </summary>
     /// <returns>True if all players are ready.</returns>
     private bool CheckPlayersLoadedLevel()
     {
-        foreach(Player player in PhotonNetwork.CurrentRoom.Players.Values)
+        foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
         {
             object isReady;
-            if(player.CustomProperties.TryGetValue(SettingsManager.KEY_PLAYER_LOADED_LEVEL, out isReady))
+            if (player.CustomProperties.TryGetValue(SettingsManager.KEY_PLAYER_LOADED_LEVEL, out isReady))
             {
-                if(!((bool)isReady))
+                if (!((bool)isReady))
                 {
                     return false;
                 }
@@ -120,14 +122,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Randomly assign characters to players
         List<Character> characters = Database.characters;
 
-        if(characters.Count < PhotonNetwork.CurrentRoom.PlayerCount)
+        if (characters.Count < PhotonNetwork.CurrentRoom.PlayerCount)
         {
             throw new System.Exception("Not enough characters were created. Add more Characters to the Resources/Characters folder.");
         }
 
         // Create a list of int from 1 to PlayerCount to manager players turn order
         List<int> playerOrder = new List<int>();
-        for(int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
+        for (int i = 0; i < PhotonNetwork.CurrentRoom.PlayerCount; i++)
         {
             playerOrder.Add(i);
         }
@@ -135,7 +137,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         int charToAssignIndex;
         int orderToAssignIndex;
 
-        foreach(NetworkPlayer player in _players)
+        foreach (NetworkPlayer player in _players)
         {
             charToAssignIndex = Random.Range(0, characters.Count);
             orderToAssignIndex = Random.Range(0, playerOrder.Count);
@@ -205,7 +207,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void MoveToNextState()
     {
-        switch(_state)
+        switch (_state)
         {
             case GameState.Start:
                 _state = GameState.BeginTurn;
@@ -221,7 +223,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 _state = GameState.SelectAnswer;
                 SelectAnswerPhase();
                 break;
-                
+
             case GameState.SelectAnswer:
                 _state = GameState.Opinion;
                 OpinionPhase();
@@ -248,7 +250,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         _currentTurnCount++;
         _currentIndexTurn++;
 
-        if(_currentIndexTurn >= orderedPlayers.Count)
+        if (_currentIndexTurn >= orderedPlayers.Count)
         {
             _currentIndexTurn = 0;
         }
@@ -282,7 +284,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         _currentScenario = Database.GetScenario(currentPlayer.fame, scenarioID);
 
-        if(_currentScenario != null)
+        if (_currentScenario != null)
         {
             photonView.RPC("SetScenario", RpcTarget.All, _currentScenario.id);
         }
@@ -314,7 +316,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void SelectAnswerPhase()
     {
-        _updateLikesValue = 0;
         gameUI.ShowAnswers(_currentScenario.id, currentPlayer.character);
     }
 
@@ -324,46 +325,69 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="answerID">The ID of the selected answer.</param>
     public void SelectAnswer(int answerID)
     {
-        photonView.RPC("ReceiveSelectedAnswer", RpcTarget.All, answerID);
-    }
+        Answer selectedAnswer = _answers[answerID - 1];
+        _societyLikesValue = selectedAnswer.likesValue;
+        _updateMentalHealth = 0;
 
-    /// <summary>
-    /// Receive the answer selected by the currently playing player.
-    /// </summary>
-    /// <param name="answerID">The ID of the answer selected.</param>
-    [PunRPC]
-    private void ReceiveSelectedAnswer(int answerID)
-    {
-        _selectedAnswerID = answerID;
+        bool traitRespected = false;
 
-        if(currentPlayer == NetworkPlayer.LocalPlayerInstance)
+        // Check all the respected traits
+        // Add or remove mental health depending whether the traits were respected or not
+        foreach (AnswerTrait answerTrait in selectedAnswer.traits)
         {
-            Answer selectedAnswer = _answers[answerID - 1];
-            _updateLikesValue += selectedAnswer.likesValue;
+            traitRespected = false;
 
-            bool traitRespected = false;
-
-            // Check all the respected traits
-            // Add or remove mental health depending whether the traits were respected or not
-            foreach(AnswerTrait answerTrait in selectedAnswer.traits)
+            foreach (CharacterTrait charTrait in currentPlayer.character.traits)
             {
-                traitRespected = false;
-
-                foreach(CharacterTrait charTrait in currentPlayer.character.traits)
+                if (charTrait.trait == answerTrait.trait)
                 {
-                    if(charTrait.trait == answerTrait.trait)
-                    {
-                        traitRespected = charTrait.isActive;
-                        break;
-                    }
+                    traitRespected = charTrait.isActive;
+                    break;
                 }
-
-                UpdateMentalHealth(answerTrait, traitRespected);
             }
+
+            UpdateMentalHealth(answerTrait, traitRespected);
+        }
+
+        photonView.RPC("ReceiveSelectedAnswer", RpcTarget.Others, answerID, _societyLikesValue, _updateMentalHealth);
+
+        _updateMentalHealth = ComputeMentalHealth(_updateMentalHealth);
+
+        if (currentPlayer.GetMentalHealthLevel() >= 2 && !currentPlayer.hasInactiveTrait)
+        {
+            string randomTrait = currentPlayer.character.traits[Random.Range(0, currentPlayer.character.traits.Count)].trait.traitName;
+
+            photonView.RPC("SendDeactivateTrait", RpcTarget.All, randomTrait);
+        }
+        else if (currentPlayer.GetMentalHealthLevel() < 2 && currentPlayer.hasInactiveTrait)
+        {
+            photonView.RPC("ResetInactiveTraits", RpcTarget.All);
         }
 
         // State : SelectAnswer -> Opinion
         MoveToNextState();
+    }
+
+    /// <summary>
+    /// Informs all the other players that a trait has been deactivated.
+    /// </summary>
+    /// <param name="traitName">The name of the deactivated trait.</param>
+    [PunRPC]
+    private void SendDeactivateTrait(string traitName)
+    {
+        currentPlayer.hasInactiveTrait = true;
+        currentPlayer.character.traits.Find(x => x.trait.traitName == traitName).isActive = false;
+    }
+
+    /// <summary>
+    /// Informs all the other players that the traits are all reactivated.
+    /// </summary>
+    [PunRPC]
+    private void ResetInactiveTraits()
+    {
+        currentPlayer.ResetTraits();
+
+        currentPlayer.hasInactiveTrait = false;
     }
 
     /// <summary>
@@ -373,18 +397,43 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="isRespected">True if the trait was respected, false otherwise.</param>
     private void UpdateMentalHealth(AnswerTrait trait, bool isRespected)
     {
-        int previousMentalHealth = currentPlayer.mentalHealth;
-
-        if(isRespected)
+        if (isRespected)
         {
-            currentPlayer.mentalHealth += trait.traitRespected;
+            _updateMentalHealth += trait.traitRespected;
         }
         else
         {
-            currentPlayer.mentalHealth += trait.traitNotRespected;
+            _updateMentalHealth += trait.traitNotRespected;
         }
+    }
 
-        currentPlayer.mentalHealth = Mathf.Clamp(currentPlayer.mentalHealth, 0, 100);
+    /// <summary>
+    /// Receive the answer selected by the currently playing player.
+    /// </summary>
+    /// <param name="answerID">The ID of the answer selected.</param>
+    [PunRPC]
+    private void ReceiveSelectedAnswer(int answerID, int societyLikes, int mentalHealthUpdate)
+    {
+        _selectedAnswerID = answerID;
+        _societyLikesValue = societyLikes;
+
+        _updateMentalHealth = ComputeMentalHealth(mentalHealthUpdate);
+
+        // State : SelectAnswer -> Opinion
+        MoveToNextState();
+    }
+
+    /// <summary>
+    /// Changes the current player's mental health and returns the net update value.
+    /// </summary>
+    /// <param name="mentalHealthUpdate">The brut update value.</param>
+    /// <returns>The net update value.</returns>
+    private int ComputeMentalHealth(int mentalHealthUpdate)
+    {
+        int previousMentalHealth = currentPlayer.mentalHealth;
+        currentPlayer.mentalHealth = Mathf.Clamp(currentPlayer.mentalHealth + mentalHealthUpdate, 0, 100);
+
+        return currentPlayer.mentalHealth - previousMentalHealth;
     }
 
     /// <summary>
@@ -394,9 +443,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         _opinionCount = 0;
 
+        _playersLikes = new int[PhotonNetwork.CurrentRoom.PlayerCount - 1];
+
         gameUI.ShowChooseOpinion(_selectedAnswerID);
     }
-    
+
     /// <summary>
     /// Gives an opinion on a player's choice.
     /// </summary>
@@ -415,13 +466,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (currentPlayer == NetworkPlayer.LocalPlayerInstance)
         {
-            _updateLikesValue += value;
+            _playersLikes[_opinionCount] = value;
+
             _opinionCount++;
 
             // If all other players have given their opinion
-            if(_opinionCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
+            if (_opinionCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
             {
-                photonView.RPC("ComputeLikes", RpcTarget.All, NetworkPlayer.LocalPlayerInstance.orderIndex, _updateLikesValue);
+                // Compute first the likes and fame earned locally
+                ComputeLikes(NetworkPlayer.LocalPlayerInstance.orderIndex, _playersLikes, _societyLikesValue);
+
+                // In order to check if a trait was earned or not
+                ComputeEarnedTraits();
+
+                //
+                photonView.RPC("ComputeLikes", RpcTarget.Others, NetworkPlayer.LocalPlayerInstance.orderIndex, _playersLikes, _societyLikesValue);
             }
         }
     }
@@ -432,32 +491,48 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="orderIndex">The order index of the character that has its like value updated.</param>
     /// <param name="newValue">The new like value of the character.</param>
     [PunRPC]
-    private void ComputeLikes(int orderIndex, int likesUpdate)
+    private void ComputeLikes(int orderIndex, int[] playersLikes, int societyLikes)
     {
-        // Likes value must be between -100 and 100
-        //likesUpdate = Mathf.Clamp(likesUpdate, -100, 100);
+        int likesUpdate = societyLikes;
 
-        if(currentPlayer.GetMentalHealthLevel() > 1)
+        _playersLikes = playersLikes;
+
+        // Put this in coroutine instead for feedback over duration
+        if (currentPlayer.GetMentalHealthLevel() > 3)
+        {
+            foreach (int i in playersLikes)
+            {
+                likesUpdate += i < 0 ? i * i : i;
+            }
+        }
+        else
+        {
+            foreach (int i in playersLikes)
+            {
+                likesUpdate += i;
+            }
+        }
+
+        if (currentPlayer.GetMentalHealthLevel() > 1)
         {
             likesUpdate -= 5;
 
-            if(currentPlayer.GetMentalHealthLevel() == 4)
+            if (currentPlayer.GetMentalHealthLevel() == 4)
             {
                 likesUpdate -= 30;
             }
         }
 
-
         orderedPlayers[orderIndex].likes += likesUpdate;
 
-        if(orderedPlayers[orderIndex].likes < 0)
+        if (orderedPlayers[orderIndex].likes < 0)
         {
             orderedPlayers[orderIndex].likes = 0;
         }
 
         float popularityUpdate = likesUpdate * 0.02f;
 
-        if(orderedPlayers[orderIndex].fame + popularityUpdate > 5)
+        if (orderedPlayers[orderIndex].fame + popularityUpdate > 5)
         {
             popularityUpdate = 5 - orderedPlayers[orderIndex].fame;
             orderedPlayers[orderIndex].fame = 5;
@@ -469,7 +544,67 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         ComputeLostItems();
 
-        StartCoroutine(ShowOpinion(likesUpdate, popularityUpdate));
+        gameUI.ShowOpinionResults(_societyLikesValue, likesUpdate, popularityUpdate, _updateMentalHealth);
+    }
+
+    /// <summary>
+    /// Checks if a new trait must be added to the currentPlayer and adds it.
+    /// </summary>
+    private void ComputeEarnedTraits()
+    {
+        // Check for trait earned
+        if (!currentPlayer.firstTraitEarned)
+        {
+            if (currentPlayer.fame > 3)
+            {
+                // Add first random trait
+                AddRandomTrait(currentPlayer);
+                currentPlayer.firstTraitEarned = true;
+            }
+        }
+
+        if(!currentPlayer.secondTraitEarned)
+        {
+            if(currentPlayer.fame > 4)
+            {
+                // Add second random trait
+                AddRandomTrait(currentPlayer);
+                currentPlayer.secondTraitEarned = true;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Adds a random (not already owned) trait the a player.
+    /// </summary>
+    /// <param name="player">The player to add a random trait.</param>
+    private void AddRandomTrait(NetworkPlayer player)
+    {
+        List<Trait> traits = new List<Trait>(Database.positiveTraits);
+        
+        foreach(CharacterTrait charTrait in player.character.traits)
+        {
+            traits.Remove(charTrait.trait);
+        }
+
+        CharacterTrait newTrait = new CharacterTrait(traits[Random.Range(0, traits.Count)]);
+
+        player.character.traits.Add(newTrait);
+
+        photonView.RPC("SendNewTrait", RpcTarget.Others, newTrait.trait.name);
+    }
+
+    /// <summary>
+    /// Informs all other players that a new trait has been added.
+    /// </summary>
+    /// <param name="newTraitName">The name of the new trait.</param>
+    [PunRPC]
+    private void SendNewTrait(string newTraitName)
+    {
+        // Find the trait to add to the current player
+        CharacterTrait traitToAdd = new CharacterTrait(Database.positiveTraits.Find(x => x.traitName == newTraitName));
+
+        currentPlayer.character.traits.Add(traitToAdd);
     }
 
     /// <summary>
@@ -537,17 +672,20 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Shows the opinion results.
+    /// Informs all player to continue to the shopping phase.
     /// </summary>
-    /// <returns></returns>
-    private IEnumerator ShowOpinion(int likesUpdate, float popularityUpdate)
+    public void SkipOpinion()
     {
-        gameUI.ShowOpinionResults(likesUpdate, popularityUpdate);
+        photonView.RPC("SendSkipOpinion", RpcTarget.All);
+    }
 
-        yield return new WaitForSeconds(showOpinionDuration);
-
-
-        // State : Opinion -> Shopping
+    /// <summary>
+    /// Continues to the shopping after the opinion results were shown.
+    /// </summary>
+    [PunRPC]
+    private void SendSkipOpinion()
+    {
+        // Opinion -> Shopping
         MoveToNextState();
     }
 

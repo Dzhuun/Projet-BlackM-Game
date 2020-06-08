@@ -13,6 +13,8 @@ public class Database : MonoBehaviour
     private static List<Scenario> scenarios_3;
     private static List<Scenario> scenarios_4;
 
+    public static List<Trait> positiveTraits;
+
     private void Awake()
     {
         characters = Resources.LoadAll<Character>("Characters").ToList();
@@ -23,6 +25,8 @@ public class Database : MonoBehaviour
         scenarios_2 = scenarios.FindAll(x => x.starCost == 2);
         scenarios_3 = scenarios.FindAll(x => x.starCost == 3);
         scenarios_4 = scenarios.FindAll(x => x.starCost == 4);
+
+        positiveTraits = Resources.LoadAll<Trait>("Traits/Positifs").ToList();
     }
 
     public static Scenario GetScenario(float popularity, int scenarioID)

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Trait", menuName = "Game Assets/Trait")]
 public class Trait : ScriptableObject
 {
-    [UnityEngine.Serialization.FormerlySerializedAs("trait")] public string traitName;
+    public string traitName;
     public bool isNegative;
 
     public static bool operator ==(Trait v1, Trait v2)
@@ -25,6 +25,12 @@ public class CharacterTrait
     public Trait trait;
 
     [HideInInspector] public bool isActive = true;
+
+    public CharacterTrait(Trait _trait)
+    {
+        trait = _trait;
+        isActive = true;
+    }
 }
 
 [System.Serializable]
