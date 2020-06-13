@@ -40,6 +40,10 @@ public class GameUI : MonoBehaviour
     [Header("ChooseOpinion")]
     public GameObject chooseOpinionDisplay;
     public GameObject waitForOpinionDisplay;
+    public TextMeshProUGUI scenarioDescription_chooseOpinion;
+    public TextMeshProUGUI answerText_chooseOpinion;
+    public TextMeshProUGUI voteTitle;
+    public TextMeshProUGUI maxVoteText;
     public TextMeshProUGUI noteValue;
     public LikesIncrementHandler likesIncrementHandler;
 
@@ -237,7 +241,12 @@ public class GameUI : MonoBehaviour
         chooseOpinionDisplay.SetActive(!_isLocal);
         waitForOpinionDisplay.SetActive(_isLocal);
 
+        scenarioDescription_chooseOpinion.text = question;
+        answerText_chooseOpinion.text = answer;
+        voteTitle.text = string.Format("Note {0}",GameManager.currentPlayer.character.nickname.Split(' ')[0]);
+
         likesIncrementHandler.UpdateSettings(NetworkPlayer.LocalPlayerInstance.fame);
+        maxVoteText.text = string.Format("Tu peux distribuer {0} votes au maximum", LikesIncrementHandler.maxValue);
         
         //animatorUI.SetTrigger("ChooseOpinion");
     }
