@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickname: Olga Giordano
   description: 
-  avatar: {fileID: 21300000, guid: 5e334fcda7108384ca73ef4565ba770e, type: 3}
+  avatar: {fileID: 21300000, guid: f35ad53119d1da74fbbb8eb7fc38c35c, type: 3}
   traits:
   - trait: {fileID: 11400000, guid: 497e152b48f35e1479823acc041b7ed7, type: 2}
     isActive: 0

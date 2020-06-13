@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private static List<NetworkPlayer> _players = new List<NetworkPlayer>();
     private List<Answer> _answers = new List<Answer>();
     private Scenario _currentScenario;
+    private Answer _selectedAnswer;
     private int _currentIndexTurn = -1;
     private int _currentTurnCount = 0;
     private int _maxTurnCount = 0;
@@ -45,7 +46,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int _societyLikesValue = 0;
     private int _updateMentalHealth = 0;
     private int _opinionCount = 0;
-    private int _selectedAnswerID = -1;
 
     #region MonoBehaviour
     private void Awake()
@@ -325,15 +325,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="answerID">The ID of the selected answer.</param>
     public void SelectAnswer(int answerID)
     {
-        Answer selectedAnswer = _answers[answerID - 1];
-        _societyLikesValue = selectedAnswer.likesValue;
+        _selectedAnswer = _answers[answerID - 1];
+        _societyLikesValue = _selectedAnswer.likesValue;
         _updateMentalHealth = 0;
 
         bool traitRespected = false;
 
         // Check all the respected traits
         // Add or remove mental health depending whether the traits were respected or not
-        foreach (AnswerTrait answerTrait in selectedAnswer.traits)
+        foreach (AnswerTrait answerTrait in _selectedAnswer.traits)
         {
             traitRespected = false;
 
@@ -414,7 +414,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void ReceiveSelectedAnswer(int answerID, int societyLikes, int mentalHealthUpdate)
     {
-        _selectedAnswerID = answerID;
+        _selectedAnswer = _answers[answerID - 1];
         _societyLikesValue = societyLikes;
 
         _updateMentalHealth = ComputeMentalHealth(mentalHealthUpdate);
@@ -445,16 +445,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         _playersLikes = new int[PhotonNetwork.CurrentRoom.PlayerCount - 1];
 
-        gameUI.ShowChooseOpinion(_selectedAnswerID);
+        gameUI.ShowChooseOpinion(_selectedAnswer.text, _currentScenario.description);
     }
 
     /// <summary>
     /// Gives an opinion on a player's choice.
     /// </summary>
     /// <param name="value">The opinion value given.</param>
-    public void GiveOpinion(Slider slider)
+    public void GiveOpinion()
     {
-        photonView.RPC("ReceiveOpinion", RpcTarget.All, (int)slider.value);
+        photonView.RPC("ReceiveOpinion", RpcTarget.All, (int)LikesIncrementHandler.noteValue);
     }
 
     /// <summary>
@@ -478,8 +478,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
                 // In order to check if a trait was earned or not
                 ComputeEarnedTraits();
-
-                //
+                
                 photonView.RPC("ComputeLikes", RpcTarget.Others, NetworkPlayer.LocalPlayerInstance.orderIndex, _playersLikes, _societyLikesValue);
             }
         }
@@ -529,8 +528,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             orderedPlayers[orderIndex].likes = 0;
         }
-
+        
         float popularityUpdate = likesUpdate * 0.02f;
+
+        // Correcting some floating point precision error (hoping it really does)
+        popularityUpdate = Mathf.Round(popularityUpdate * 100) / 100;
 
         if (orderedPlayers[orderIndex].fame + popularityUpdate > 5)
         {
@@ -634,9 +636,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Travail, currentPlayer.work.level, (int)popularityLevel);
         }
 
-        if (currentPlayer.entourage.level > popularityLevel)
+        if (currentPlayer.friends.level > popularityLevel)
         {
-            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Entourage, currentPlayer.entourage.level, (int)popularityLevel);
+            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Amis, currentPlayer.friends.level, (int)popularityLevel);
+        }
+
+        if (currentPlayer.family.level > popularityLevel)
+        {
+            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Famille, currentPlayer.family.level, (int)popularityLevel);
         }
     }
 
@@ -661,12 +668,16 @@ public class GameManager : MonoBehaviourPunCallbacks
                 currentPlayer.work.level = newLevel;
                 break;
 
-            case ItemType.Entourage:
-                currentPlayer.entourage.level = newLevel;
+            case ItemType.Amis:
+                currentPlayer.friends.level = newLevel;
                 break;
 
             case ItemType.Maison:
                 currentPlayer.house.level = newLevel;
+                break;
+
+            case ItemType.Famille:
+                currentPlayer.family.level = newLevel;
                 break;
         }
     }
@@ -705,8 +716,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static void BuyUpgrade(ItemType itemType, int upgradeCost)
     {
         currentPlayer.BuyUpgrade(itemType, upgradeCost);
-
-        gameUI.UpdateShop();
     }
 
     /// <summary>

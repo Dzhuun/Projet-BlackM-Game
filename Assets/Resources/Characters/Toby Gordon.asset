@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickname: Toby Gordon
   description: 
-  avatar: {fileID: 21300000, guid: 92fe90a89e0243e468ecda552e747378, type: 3}
+  avatar: {fileID: 21300000, guid: 5c6dcd99a93c2d545979f5f5f375a9d8, type: 3}
   traits:
   - trait: {fileID: 11400000, guid: 497e152b48f35e1479823acc041b7ed7, type: 2}
     isActive: 1

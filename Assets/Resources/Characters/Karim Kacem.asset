@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nickname: Karim Kacem
   description: 
-  avatar: {fileID: 21300000, guid: cba24723c6eac8946a3c7548bd4d44b1, type: 3}
+  avatar: {fileID: 21300000, guid: 03c4227d264be944a93be7fd96b163e9, type: 3}
   traits:
   - trait: {fileID: 11400000, guid: 497e152b48f35e1479823acc041b7ed7, type: 2}
     isActive: 0

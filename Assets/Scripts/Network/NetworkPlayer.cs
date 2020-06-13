@@ -69,9 +69,14 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     public Item work;
 
     /// <summary>
-    /// The entourage item of the player.
+    /// The family item of the player.
     /// </summary>
-    public Item entourage;
+    public Item family;
+
+    /// <summary>
+    /// The friends item of the player.
+    /// </summary>
+    public Item friends;
 
     /// <summary>
     /// Indicates whether the player has earned it's first trait (after reaching 3.0 of fame).
@@ -108,7 +113,8 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
         car = new Item(ItemType.Voiture);
         house = new Item(ItemType.Maison);
         work = new Item(ItemType.Travail);
-        entourage = new Item(ItemType.Entourage);
+        friends = new Item(ItemType.Amis);
+        family = new Item(ItemType.Famille);
     }
 
     /// <summary>
@@ -190,14 +196,19 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
                 house.level++;
                 break;
 
-            case ItemType.Entourage:
+            case ItemType.Amis:
 
-                entourage.level++;
+                friends.level++;
                 break;
 
             case ItemType.Travail:
 
                 work.level++;
+                break;
+
+            case ItemType.Famille:
+
+                family.level++;
                 break;
         }
     }

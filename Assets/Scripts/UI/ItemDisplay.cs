@@ -2,26 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemDisplay : MonoBehaviour
 {
-    public Text itemLevelValue;
-    public Text upgradeCostValue;
-    public Text upgradeCostText;
-    public Text buttonText;
-    public Button buyButton;
+    [Header("Settings")]
     public ItemType itemType;
+    public List<GameObject> stars;
 
-    private int _upgradeCost = 0;
+    protected int currentItemLevel = 0;
 
-    private void Awake()
+    /// <summary>
+    /// Updates the informations of the item.
+    /// </summary>
+    public virtual void SetupInfos()
     {
-        buyButton.interactable = false;
-    }
-
-    public void SetupInfos()
-    {
-        int currentItemLevel = 0;
+        currentItemLevel = 0;
 
         switch(itemType)
         {
@@ -40,9 +36,14 @@ public class ItemDisplay : MonoBehaviour
                 currentItemLevel = GameManager.currentPlayer.work.level;
                 break;
 
-            case ItemType.Entourage:
+            case ItemType.Amis:
 
-                currentItemLevel = GameManager.currentPlayer.entourage.level;
+                currentItemLevel = GameManager.currentPlayer.friends.level;
+                break;
+
+            case ItemType.Famille:
+
+                currentItemLevel = GameManager.currentPlayer.family.level;
                 break;
 
             default:
@@ -50,43 +51,10 @@ public class ItemDisplay : MonoBehaviour
                 return;
         }
 
-        if(currentItemLevel == 5)
+        for (int i = 0; i < stars.Count; i++)
         {
-            buyButton.interactable = false;
-            buttonText.text = "Niveau Max";
-            upgradeCostText.gameObject.SetActive(false);
-            upgradeCostValue.gameObject.SetActive(false);
-            itemLevelValue.text = currentItemLevel.ToString();
-            
-            return;
+            stars[i].SetActive(i < currentItemLevel);
         }
-
-        // The cost is equal to the base cost (10) plus the next level upgrade * 10
-        _upgradeCost = 10 * (currentItemLevel + 2);
-
-        // Activate the upgrade button only if the player has enough likes
-        if(_upgradeCost <= GameManager.currentPlayer.likes)
-        {
-            buyButton.interactable = true;
-        }
-        else
-        {
-            buyButton.interactable = false;
-        }
-
-        buttonText.text = string.Format("Acheter Niv.{0}", currentItemLevel + 1);
-
-        upgradeCostText.gameObject.SetActive(true);
-        upgradeCostValue.gameObject.SetActive(true);
-        itemLevelValue.text = currentItemLevel.ToString();
-        upgradeCostValue.text = _upgradeCost.ToString();
     }
 
-    /// <summary>
-    /// Upgrade an item.
-    /// </summary>
-    public void BuyUpgrade()
-    {
-        GameManager.BuyUpgrade(itemType, _upgradeCost);
-    }
 }

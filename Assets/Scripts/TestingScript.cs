@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class TestingScript : MonoBehaviour
 {
-    private void OnEnable()
+    private void OnMouseOver()
     {
-        Debug.Log("On Enable");
+        Debug.Log("Over");
+        
     }
 
-    private void OnDisable()
+    private void OnMouseDown()
     {
-        Debug.Log("On Disable");
+        Debug.Log("Down");
     }
 }

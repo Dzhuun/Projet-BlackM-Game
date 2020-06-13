@@ -9,7 +9,7 @@ public class Item
 
     public Item(ItemType itemType)
     {
-        level = 1;
+        level = 2;
         _itemType = itemType;
     }
 }
@@ -19,5 +19,6 @@ public enum ItemType
     Maison,
     Voiture,
     Travail,
-    Entourage
+    Amis,
+    Famille
 }

@@ -22,13 +22,11 @@ public class GameUI : MonoBehaviour
 
     [Header("Start")]
     public GameObject charactersDisplay;
-    public List<CharacterDisplay> charactersStartInfos;
 
     [Header("DrawCard")]
     public GameObject drawCardDisplay;
     public GameObject waitForDrawCardDisplay;
     public Text waitingDrawText;
-    public List<CharacterDisplay> charactersDrawInfos;
 
     [Header("Answer")]
     public GameObject answerDisplay;
@@ -42,8 +40,9 @@ public class GameUI : MonoBehaviour
     [Header("ChooseOpinion")]
     public GameObject chooseOpinionDisplay;
     public GameObject waitForOpinionDisplay;
-    public LikesSlider likesSlider;
-    public List<CharacterDisplay> charactersOpinionInfos;
+    public TextMeshProUGUI noteValue;
+    public LikesIncrementHandler likesIncrementHandler;
+
 
     [Header("ShowOpinion")]
     public GameObject showOpinionDisplay;
@@ -60,18 +59,16 @@ public class GameUI : MonoBehaviour
     [Header("Shopping")]
     public GameObject shoppingDisplay;
     public GameObject waitForShoppingDisplay;
-    public TextMeshProUGUI likesCountText;
 
     private bool _isLocal;
     private NetworkPlayer _currentPlayer;
     private NetworkPlayer _observedPlayer;
-    private CharacterDisplay[] _allCharacterDisplays;
-    private ItemDisplay[] _allItemDisplays;
+
+    public static GameUI Instance { get; private set; }
 
     private void Awake()
     {
-        _allCharacterDisplays = Resources.FindObjectsOfTypeAll<CharacterDisplay>();
-        _allItemDisplays = Resources.FindObjectsOfTypeAll<ItemDisplay>();
+        Instance = this;
 
         drawCardDisplay.SetActive(false);
         waitForDrawCardDisplay.SetActive(false);
@@ -81,27 +78,6 @@ public class GameUI : MonoBehaviour
         showOpinionDisplay.SetActive(false);
         waitForOpinionDisplay.SetActive(false);
         shoppingDisplay.SetActive(false);
-    }
-    
-    /// <summary>
-    /// Displays the character assigned to each player.
-    /// </summary>
-    public void DisplayCharacters()
-    {
-        charactersDisplay.SetActive(true);
-
-        for(int i = 0; i < charactersStartInfos.Count; i++)
-        {
-            if(i < GameManager.orderedPlayers.Count)
-            {
-                charactersStartInfos[i].gameObject.SetActive(true);
-                charactersStartInfos[i].SetupInfos(GameManager.orderedPlayers[i].character.nickname, GameManager.orderedPlayers[i].PlayerName, GameManager.orderedPlayers[i].character.avatar);
-            }
-            else
-            {
-                charactersStartInfos[i].gameObject.SetActive(false);
-            }
-        }
     }
 
     /// <summary>
@@ -182,20 +158,6 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Initializes the UI that displays the currently playing character.
-    /// This function is called in an animation event, during the DrawCard animation.
-    /// </summary>
-    public void InitializeCharactersDisplay()
-    {
-        foreach (CharacterDisplay charDisplay in _allCharacterDisplays)
-        {
-            charDisplay.SetupInfos(_currentPlayer.character.nickname,
-                                   _currentPlayer.PlayerName,
-                                   _currentPlayer.character.avatar);
-        }
-    }
-
-    /// <summary>
     /// Shows the draw card display. If it is the local player's turn, show the corresponding UI.
     /// </summary>
     /// <param name="currentPlayer">True if it is the local player's turn.</param>
@@ -267,7 +229,7 @@ public class GameUI : MonoBehaviour
     /// Activates the UI that shows the opinion to give.
     /// </summary>
     /// <param name="answerID">The ID of the answer.</param>
-    public void ShowChooseOpinion(int answerID)
+    public void ShowChooseOpinion(string answer, string question)
     {
         answerDisplay.SetActive(false);
         waitForAnswerDisplay.SetActive(false);
@@ -275,9 +237,18 @@ public class GameUI : MonoBehaviour
         chooseOpinionDisplay.SetActive(!_isLocal);
         waitForOpinionDisplay.SetActive(_isLocal);
 
-        likesSlider.UpdateSettings(NetworkPlayer.LocalPlayerInstance.fame);
+        likesIncrementHandler.UpdateSettings(NetworkPlayer.LocalPlayerInstance.fame);
         
         //animatorUI.SetTrigger("ChooseOpinion");
+    }
+
+    /// <summary>
+    /// Updates the displayed value of the note given.
+    /// </summary>
+    /// <param name="newValue">The new value to display.</param>
+    public void UpdateOpinion(float newValue)
+    {
+        noteValue.text = newValue.ToString();
     }
 
     public void AddLostItem(ItemType itemType, int previousLevel, int newLevel)
@@ -350,30 +321,9 @@ public class GameUI : MonoBehaviour
         shoppingDisplay.SetActive(_isLocal);
         waitForShoppingDisplay.SetActive(!_isLocal);
 
-        if(_isLocal)
-        {
-            foreach(ItemDisplay itemDisplay in _allItemDisplays)
-            {
-                itemDisplay.SetupInfos();
-            }
-        }
-
-        //likesCountText.text = GameManager.currentPlayer.likes.ToString();
+        ShopManager.Instance.UpdateDisplays();
 
         //animatorUI.SetTrigger("Shop");
-    }
-
-    /// <summary>
-    /// Updates the shop UI.
-    /// </summary>
-    public void UpdateShop()
-    {
-        foreach (ItemDisplay itemDisplay in _allItemDisplays)
-        {
-            itemDisplay.SetupInfos();
-        }
-        
-        likesCountText.text = GameManager.currentPlayer.likes.ToString();
     }
 
     /// <summary>

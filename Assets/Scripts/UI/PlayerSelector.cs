@@ -7,6 +7,7 @@ public class PlayerSelector : MonoBehaviour
 {
     public NetworkPlayer displayedPlayer;
     public Image avatar;
+    public Image outline;
 
     /// <summary>
     /// Changes the information of the selector.
@@ -16,5 +17,6 @@ public class PlayerSelector : MonoBehaviour
     {
         displayedPlayer = player;
         avatar.sprite = displayedPlayer.character.avatar;
+        outline.gameObject.SetActive(player == NetworkPlayer.LocalPlayerInstance);
     }
 }
