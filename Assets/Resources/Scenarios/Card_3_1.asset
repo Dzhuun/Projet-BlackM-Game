@@ -74,7 +74,7 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: 211c90b6d30e8cc42b507225240fc219, type: 2}
       traitRespected: 10
       traitNotRespected: -5
-    - trait: {fileID: 0}
+    - trait: {fileID: 11400000, guid: 92a1b70f3040444449fc404f71baeb93, type: 2}
       traitRespected: 3
       traitNotRespected: -45
     - trait: {fileID: 0}
@@ -93,7 +93,7 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: e5319631c7c9a604ebf3e9f2f664f2db, type: 2}
       traitRespected: 10
       traitNotRespected: -5
-    - trait: {fileID: 0}
+    - trait: {fileID: 11400000, guid: 92413ec6c162c524b8f7c5709db7e881, type: 2}
       traitRespected: 3
       traitNotRespected: -45
     - trait: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: 5faf2bf1b02fe9242a594cf48f8b4e00, type: 2}
       traitRespected: 10
       traitNotRespected: -5
-    - trait: {fileID: 0}
+    - trait: {fileID: 11400000, guid: 92413ec6c162c524b8f7c5709db7e881, type: 2}
       traitRespected: 3
       traitNotRespected: -45
     - trait: {fileID: 0}
@@ -131,7 +131,7 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: 736555bc1981bb5409c9d73d057d8988, type: 2}
       traitRespected: 10
       traitNotRespected: -5
-    - trait: {fileID: 0}
+    - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
       traitRespected: 3
       traitNotRespected: -45
     - trait: {fileID: 0}

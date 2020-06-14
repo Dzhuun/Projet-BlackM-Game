@@ -75,6 +75,9 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: 211c90b6d30e8cc42b507225240fc219, type: 2}
       traitRespected: 10
       traitNotRespected: -5
+    - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}
+      traitRespected: 10
+      traitNotRespected: -5
     character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
   - text: " Je lui propose d\u2019\xE9changer contre un autre mod\xE8le. "
     likesValue: 5
@@ -86,6 +89,9 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
     - trait: {fileID: 11400000, guid: e5319631c7c9a604ebf3e9f2f664f2db, type: 2}
+      traitRespected: 10
+      traitNotRespected: -5
+    - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
       traitRespected: 10
       traitNotRespected: -5
     character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
@@ -101,6 +107,9 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: be7b88e254ba08a4a8d73e8b7b8fc01c, type: 2}
       traitRespected: 10
       traitNotRespected: -5
+    - trait: {fileID: 11400000, guid: 80f232a101df311409ed662d778dacce, type: 2}
+      traitRespected: 10
+      traitNotRespected: -5
     character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
   - text: "Je lui propose d\u2019\xE9changer le m\xEAme mod\xE8le."
     likesValue: 5
@@ -112,6 +121,9 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
     - trait: {fileID: 11400000, guid: 736555bc1981bb5409c9d73d057d8988, type: 2}
+      traitRespected: 10
+      traitNotRespected: -5
+    - trait: {fileID: 11400000, guid: ef026e37720128f4db56fa54fc564361, type: 2}
       traitRespected: 10
       traitNotRespected: -5
     character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
