@@ -20,46 +20,46 @@ MonoBehaviour:
   - text: "Je les envoie dans le priv\xE9."
     likesValue: 30
     traits:
-    - trait: {fileID: 11400000, guid: 1cc9eadc62999bf4e8e7159bdc45b598, type: 2}
-      traitRespected: 10
-      traitNotRespected: -5
     - trait: {fileID: 11400000, guid: be7b88e254ba08a4a8d73e8b7b8fc01c, type: 2}
       traitRespected: 10
-      traitNotRespected: -5
+      traitNotRespected: -2
     - trait: {fileID: 11400000, guid: 211c90b6d30e8cc42b507225240fc219, type: 2}
       traitRespected: 10
+      traitNotRespected: -2
+    - trait: {fileID: 11400000, guid: 736555bc1981bb5409c9d73d057d8988, type: 2}
+      traitRespected: 10
       traitNotRespected: -5
-    - trait: {fileID: 11400000, guid: 16296033f9b02044fb7d24bb0419a973, type: 2}
+    - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}
       traitRespected: 10
       traitNotRespected: -5
   - text: "Je les envoie en \xE9cole publique."
     likesValue: 20
     traits:
-    - trait: {fileID: 11400000, guid: 80f232a101df311409ed662d778dacce, type: 2}
-      traitRespected: 10
-      traitNotRespected: -5
     - trait: {fileID: 11400000, guid: 16296033f9b02044fb7d24bb0419a973, type: 2}
       traitRespected: 10
-      traitNotRespected: -5
-    - trait: {fileID: 11400000, guid: 736555bc1981bb5409c9d73d057d8988, type: 2}
+      traitNotRespected: -2
+    - trait: {fileID: 11400000, guid: 81681b5bc28ac134784fbc25e59c465e, type: 2}
       traitRespected: 10
-      traitNotRespected: -5
-    - trait: {fileID: 11400000, guid: 8410c41b744e52c458d89aadcb19f7a9, type: 2}
+      traitNotRespected: -2
+    - trait: {fileID: 11400000, guid: 5faf2bf1b02fe9242a594cf48f8b4e00, type: 2}
+      traitRespected: 10
+      traitNotRespected: -2
+    - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
       traitRespected: 10
       traitNotRespected: -5
   - text: "Je les envoie dans une \xE9cole religieuse."
     likesValue: 10
     traits:
-    - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
-      traitRespected: 10
-      traitNotRespected: -5
     - trait: {fileID: 11400000, guid: e5319631c7c9a604ebf3e9f2f664f2db, type: 2}
       traitRespected: 10
-      traitNotRespected: -5
-    - trait: {fileID: 11400000, guid: 81681b5bc28ac134784fbc25e59c465e, type: 2}
-      traitRespected: 10
-      traitNotRespected: -5
+      traitNotRespected: -2
     - trait: {fileID: 11400000, guid: 649686944069ed8488cdc42bbf157959, type: 2}
+      traitRespected: 10
+      traitNotRespected: -2
+    - trait: {fileID: 11400000, guid: 8410c41b744e52c458d89aadcb19f7a9, type: 2}
+      traitRespected: 10
+      traitNotRespected: -2
+    - trait: {fileID: 11400000, guid: 92a1b70f3040444449fc404f71baeb93, type: 2}
       traitRespected: 10
       traitNotRespected: -2
   specificAnswers:
@@ -68,7 +68,7 @@ MonoBehaviour:
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
       traitRespected: 20
-      traitNotRespected: -5
+      traitNotRespected: -2
     - trait: {fileID: 11400000, guid: 81681b5bc28ac134784fbc25e59c465e, type: 2}
       traitRespected: 10
       traitNotRespected: -5
@@ -87,7 +87,7 @@ MonoBehaviour:
     traits:
     - trait: {fileID: 11400000, guid: 7d4a84a3d5ce4544db9af25dabc62426, type: 2}
       traitRespected: 20
-      traitNotRespected: -5
+      traitNotRespected: -2
     - trait: {fileID: 11400000, guid: 8410c41b744e52c458d89aadcb19f7a9, type: 2}
       traitRespected: 10
       traitNotRespected: -5
@@ -106,7 +106,7 @@ MonoBehaviour:
     traits:
     - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}
       traitRespected: 20
-      traitNotRespected: -5
+      traitNotRespected: -2
     - trait: {fileID: 11400000, guid: be7b88e254ba08a4a8d73e8b7b8fc01c, type: 2}
       traitRespected: 10
       traitNotRespected: -5
@@ -125,7 +125,7 @@ MonoBehaviour:
     traits:
     - trait: {fileID: 11400000, guid: 92a1b70f3040444449fc404f71baeb93, type: 2}
       traitRespected: 20
-      traitNotRespected: -5
+      traitNotRespected: -2
     - trait: {fileID: 11400000, guid: 649686944069ed8488cdc42bbf157959, type: 2}
       traitRespected: 10
       traitNotRespected: -5
