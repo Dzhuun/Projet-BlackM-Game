@@ -13,10 +13,19 @@ MonoBehaviour:
   m_Name: Garence Leopold
   m_EditorClassIdentifier: 
   nickname: Garence Leopold
-  description: 
-  avatar: {fileID: 21300000, guid: defa7b47f9e251942a5ba1140d58add6, type: 3}
+  description: "Bien qu\u2019agr\xE9able et superficielle au premier abord, elle sait
+    tr\xE8s bien ce qu\u2019elle fait et ce qu\u2019elle dit. Suivre ses objectifs
+    est son principal leitmotiv, et ne laissera pas le hasard se mettre en travers
+    de son chemin. Elle n\u2019h\xE9sitera d\u2019ailleurs pas \xE0 partager ses r\xE9ussites."
+  avatar: {fileID: 21300000, guid: 3b5e23c44bb767641a0657edbfc8f40d, type: 3}
   traits:
-  - trait: {fileID: 11400000, guid: 497e152b48f35e1479823acc041b7ed7, type: 2}
+  - trait: {fileID: 11400000, guid: be7b88e254ba08a4a8d73e8b7b8fc01c, type: 2}
     isActive: 1
-  - trait: {fileID: 11400000, guid: 6d217d114b7cfea4c9cb273c12f1633d, type: 2}
+  - trait: {fileID: 11400000, guid: 5faf2bf1b02fe9242a594cf48f8b4e00, type: 2}
+    isActive: 1
+  - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}
+    isActive: 1
+  - trait: {fileID: 0}
+    isActive: 1
+  - trait: {fileID: 0}
     isActive: 1
