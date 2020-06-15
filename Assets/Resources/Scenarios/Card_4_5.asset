@@ -54,7 +54,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
   specificAnswers:
-  - text: "Je lui explique que des personnes sp\xE9cialis\xE9s peuvent l\u2019aider."
+  - text: "Je lui explique que des personnes sp\xE9cialis\xE9es peuvent l\u2019aider."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}

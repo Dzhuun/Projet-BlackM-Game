@@ -91,7 +91,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
-  - text: "Je le compare \xE0 mes meilleures r\xE9ussites."
+  - text: "Je lui montre que j\u2019ai d\xE9j\xE0 pu faire mieux. "
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}

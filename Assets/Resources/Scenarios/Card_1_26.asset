@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Card_1_26
   m_EditorClassIdentifier: 
   id: 26
-  description: "Un suppl\xE9ment d\u2019imp\xF4t, sans raison particuli\xE8re, m\u2019est
-    demand\xE9 :"
+  description: "On demande de me mettre \xE0 jour sur le versement de mes imp\xF4ts
+    d\xE9j\xE0 pay\xE9s :"
   starCost: 1
   commonAnswers:
   - text: Je vais poser des questions.

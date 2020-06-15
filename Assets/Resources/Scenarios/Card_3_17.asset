@@ -81,7 +81,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
-  - text: "Je s\xE9lectionne ce qui est visible."
+  - text: "Je s\xE9lectionne ce qu\u2019il pourra voir sur mon profil."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 7d4a84a3d5ce4544db9af25dabc62426, type: 2}

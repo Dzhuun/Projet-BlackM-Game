@@ -73,7 +73,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
-  - text: "J\u2019essaye de d\xE9tourner la raison de mon \xE9nervement face aux gens"
+  - text: "Je pr\xE9texte \xEAtre \xE9nerv\xE9(e) pour autre chose."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 7d4a84a3d5ce4544db9af25dabc62426, type: 2}
@@ -92,7 +92,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
-  - text: Je me demande un massage/fais yoga.
+  - text: "Je m\xE9dite int\xE9rieurement."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}

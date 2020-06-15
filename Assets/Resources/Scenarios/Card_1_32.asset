@@ -85,7 +85,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
-  - text: "Je cherche \xE0 mettre en valeur un autre bouc \xE9missaire."
+  - text: "Je fais en sorte qu\u2019une autre personne soit le centre de l\u2019attention."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}

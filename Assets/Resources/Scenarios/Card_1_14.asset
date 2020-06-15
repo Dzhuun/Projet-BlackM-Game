@@ -53,7 +53,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
   specificAnswers:
-  - text: "Je n\u2019h\xE9site pas \xE0 me battre pour ne pas y aller."
+  - text: ' Je refuse en faisant tout pour ne pas y aller. '
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}

@@ -54,13 +54,13 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
   specificAnswers:
-  - text: "J\u2019essaye une tentative d\xE9sesp\xE9r\xE9e."
+  - text: "Je me d\xE9fends pr\xEAt(e) \xE0 en venir aux mains"
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
       traitRespected: 20
       traitNotRespected: -2
-    - trait: {fileID: 11400000, guid: b3c463fee7c74594c9d410d3aa71709c, type: 2}
+    - trait: {fileID: 11400000, guid: 7d4a84a3d5ce4544db9af25dabc62426, type: 2}
       traitRespected: 10
       traitNotRespected: -5
     - trait: {fileID: 11400000, guid: ef026e37720128f4db56fa54fc564361, type: 2}

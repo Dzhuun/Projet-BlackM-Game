@@ -62,7 +62,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -2
   specificAnswers:
-  - text: Je le mets sur mon profil.
+  - text: Je mets la pub sur mon profil.
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}

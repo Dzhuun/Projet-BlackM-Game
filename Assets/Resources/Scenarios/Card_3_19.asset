@@ -62,7 +62,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -2
   specificAnswers:
-  - text: Je lui demande des comptes.
+  - text: "Je lui demande s\u2019il peut faire la queue comme tout le monde."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
@@ -100,7 +100,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
-  - text: "Je fais une remarque sur la chance des 4 \xE9toiles.."
+  - text: "Je fais une remarque sur la chance des 4 \xE9toiles."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}
