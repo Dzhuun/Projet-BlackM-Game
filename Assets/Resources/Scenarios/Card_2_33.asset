@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_2_33
   m_EditorClassIdentifier: 
-  id: 0
+  id: 33
   description: "Au travail, je suis plus comp\xE9tent(e) que mon chef :"
   starCost: 2
   commonAnswers:
