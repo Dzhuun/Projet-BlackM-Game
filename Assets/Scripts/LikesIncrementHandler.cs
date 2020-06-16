@@ -30,6 +30,8 @@ public class LikesIncrementHandler : MonoBehaviour
         }
 
         noteValue = 0;
+
+        GameUI.Instance.UpdateOpinion(noteValue);
     }
 
     public static void IncrementNote(float increment)

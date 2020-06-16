@@ -9,5 +9,13 @@ public class Character : ScriptableObject
     public string description;
     public Sprite avatar;
 	public List<CharacterTrait> traits;
+
+    public Character(Character charToCopy)
+    {
+        nickname = charToCopy.nickname;
+        description = charToCopy.description;
+        avatar = charToCopy.avatar;
+        traits = new List<CharacterTrait>(charToCopy.traits);
+    }
 }
 

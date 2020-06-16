@@ -17,7 +17,13 @@ public class Database : MonoBehaviour
 
     private void Awake()
     {
-        characters = Resources.LoadAll<Character>("Characters").ToList();
+        // Load the character resources and copy them in order to modify the copy and not the resources
+        List<Character> tempCharList = Resources.LoadAll<Character>("Characters").ToList();
+        characters = new List<Character>();
+        foreach(Character charac in tempCharList)
+        {
+            characters.Add(new Character(charac));
+        }
 
         scenarios = Resources.LoadAll<Scenario>("Scenarios").ToList();
         

@@ -40,6 +40,9 @@ public class GameUI : MonoBehaviour
     [Header("ChooseOpinion")]
     public GameObject chooseOpinionDisplay;
     public GameObject waitForOpinionDisplay;
+    public Button validateOpinionButton;
+    public GameObject validatedOpinionIcon;
+    public GameObject validateOpinionText;
     public TextMeshProUGUI scenarioDescription_chooseOpinion;
     public TextMeshProUGUI answerText_chooseOpinion;
     public TextMeshProUGUI voteTitle;
@@ -50,14 +53,16 @@ public class GameUI : MonoBehaviour
 
     [Header("ShowOpinion")]
     public GameObject showOpinionDisplay;
+    public TextMeshProUGUI scenarioDescription_showOpinion;
+    public TextMeshProUGUI answerText_showOpinion;
+    public TextMeshProUGUI positivePlayersLikesUpdateValue;
+    public TextMeshProUGUI negativePlayersLikesUpdateValue;
     public TextMeshProUGUI societyLikesUpdateValue;
+    public Image societyLikesUpdateIcon;
     public TextMeshProUGUI likesUpdateValue;
     public TextMeshProUGUI fameUpdateValue;
     public TextMeshProUGUI mentalHealthUpdateValue;
-    public TextMeshProUGUI likesValue;
-    public TextMeshProUGUI fameValue;
     public TextMeshProUGUI mentalHealthValue;
-    public TextMeshProUGUI itemsLostText;
     public Button skipOpinionButton;
 
     [Header("Shopping")]
@@ -133,7 +138,7 @@ public class GameUI : MonoBehaviour
     public void ShowPlayerInfos(NetworkPlayer player)
     {
         // Display texts
-        playerName.text = player.character.name;
+        playerName.text = player.character.nickname;
         playerFame.text = player.fame.ToString("F2");
         playerLikes.text = player.likes.ToString();
         playerDescription.text = player.character.description;
@@ -159,6 +164,14 @@ public class GameUI : MonoBehaviour
        
         // Remove the first two char which are a coma and a white space
         traitsList.text = traitsText.Remove(0, 2);
+    }
+
+    /// <summary>
+    /// Refreshes the informations of the player.
+    /// </summary>
+    public void RefreshPlayerInfos()
+    {
+        ShowPlayerInfos(_observedPlayer);
     }
 
     /// <summary>
@@ -210,6 +223,7 @@ public class GameUI : MonoBehaviour
         // Find the answer that correspond to the current character then setups the UI
         answers[3].SetupInfos(scenario.specificAnswers.Find(x => x.character.nickname == character.nickname));
         scenarioDescription.text = scenario.description;
+        scenarioDescriptionWhenWaiting.text = scenario.description;
 
         // Randomize answers order
         List<int> transformOrder = new List<int>();
@@ -238,8 +252,14 @@ public class GameUI : MonoBehaviour
         answerDisplay.SetActive(false);
         waitForAnswerDisplay.SetActive(false);
 
+        RefreshPlayerInfos();
+
         chooseOpinionDisplay.SetActive(!_isLocal);
         waitForOpinionDisplay.SetActive(_isLocal);
+
+        validateOpinionButton.interactable = true;
+        validateOpinionText.SetActive(true);
+        validatedOpinionIcon.SetActive(false);
 
         scenarioDescription_chooseOpinion.text = question;
         answerText_chooseOpinion.text = answer;
@@ -252,6 +272,16 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
+    /// Called when validating the opinion. Deactivates the validate button.
+    /// </summary>
+    public void DeactivateOpinionButton()
+    {
+        validateOpinionButton.interactable = false;
+        validateOpinionText.SetActive(false);
+        validatedOpinionIcon.SetActive(true);
+    }
+
+    /// <summary>
     /// Updates the displayed value of the note given.
     /// </summary>
     /// <param name="newValue">The new value to display.</param>
@@ -260,22 +290,36 @@ public class GameUI : MonoBehaviour
         noteValue.text = newValue.ToString();
     }
 
+    /// <summary>
+    /// Registers a lost item.
+    /// </summary>
+    /// <param name="itemType"></param>
+    /// <param name="previousLevel"></param>
+    /// <param name="newLevel"></param>
     public void AddLostItem(ItemType itemType, int previousLevel, int newLevel)
     {
-        itemsLostText.text = string.Format("{0} Vous avez perdu votre {1} niveau {2}. Ce bien a été rétrogradé au niveau {3}.", itemsLostText.text, itemType.ToString(), previousLevel, newLevel);
+        //itemsLostText.text = string.Format("{0} Vous avez perdu votre {1} niveau {2}. Ce bien a été rétrogradé au niveau {3}.", itemsLostText.text, itemType.ToString(), previousLevel, newLevel);
     }
 
     /// <summary>
     /// Activates the UI that shows the results of the opinion phase.
     /// </summary>
-    public void ShowOpinionResults(int societyLikes, int likesUpdate, float popularityUpdate, int mentalHealthUpdate)
+    public void ShowOpinionResults(int positivePlayersLikes, int negativePlayersLikes, int societyLikes, int mentalHealthDislikes, int totalLikesUpdate, float popularityUpdate, string answer, string situation)
     {
         chooseOpinionDisplay.SetActive(false);
         waitForOpinionDisplay.SetActive(false);
 
         showOpinionDisplay.SetActive(true);
 
+        RefreshPlayerInfos();
+
         skipOpinionButton.gameObject.SetActive(_isLocal);
+
+        scenarioDescription_showOpinion.text = situation;
+        answerText_showOpinion.text = answer;
+
+        positivePlayersLikesUpdateValue.text = string.Format("+{0}", positivePlayersLikes);
+        negativePlayersLikesUpdateValue.text = negativePlayersLikes.ToString();
 
         if (societyLikes > 0)
         {
@@ -286,13 +330,15 @@ public class GameUI : MonoBehaviour
             societyLikesUpdateValue.text = societyLikes.ToString();
         }
 
-        if (likesUpdate > 0)
+        societyLikesUpdateIcon.rectTransform.localScale = new Vector3(1, societyLikes >= 0 ? 1 : -1);
+
+        if (totalLikesUpdate > 0)
         {
-            likesUpdateValue.text = string.Format("+{0}", likesUpdate);
+            likesUpdateValue.text = string.Format("+{0}", totalLikesUpdate);
         }
         else
         {
-            likesUpdateValue.text = likesUpdate.ToString();
+            likesUpdateValue.text = totalLikesUpdate.ToString();
         }
 
         if(popularityUpdate > 0)
@@ -303,15 +349,8 @@ public class GameUI : MonoBehaviour
         {
             fameUpdateValue.text = popularityUpdate.ToString("F2");
         }
-
-        if(mentalHealthUpdate > 0)
-        {
-            mentalHealthUpdateValue.text = string.Format("+{0}", mentalHealthUpdate);
-        }
-        else
-        {
-            mentalHealthUpdateValue.text = mentalHealthUpdate.ToString();
-        }
+        
+        mentalHealthUpdateValue.text = mentalHealthDislikes.ToString();    
 
         //likesValue.text = GameManager.currentPlayer.likes.ToString();
         //fameValue.text = GameManager.currentPlayer.fame.ToString("F2");

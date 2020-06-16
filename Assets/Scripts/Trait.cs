@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Trait", menuName = "Game Assets/Trait")]
 public class Trait : ScriptableObject
 {
-    public string traitName;
+    public string traitName = "Ambitieux";
     public bool isNegative;
 
     public static bool operator ==(Trait v1, Trait v2)

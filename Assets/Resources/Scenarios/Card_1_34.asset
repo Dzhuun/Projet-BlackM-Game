@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_1_34
   m_EditorClassIdentifier: 
-  id: 134
+  id: 34
   description: "Des forces de l\u2019ordre me confondent avec un(e) criminel(le)"
   starCost: 1
   commonAnswers:

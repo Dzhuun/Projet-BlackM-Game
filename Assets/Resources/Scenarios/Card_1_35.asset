@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_1_35
   m_EditorClassIdentifier: 
-  id: 135
+  id: 35
   description: "On me surprend en train de regarder quelqu\u2019un, c\u2019est \u201Cr\xE9pugnant\u201D
     :"
   starCost: 1

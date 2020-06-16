@@ -6,14 +6,23 @@ using UnityEngine.UI;
 
 public class TestingScript : MonoBehaviour
 {
-    private void OnMouseOver()
+    private List<Character> characters;
+    private List<Character> charsCopy;
+
+    private void Awake()
     {
-        Debug.Log("Over");
-        
+        characters = new List<Character>(Resources.LoadAll<Character>("Characters"));
+        charsCopy = new List<Character>();
+
+        foreach(Character charac in characters)
+        {
+            //charsCopy.Add(charac);
+            charsCopy.Add(new Character(charac));
+        }
     }
 
-    private void OnMouseDown()
+    public void AddTrait()
     {
-        Debug.Log("Down");
+        charsCopy[0].traits.Add(new CharacterTrait(new Trait()));
     }
 }

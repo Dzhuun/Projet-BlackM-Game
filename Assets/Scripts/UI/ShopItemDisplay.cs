@@ -84,6 +84,8 @@ public class ShopItemDisplay : ItemDisplay
 
         ShopManager.Instance.UpdateDisplays();
 
+        GameUI.Instance.RefreshPlayerInfos();
+
         ShowItemDisplay();
     }
 }

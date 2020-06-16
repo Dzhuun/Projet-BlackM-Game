@@ -17,15 +17,11 @@ MonoBehaviour:
     genre \xE0 attendre que les choses se passent. Elle est souvent l\xE0 o\xF9 l\u2019on
     ne l\u2019attend pas, et change souvent d\u2019avis en fonction de ce qui lui
     est pr\xE9f\xE9rable."
-  avatar: {fileID: 21300000, guid: 5e334fcda7108384ca73ef4565ba770e, type: 3}
+  avatar: {fileID: 21300000, guid: f35ad53119d1da74fbbb8eb7fc38c35c, type: 3}
   traits:
   - trait: {fileID: 11400000, guid: 8410c41b744e52c458d89aadcb19f7a9, type: 2}
     isActive: 0
   - trait: {fileID: 11400000, guid: e5319631c7c9a604ebf3e9f2f664f2db, type: 2}
     isActive: 0
   - trait: {fileID: 11400000, guid: 7d4a84a3d5ce4544db9af25dabc62426, type: 2}
-    isActive: 0
-  - trait: {fileID: 0}
-    isActive: 0
-  - trait: {fileID: 0}
     isActive: 0

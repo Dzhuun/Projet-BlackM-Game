@@ -17,20 +17,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public float showOpinionDuration;
 
     #endregion
-
-    private static GameUI _gameUI;
-    public static GameUI gameUI
-    {
-        get
-        {
-            if (_gameUI == null)
-            {
-                _gameUI = FindObjectOfType<GameUI>();
-            }
-
-            return _gameUI;
-        }
-    }
+    
     public static List<NetworkPlayer> orderedPlayers;
     public static NetworkPlayer currentPlayer;
     private static List<NetworkPlayer> _players = new List<NetworkPlayer>();
@@ -257,7 +244,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         currentPlayer = orderedPlayers[_currentIndexTurn];
 
-        gameUI.BeginTurn(currentPlayer);
+        GameUI.Instance.BeginTurn(currentPlayer);
 
         // State : BeginTurn -> DrawScenario
         MoveToNextState();
@@ -270,7 +257,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         //gameUI.BeginTurn(currentPlayer);
 
-        gameUI.ShowDrawCardDisplay();
+        GameUI.Instance.ShowDrawCardDisplay();
     }
 
     /// <summary>
@@ -316,7 +303,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void SelectAnswerPhase()
     {
-        gameUI.ShowAnswers(_currentScenario.id, currentPlayer.character);
+        GameUI.Instance.ShowAnswers(_currentScenario.id, currentPlayer.character);
     }
 
     /// <summary>
@@ -445,7 +432,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         _playersLikes = new int[PhotonNetwork.CurrentRoom.PlayerCount - 1];
 
-        gameUI.ShowChooseOpinion(_selectedAnswer.text, _currentScenario.description);
+        GameUI.Instance.ShowChooseOpinion(_selectedAnswer.text, _currentScenario.description);
     }
 
     /// <summary>
@@ -454,6 +441,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="value">The opinion value given.</param>
     public void GiveOpinion()
     {
+        GameUI.Instance.DeactivateOpinionButton();
+
         photonView.RPC("ReceiveOpinion", RpcTarget.All, (int)LikesIncrementHandler.noteValue);
     }
 
@@ -496,31 +485,37 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         _playersLikes = playersLikes;
 
-        // Put this in coroutine instead for feedback over duration
-        if (currentPlayer.GetMentalHealthLevel() > 3)
+        int positivePlayerLikes = 0;
+        int negativePlayerLikes = 0;
+
+        foreach(int i in playersLikes)
         {
-            foreach (int i in playersLikes)
+            if(i < 0)
             {
-                likesUpdate += i < 0 ? i * i : i;
+                negativePlayerLikes += currentPlayer.GetMentalHealthLevel() > 3 ? -(i * i) : i;
+            }
+            else
+            {
+                positivePlayerLikes += i;
             }
         }
-        else
-        {
-            foreach (int i in playersLikes)
-            {
-                likesUpdate += i;
-            }
-        }
+        
+        likesUpdate += positivePlayerLikes;
+        likesUpdate += negativePlayerLikes;
+
+        int mentalHealthDislikes = 0;
 
         if (currentPlayer.GetMentalHealthLevel() > 1)
         {
-            likesUpdate -= 5;
+            mentalHealthDislikes += 5;
 
             if (currentPlayer.GetMentalHealthLevel() == 4)
             {
-                likesUpdate -= 30;
+                mentalHealthDislikes += 30;
             }
         }
+
+        likesUpdate -= mentalHealthDislikes;
 
         orderedPlayers[orderIndex].likes += likesUpdate;
 
@@ -546,7 +541,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         ComputeLostItems();
 
-        gameUI.ShowOpinionResults(_societyLikesValue, likesUpdate, popularityUpdate, _updateMentalHealth);
+        GameUI.Instance.ShowOpinionResults(positivePlayerLikes, negativePlayerLikes, _societyLikesValue, mentalHealthDislikes, likesUpdate, popularityUpdate, _selectedAnswer.text, _currentScenario.description);
     }
 
     /// <summary>
@@ -557,7 +552,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Check for trait earned
         if (!currentPlayer.firstTraitEarned)
         {
-            if (currentPlayer.fame > 3)
+            if (currentPlayer.fame >= 3)
             {
                 // Add first random trait
                 AddRandomTrait(currentPlayer);
@@ -567,7 +562,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if(!currentPlayer.secondTraitEarned)
         {
-            if(currentPlayer.fame > 4)
+            if(currentPlayer.fame >= 4)
             {
                 // Add second random trait
                 AddRandomTrait(currentPlayer);
@@ -656,7 +651,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SendLostItem(ItemType itemType, int previousLevel, int newLevel)
     {
-        gameUI.AddLostItem(itemType, previousLevel, newLevel);
+        GameUI.Instance.AddLostItem(itemType, previousLevel, newLevel);
 
         switch(itemType)
         {
@@ -705,7 +700,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ShoppingPhase()
     {
-        gameUI.ShowShop();
+        GameUI.Instance.ShowShop();
     }
 
     /// <summary>
@@ -759,7 +754,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void EndGame(int playerID)
     {
-        gameUI.ShowEndUI(orderedPlayers.Find(x => x.PlayerID == playerID));
+        GameUI.Instance.ShowEndUI(orderedPlayers.Find(x => x.PlayerID == playerID));
     }
 
     /// <summary>

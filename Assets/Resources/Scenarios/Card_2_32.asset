@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_32
   m_EditorClassIdentifier: 
   id: 0
-  description: "a mari\xE9e sait que je l\u2019ai vu embrasser quelqu'un avant la
+  description: "La mari\xE9e sait que je l\u2019ai vu embrasser quelqu'un avant la
     c\xE9r\xE9monie :"
   starCost: 2
   commonAnswers:
