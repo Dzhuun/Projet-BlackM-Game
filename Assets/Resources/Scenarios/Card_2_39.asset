@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_2_39
   m_EditorClassIdentifier: 
-  id: 0
+  id: 39
   description: "En faisant un geste brusque, je donne un coup \xE0 un 4 \xE9toiles
     :"
   starCost: 2

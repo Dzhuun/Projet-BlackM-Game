@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
   m_Name: Card_2_32
   m_EditorClassIdentifier: 
-  id: 0
+  id: 32
   description: "La mari\xE9e sait que je l\u2019ai vu embrasser quelqu'un avant la
     c\xE9r\xE9monie :"
   starCost: 2
