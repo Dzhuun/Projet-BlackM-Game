@@ -30,14 +30,15 @@ public class MentalHealthUI : MonoBehaviour
 
     public void SetMentalHealth(NetworkPlayer player)
     {
-        int mentalHealth = player.mentalHealth;
+
+        float mentalHealth = player.mentalHealth;
+        Debug.Log("MentalHealth = " + mentalHealth);
 
         // The visual graphic of the mental health is a slider between 5% and 95% of the fill amount of the image
         // Let's linearly interpolate the mentalHealth value (between 0 and 100) to the interval [0.05;0.95]
-        float gaugeValue = 0.90f * mentalHealth / 100 + 0.05f;
-        buttonGauge.fillAmount = gaugeValue;
+        buttonGauge.fillAmount = 0.90f * mentalHealth / 100 + 0.05f;
 
-        if(mentalHealth > 66)
+        if (mentalHealth > 66)
         {
             buttonGauge.color = greenColor;
         }
@@ -52,6 +53,7 @@ public class MentalHealthUI : MonoBehaviour
 
         mentalHealthValue.text = string.Format("{0}%", mentalHealth);
         panelGauge.fillAmount = mentalHealth / 100;
+        Debug.Log("Fill AMoune= " + panelGauge.fillAmount);
 
         int mentalLevel = player.GetMentalHealthLevel();
 

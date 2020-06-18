@@ -5503,8 +5503,10 @@ MonoBehaviour:
   playerDescription: {fileID: 2014535609}
   charactersDisplay: {fileID: 0}
   drawCardDisplay: {fileID: 999208581}
+  drawText: {fileID: 723341874}
   waitForDrawCardDisplay: {fileID: 537758695}
-  drawText: {fileID: 0}
+  waitDrawTitle: {fileID: 0}
+  waitDrawText: {fileID: 0}
   answerDisplay: {fileID: 1323188912}
   waitForAnswerDisplay: {fileID: 1986948900}
   scenarioDescription: {fileID: 1331017120}
@@ -20515,7 +20517,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3757348657125922752, guid: 9e475c87e36b8d34bafe53b02db3d025,
     type: 3}
-  showOpinionDuration: 5
+  positiveTraitRespected: 2
+  negativeTraitRespected: 5
+  traitNotRespected: -2
 --- !u!4 &1198156853
 Transform:
   m_ObjectHideFlags: 0

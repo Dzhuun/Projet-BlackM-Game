@@ -48,8 +48,6 @@ public class CharacterTrait
 public class AnswerTrait
 {
     public Trait trait;
-    public int traitRespected = 0;
-    public int traitNotRespected = 0;
 }
 
 

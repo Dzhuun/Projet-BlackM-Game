@@ -25,12 +25,12 @@ public class GameUI : MonoBehaviour
 
     [Header("DrawCard")]
     public GameObject drawCardDisplay;
-    public Text drawText;
+    public TextMeshProUGUI drawText;
 
     [Header("WaitForDrawCard")]
     public GameObject waitForDrawCardDisplay;
-    public Text waitDrawTitle;
-    public Text waitDrawText;
+    public TextMeshProUGUI waitDrawTitle;
+    public TextMeshProUGUI waitDrawText;
 
     [Header("Answer")]
     public GameObject answerDisplay;
@@ -135,13 +135,15 @@ public class GameUI : MonoBehaviour
             players.RemoveAt(0);
         }
     }
-
+    
     /// <summary>
     /// Displays the informations of a player.
     /// </summary>
     /// <param name="player">The player to display.</param>
     public void ShowPlayerInfos(NetworkPlayer player)
     {
+        _observedPlayer = player;
+
         // Display texts
         playerName.text = player.character.nickname;
         playerFame.text = player.fame.ToString("F2");

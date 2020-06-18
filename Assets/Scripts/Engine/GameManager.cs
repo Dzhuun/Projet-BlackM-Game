@@ -335,12 +335,12 @@ public class GameManager : MonoBehaviourPunCallbacks
                 }
             }
 
-            UpdateMentalHealth(answerTrait, traitRespected);
+            _updateMentalHealth += GetMentalHealthResult(answerTrait, traitRespected);
         }
 
-        photonView.RPC("ReceiveSelectedAnswer", RpcTarget.Others, answerID, _societyLikesValue, _updateMentalHealth);
+        ComputeMentalHealth(_updateMentalHealth);
 
-        _updateMentalHealth = ComputeMentalHealth(_updateMentalHealth);
+        photonView.RPC("ReceiveSelectedAnswer", RpcTarget.Others, answerID, _societyLikesValue, _updateMentalHealth);
 
         if (currentPlayer.GetMentalHealthLevel() >= 2 && !currentPlayer.hasInactiveTrait)
         {
@@ -384,15 +384,15 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="trait">An answer trait.</param>
     /// <param name="isRespected">True if the trait was respected, false otherwise.</param>
-    private void UpdateMentalHealth(AnswerTrait trait, bool isRespected)
+    private int GetMentalHealthResult(AnswerTrait trait, bool isRespected)
     {
         if (isRespected)
         {
-            _updateMentalHealth += trait.trait.isNegative ? negativeTraitRespected : positiveTraitRespected;
+            return trait.trait.isNegative ? negativeTraitRespected : positiveTraitRespected;
         }
         else
         {
-            _updateMentalHealth += traitNotRespected;
+            return traitNotRespected;
         }
     }
 
@@ -406,7 +406,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         _selectedAnswer = _answers[answerID - 1];
         _societyLikesValue = societyLikes;
 
-        _updateMentalHealth = ComputeMentalHealth(mentalHealthUpdate);
+        ComputeMentalHealth(mentalHealthUpdate);
 
         // State : SelectAnswer -> Opinion
         MoveToNextState();
@@ -417,12 +417,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     /// <param name="mentalHealthUpdate">The brut update value.</param>
     /// <returns>The net update value.</returns>
-    private int ComputeMentalHealth(int mentalHealthUpdate)
+    private void ComputeMentalHealth(int mentalHealthUpdate)
     {
-        int previousMentalHealth = currentPlayer.mentalHealth;
+        //int previousMentalHealth = currentPlayer.mentalHealth;
         currentPlayer.mentalHealth = Mathf.Clamp(currentPlayer.mentalHealth + mentalHealthUpdate, 0, 100);
 
-        return currentPlayer.mentalHealth - previousMentalHealth;
+        //return currentPlayer.mentalHealth - previousMentalHealth;
     }
 
     /// <summary>
