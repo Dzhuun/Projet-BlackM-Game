@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef7322a34146c74fbd93095adfe964c, type: 3}
   m_Name: Reflechi
   m_EditorClassIdentifier: 
-  traitName: "R\xE9fl\xE9chi(e)"
+  maleName: "R\xE9fl\xE9chi"
+  femaleName: "R\xE9fl\xE9chie"
   isNegative: 0

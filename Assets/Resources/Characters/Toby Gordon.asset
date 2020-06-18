@@ -18,6 +18,7 @@ MonoBehaviour:
     \xE0 mettre les pieds dans le plat. Jusqu'\xE0 pr\xE9sent, \xE7a ne lui a pas
     fait d\xE9faut, m\xEAme s\u2019il n\u2019a pas l\u2019air de prendre conscience
     de certaines choses."
+  male: 1
   avatar: {fileID: 21300000, guid: 5c6dcd99a93c2d545979f5f5f375a9d8, type: 3}
   traits:
   - trait: {fileID: 11400000, guid: 81681b5bc28ac134784fbc25e59c465e, type: 2}

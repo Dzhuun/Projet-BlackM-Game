@@ -11,7 +11,7 @@ public class LikesIncrement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     private float _heldDelay = 0.5f;
     private float _speed = 1;
     private float _clickTime = 0;
-    private float _incrementValue = 0;
+    private int _incrementValue = 0;
     private bool _hover = false;
 
     private void Awake()

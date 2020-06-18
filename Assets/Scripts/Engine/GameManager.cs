@@ -342,7 +342,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (currentPlayer.GetMentalHealthLevel() >= 2 && !currentPlayer.hasInactiveTrait)
         {
-            string randomTrait = currentPlayer.character.traits[Random.Range(0, currentPlayer.character.traits.Count)].trait.traitName;
+            string randomTrait = currentPlayer.character.traits[Random.Range(0, currentPlayer.character.traits.Count)].trait.GetTraitName(currentPlayer.character);
 
             photonView.RPC("SendDeactivateTrait", RpcTarget.All, randomTrait);
         }
@@ -363,7 +363,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void SendDeactivateTrait(string traitName)
     {
         currentPlayer.hasInactiveTrait = true;
-        currentPlayer.character.traits.Find(x => x.trait.traitName == traitName).isActive = false;
+        currentPlayer.character.traits.Find(x => x.trait.GetTraitName(currentPlayer.character) == traitName).isActive = false;
     }
 
     /// <summary>
@@ -459,6 +459,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             _opinionCount++;
 
+            Debug.LogError("Receive opinion");
+
             // If all other players have given their opinion
             if (_opinionCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
             {
@@ -467,7 +469,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
                 // In order to check if a trait was earned or not
                 ComputeEarnedTraits();
-                
+
+                Debug.LogError("Receive last opinion");
+
                 photonView.RPC("ComputeLikes", RpcTarget.Others, NetworkPlayer.LocalPlayerInstance.orderIndex, _playersLikes, _societyLikesValue);
             }
         }
@@ -481,6 +485,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void ComputeLikes(int orderIndex, int[] playersLikes, int societyLikes)
     {
+        Debug.LogError("Compute Likes");
         int likesUpdate = societyLikes;
 
         _playersLikes = playersLikes;
@@ -507,15 +512,15 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (currentPlayer.GetMentalHealthLevel() > 1)
         {
-            mentalHealthDislikes += 5;
+            mentalHealthDislikes -= 5;
 
             if (currentPlayer.GetMentalHealthLevel() == 4)
             {
-                mentalHealthDislikes += 30;
+                mentalHealthDislikes -= 30;
             }
         }
 
-        likesUpdate -= mentalHealthDislikes;
+        likesUpdate += mentalHealthDislikes;
 
         orderedPlayers[orderIndex].likes += likesUpdate;
 
@@ -588,7 +593,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         player.character.traits.Add(newTrait);
 
-        photonView.RPC("SendNewTrait", RpcTarget.Others, newTrait.trait.name);
+        photonView.RPC("SendNewTrait", RpcTarget.Others, newTrait.trait.GetTraitName(player.character));
     }
 
     /// <summary>
@@ -599,7 +604,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void SendNewTrait(string newTraitName)
     {
         // Find the trait to add to the current player
-        CharacterTrait traitToAdd = new CharacterTrait(Database.positiveTraits.Find(x => x.traitName == newTraitName));
+        CharacterTrait traitToAdd = new CharacterTrait(Database.positiveTraits.Find(x => x.GetTraitName(currentPlayer.character) == newTraitName));
 
         currentPlayer.character.traits.Add(traitToAdd);
     }

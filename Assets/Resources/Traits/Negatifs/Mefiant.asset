@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef7322a34146c74fbd93095adfe964c, type: 3}
   m_Name: Mefiant
   m_EditorClassIdentifier: 
-  traitName: "M\xE9fiant(e)"
+  maleName: "M\xE9fiant"
+  femaleName: "M\xE9fiante"
   isNegative: 1

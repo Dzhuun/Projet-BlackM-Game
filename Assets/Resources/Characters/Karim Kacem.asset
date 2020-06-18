@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Karim Kacem
   m_EditorClassIdentifier: 
   nickname: Karim Kacem
-  description: "Avec le temps il a finir par comprendre, qu\u2019\xEAtre au bon endroit
+  description: "Avec le temps il a fini par comprendre, qu\u2019\xEAtre au bon endroit
     au bon moment est possible si les choses sont faites correctement en amont. Son
     exc\xE8s de confiance, et ses changements d\u2019avis peuvent parfois laisser
     transpara\xEEtre de la cr\xE9dulit\xE9."
+  male: 1
   avatar: {fileID: 21300000, guid: 03c4227d264be944a93be7fd96b163e9, type: 3}
   traits:
   - trait: {fileID: 11400000, guid: 649686944069ed8488cdc42bbf157959, type: 2}
-    isActive: 0
+    isActive: 1
   - trait: {fileID: 11400000, guid: 736555bc1981bb5409c9d73d057d8988, type: 2}
-    isActive: 0
+    isActive: 1
   - trait: {fileID: 11400000, guid: 92a1b70f3040444449fc404f71baeb93, type: 2}
-    isActive: 0
+    isActive: 1

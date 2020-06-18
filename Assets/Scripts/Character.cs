@@ -6,7 +6,8 @@ using UnityEngine;
 public class Character : ScriptableObject
 {
     public string nickname;
-    public string description;
+    [TextArea] public string description;
+    public bool male;
     public Sprite avatar;
 	public List<CharacterTrait> traits;
 
@@ -15,6 +16,7 @@ public class Character : ScriptableObject
         nickname = charToCopy.nickname;
         description = charToCopy.description;
         avatar = charToCopy.avatar;
+        male = charToCopy.male; 
         traits = new List<CharacterTrait>(charToCopy.traits);
     }
 }

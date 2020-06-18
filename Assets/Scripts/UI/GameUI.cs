@@ -13,7 +13,7 @@ public class GameUI : MonoBehaviour
     public PlayerSelectorUI playerSelectorUI;
     public FameGauge fameGauge;
     public MentalHealthUI mentalHealthUI;
-    public Color disactivatedTraitColor = Color.gray;
+    public Color deactivatedTraitColor = Color.gray;
     public TextMeshProUGUI traitsList;
     public TextMeshProUGUI playerName;
     public TextMeshProUGUI playerLikes;
@@ -60,6 +60,7 @@ public class GameUI : MonoBehaviour
     public TextMeshProUGUI societyLikesUpdateValue;
     public Image societyLikesUpdateIcon;
     public TextMeshProUGUI likesUpdateValue;
+    public Image totalLikesUpdateIcon;
     public TextMeshProUGUI fameUpdateValue;
     public TextMeshProUGUI mentalHealthUpdateValue;
     public TextMeshProUGUI mentalHealthValue;
@@ -153,12 +154,12 @@ public class GameUI : MonoBehaviour
         {
             if(player.character.traits[i].isActive)
             {
-                traitsText += string.Format(", {0}", player.character.traits[i].trait.traitName);
+                traitsText += string.Format(", {0}", player.character.traits[i].trait.GetTraitName(player.character));
             }
             else
             {
                 // Strike and change the color of the inactive trait
-                traitsText += string.Format(", <s><color=#{0}>{1}</color></s>", ColorUtility.ToHtmlStringRGBA(disactivatedTraitColor), player.character.traits[i].trait.traitName);
+                traitsText += string.Format(", <s><color=#{0}>{1}</color></s>", ColorUtility.ToHtmlStringRGBA(deactivatedTraitColor), player.character.traits[i].trait.GetTraitName(player.character));
             }
         }
        
@@ -287,7 +288,14 @@ public class GameUI : MonoBehaviour
     /// <param name="newValue">The new value to display.</param>
     public void UpdateOpinion(float newValue)
     {
-        noteValue.text = newValue.ToString();
+        if(newValue <= 0)
+        {
+            noteValue.text = newValue.ToString();
+        }
+        else
+        {
+            noteValue.text = string.Format("+{0}", newValue.ToString());
+        }
     }
 
     /// <summary>
@@ -330,7 +338,7 @@ public class GameUI : MonoBehaviour
             societyLikesUpdateValue.text = societyLikes.ToString();
         }
 
-        societyLikesUpdateIcon.rectTransform.localScale = new Vector3(1, societyLikes >= 0 ? 1 : -1);
+        societyLikesUpdateIcon.rectTransform.localScale = new Vector3(societyLikes >= 0 ? 1 : -1, societyLikes >= 0 ? 1 : -1);
 
         if (totalLikesUpdate > 0)
         {
@@ -341,9 +349,11 @@ public class GameUI : MonoBehaviour
             likesUpdateValue.text = totalLikesUpdate.ToString();
         }
 
-        if(popularityUpdate > 0)
+        totalLikesUpdateIcon.rectTransform.localScale = new Vector3(totalLikesUpdate >= 0 ? 1 : -1, totalLikesUpdate >= 0 ? 1 : -1);
+
+        if (popularityUpdate > 0)
         {
-            fameUpdateValue.text = string.Format("+{0}", popularityUpdate);
+            fameUpdateValue.text = string.Format("+{0}", popularityUpdate.ToString("F2"));
         }
         else
         {

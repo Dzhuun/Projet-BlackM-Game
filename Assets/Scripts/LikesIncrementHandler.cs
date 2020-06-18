@@ -7,8 +7,8 @@ public class LikesIncrementHandler : MonoBehaviour
     public LikesIncrement positiveIncrement;
     public LikesIncrement negativeIncrement;
 
-    public static float noteValue = 0;
-    public static float maxValue = 0;
+    public static int noteValue = 0;
+    public static int maxValue = 0;
 
     /// <summary>
     /// Initializes the increments.
@@ -22,7 +22,7 @@ public class LikesIncrementHandler : MonoBehaviour
         }
         else if (fame > 1)
         {
-            maxValue = Mathf.Floor(fame) * 5;
+            maxValue = (int)Mathf.Floor(fame) * 5;
         }
         else
         {
@@ -34,7 +34,7 @@ public class LikesIncrementHandler : MonoBehaviour
         GameUI.Instance.UpdateOpinion(noteValue);
     }
 
-    public static void IncrementNote(float increment)
+    public static void IncrementNote(int increment)
     {
         noteValue = Mathf.Clamp(noteValue + increment, -maxValue, maxValue);
         GameUI.Instance.UpdateOpinion(noteValue);

@@ -5,17 +5,28 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Trait", menuName = "Game Assets/Trait")]
 public class Trait : ScriptableObject
 {
-    public string traitName = "Ambitieux";
+    public string maleName;
+    public string femaleName;
     public bool isNegative;
+
+    /// <summary>
+    /// Returns the trait name according to the sex of the character.
+    /// </summary>
+    /// <param name="character">The character concerned by the trait.</param>
+    /// <returns>The male or female trait.</returns>
+    public string GetTraitName(Character character)
+    {
+        return character.male ? maleName : femaleName; 
+    }
 
     public static bool operator ==(Trait v1, Trait v2)
     {
-        return (v1.traitName == v2.traitName);
+        return (v1.maleName == v2.maleName);
     }
 
     public static bool operator !=(Trait v1, Trait v2)
     {
-        return (v1.traitName != v2.traitName);
+        return (v1.maleName != v2.maleName);
     }
 }
 

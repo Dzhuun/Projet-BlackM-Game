@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef7322a34146c74fbd93095adfe964c, type: 3}
   m_Name: Depressif
   m_EditorClassIdentifier: 
-  traitName: "D\xE9pressif/ve"
+  maleName: "D\xE9pressif"
+  femaleName: "D\xE9pressive"
   isNegative: 1

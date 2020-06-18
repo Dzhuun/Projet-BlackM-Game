@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ef7322a34146c74fbd93095adfe964c, type: 3}
   m_Name: Entete
   m_EditorClassIdentifier: 
-  traitName: "Ent\xEAt\xE9(e)"
+  maleName: "Ent\xEAt\xE9"
+  femaleName: "Ent\xEAt\xE9e"
   isNegative: 1
