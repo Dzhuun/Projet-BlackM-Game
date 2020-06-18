@@ -14,7 +14,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject playerPrefab;
 
     [Header("Settings")]
-    public float showOpinionDuration;
+    public int positiveTraitRespected;
+    public int negativeTraitRespected;
+    public int traitNotRespected;
 
     #endregion
     
@@ -257,7 +259,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         //gameUI.BeginTurn(currentPlayer);
 
-        GameUI.Instance.ShowDrawCardDisplay();
+        GameUI.Instance.ShowDrawCardDisplay(currentPlayer);
     }
 
     /// <summary>
@@ -386,11 +388,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (isRespected)
         {
-            _updateMentalHealth += trait.traitRespected;
+            _updateMentalHealth += trait.trait.isNegative ? negativeTraitRespected : positiveTraitRespected;
         }
         else
         {
-            _updateMentalHealth += trait.traitNotRespected;
+            _updateMentalHealth += traitNotRespected;
         }
     }
 
@@ -459,8 +461,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             _opinionCount++;
 
-            Debug.LogError("Receive opinion");
-
             // If all other players have given their opinion
             if (_opinionCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
             {
@@ -469,8 +469,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
                 // In order to check if a trait was earned or not
                 ComputeEarnedTraits();
-
-                Debug.LogError("Receive last opinion");
 
                 photonView.RPC("ComputeLikes", RpcTarget.Others, NetworkPlayer.LocalPlayerInstance.orderIndex, _playersLikes, _societyLikesValue);
             }
@@ -485,7 +483,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void ComputeLikes(int orderIndex, int[] playersLikes, int societyLikes)
     {
-        Debug.LogError("Compute Likes");
         int likesUpdate = societyLikes;
 
         _playersLikes = playersLikes;

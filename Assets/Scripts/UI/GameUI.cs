@@ -25,8 +25,12 @@ public class GameUI : MonoBehaviour
 
     [Header("DrawCard")]
     public GameObject drawCardDisplay;
+    public Text drawText;
+
+    [Header("WaitForDrawCard")]
     public GameObject waitForDrawCardDisplay;
-    public Text waitingDrawText;
+    public Text waitDrawTitle;
+    public Text waitDrawText;
 
     [Header("Answer")]
     public GameObject answerDisplay;
@@ -146,7 +150,7 @@ public class GameUI : MonoBehaviour
 
         // Display graphics UI
         fameGauge.SetGauge(player.fame);
-        mentalHealthUI.SetMentalHealth(player.mentalHealth);
+        mentalHealthUI.SetMentalHealth(player);
 
         // Display traits
         string traitsText = string.Empty;
@@ -179,7 +183,7 @@ public class GameUI : MonoBehaviour
     /// Shows the draw card display. If it is the local player's turn, show the corresponding UI.
     /// </summary>
     /// <param name="currentPlayer">True if it is the local player's turn.</param>
-    public void ShowDrawCardDisplay()
+    public void ShowDrawCardDisplay(NetworkPlayer player)
     {
         shoppingDisplay.SetActive(false);
         waitForShoppingDisplay.SetActive(false);
@@ -187,8 +191,7 @@ public class GameUI : MonoBehaviour
         drawCardDisplay.SetActive(_isLocal);
         waitForDrawCardDisplay.SetActive(!_isLocal);
 
-        //waitingDrawText.text = string.Format("Le joueur {0} pioche une carte", GameManager.currentPlayer.PlayerName);
-        //animatorUI.SetTrigger("DrawCard");
+        drawText.text = string.Format("Pioche une carte évènement {0} étoiles", Mathf.FloorToInt(player.fame));
     }
 
     /// <summary>

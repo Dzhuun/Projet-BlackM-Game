@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MentalHealthUI : MonoBehaviour
 {
@@ -10,28 +11,58 @@ public class MentalHealthUI : MonoBehaviour
     public Color yellowColor = Color.yellow;
     public Color redColor = Color.red;
 
-    [Header("Images")]
-    public Image gauge;
+    [Header("Button")]
+    [UnityEngine.Serialization.FormerlySerializedAs("gauge")] public Image buttonGauge;
     public Image plusImage;
 
-    public void SetMentalHealth(float mentalHealth)
+    [Header("Panel")]
+    public GameObject panel;
+    public TextMeshProUGUI mentalHealthValue;
+    public Color activatedColor;
+    public Color deactivatedColor;
+    public Image panelGauge;
+    public List<TextMeshProUGUI> sideEffects;
+
+    private void Awake()
     {
+        panel.SetActive(false);
+    }
+
+    public void SetMentalHealth(NetworkPlayer player)
+    {
+        int mentalHealth = player.mentalHealth;
+
         // The visual graphic of the mental health is a slider between 5% and 95% of the fill amount of the image
         // Let's linearly interpolate the mentalHealth value (between 0 and 100) to the interval [0.05;0.95]
         float gaugeValue = 0.90f * mentalHealth / 100 + 0.05f;
-        gauge.fillAmount = gaugeValue;
+        buttonGauge.fillAmount = gaugeValue;
 
         if(mentalHealth > 66)
         {
-            gauge.color = greenColor;
+            buttonGauge.color = greenColor;
         }
         else if(mentalHealth > 33)
         {
-            gauge.color = yellowColor;
+            buttonGauge.color = yellowColor;
         }
         else
         {
-            gauge.color = redColor;
+            buttonGauge.color = redColor;
         }
+
+        mentalHealthValue.text = string.Format("{0}%", mentalHealth);
+        panelGauge.fillAmount = mentalHealth / 100;
+
+        int mentalLevel = player.GetMentalHealthLevel();
+
+        for(int i = 0; i < sideEffects.Count; i++)
+        {
+            sideEffects[i].color = i < mentalLevel ? activatedColor : deactivatedColor;
+        }
+    }
+
+    public void TogglePanel()
+    {
+        panel.SetActive(!panel.activeInHierarchy);
     }
 }
