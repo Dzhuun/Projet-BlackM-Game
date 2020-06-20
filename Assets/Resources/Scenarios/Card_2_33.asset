@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_33
   m_EditorClassIdentifier: 
   id: 33
-  description: "Au travail, je suis plus comp\xE9tent(e) que mon chef :"
+  description: "Au travail, je suis plus comp\xE9tent(e) que mon chef."
   starCost: 2
   commonAnswers:
   - text: Je fais son travail sans rien dire.

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_31
   m_EditorClassIdentifier: 
   id: 31
-  description: "J\u2019apprends que mon immeuble est rempli d\u2019amiante :"
+  description: "J\u2019apprends que mon immeuble est rempli d\u2019amiante."
   starCost: 2
   commonAnswers:
   - text: Je refuse de payer les travaux.
@@ -62,7 +62,8 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -2
   specificAnswers:
-  - text: "M\xEAme si mon rang ne le me permet pas, j\u2019exige d\u2019\xEAtre examin\xE9(e). "
+  - text: "M\xEAme si ma popularit\xE9 ne me le permet pas, j\u2019exige d\u2019\xEAtre
+      examin\xE9(e). "
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}

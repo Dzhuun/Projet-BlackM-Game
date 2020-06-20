@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Card_3_23
   m_EditorClassIdentifier: 
   id: 23
-  description: "Je suis coinc\xE9(e) dans un ascenseur depuis 3h, pas de r\xE9seau
-    :"
+  description: "Je suis coinc\xE9(e) dans un ascenseur depuis 3h, pas de r\xE9seau."
   starCost: 3
   commonAnswers:
-  - text: "Je continue appuyer sur le bouton d\u2019urgence."
+  - text: "Je continue d'appuyer sur le bouton d\u2019urgence."
     likesValue: 30
     traits:
     - trait: {fileID: 11400000, guid: 16296033f9b02044fb7d24bb0419a973, type: 2}

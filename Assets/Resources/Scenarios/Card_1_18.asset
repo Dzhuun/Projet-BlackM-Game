@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_18
   m_EditorClassIdentifier: 
   id: 18
-  description: Mon smartphone notifie chaque personne aux alentours de mon rang
+  description: "Mon smartphone notifie chaque personne aux alentours de ma popularit\xE9."
   starCost: 1
   commonAnswers:
   - text: "J'essaye d'\xE9touffer ce son."

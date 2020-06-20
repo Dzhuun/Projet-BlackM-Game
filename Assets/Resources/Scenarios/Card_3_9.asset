@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_9
   m_EditorClassIdentifier: 
   id: 9
-  description: 'Pendant une conversation je rigole fort, on me fixe :'
+  description: Pendant une conversation, je rigole fort, on me fixe.
   starCost: 3
   commonAnswers:
   - text: Je me racle la gorge et relance la conversation.

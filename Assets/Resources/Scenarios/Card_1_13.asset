@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_13
   m_EditorClassIdentifier: 
   id: 13
-  description: "Mon patron me r\xE9trograde sans motif et me paye une mis\xE8re :"
+  description: "Mon patron me r\xE9trograde sans motif et me paye une mis\xE8re."
   starCost: 1
   commonAnswers:
   - text: "Je menace de le d\xE9noncer. "

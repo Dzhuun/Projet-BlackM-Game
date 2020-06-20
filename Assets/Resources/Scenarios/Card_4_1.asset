@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_1
   m_EditorClassIdentifier: 
   id: 1
-  description: 'Je ne sais plus qui est la personne qui me parle :'
+  description: Je ne sais plus qui est la personne qui me parle.
   starCost: 4
   commonAnswers:
   - text: Je lui demande son nom.

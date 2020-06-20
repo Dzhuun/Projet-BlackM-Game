@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_9
   m_EditorClassIdentifier: 
   id: 9
-  description: "On m\u2019accuse d'une faute grave \xE0 tort"
+  description: "On m\u2019accuse d'une faute grave \xE0 tort."
   starCost: 1
   commonAnswers:
   - text: "Je crie \xE0 l\u2019injustice."

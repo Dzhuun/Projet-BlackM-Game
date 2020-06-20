@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 22
   description: "On me propose d\u2019\xE9crire un livre, \xE0 l\u2019aide d\u2019un
-    auteur fant\xF4me :"
+    auteur fant\xF4me."
   starCost: 4
   commonAnswers:
   - text: "J'accepte si je peux v\xE9rifier le manuscrit. "

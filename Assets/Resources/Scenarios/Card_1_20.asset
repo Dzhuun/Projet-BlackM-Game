@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_20
   m_EditorClassIdentifier: 
   id: 20
-  description: "Je pousse une porte en verre qui se brise, c\u2019est ma faute :"
+  description: "Je pousse une porte en verre qui se brise, c\u2019est ma faute."
   starCost: 1
   commonAnswers:
   - text: "J'essaye de me d\xE9fendre."

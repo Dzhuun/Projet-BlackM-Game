@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_21
   m_EditorClassIdentifier: 
   id: 21
-  description: 'On utilise mes affaires au bureau sans me demander :'
+  description: On utilise mes affaires au bureau sans me demander.
   starCost: 2
   commonAnswers:
   - text: Je mets tout sous cadenas.

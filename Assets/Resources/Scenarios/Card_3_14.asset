@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_14
   m_EditorClassIdentifier: 
   id: 14
-  description: "Ma moiti\xE9 me demande un objet de valeur comme preuve d\u2019amour
-    :"
+  description: "Ma moiti\xE9 me demande un objet de valeur comme preuve d\u2019amour."
   starCost: 3
   commonAnswers:
   - text: Je trouve une excuse pour refuser.

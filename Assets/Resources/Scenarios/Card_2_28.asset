@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_28
   m_EditorClassIdentifier: 
   id: 28
-  description: "Un scooter fou m'\xE9vite de justesse, et se blesse gravement :"
+  description: "Un scooter fou m'\xE9vite de justesse, et se blesse gravement."
   starCost: 2
   commonAnswers:
   - text: Je suis la victime et le fais savoir.

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
+  m_Name: Card_5_2
+  m_EditorClassIdentifier: 
+  id: 2
+  description: "On me demande de faire un communiqu\xE9, mais je n\u2019ai pas les
+    informations."
+  starCost: 5
+  commonAnswers:
+  - text: "Lors de mon communiqu\xE9, j\u2019explique ne pas avoir les infos."
+    likesValue: 0
+    traits: []
+  - text: "Je communique ce qui me semble le plus juste d\u2019apr\xE8s moi."
+    likesValue: 0
+    traits: []
+  - text: "Je r\xE9p\xE8te les informations que l\u2019on m\u2019a donn\xE9es."
+    likesValue: 0
+    traits: []
+  specificAnswers:
+  - text: "Je fais repousser le communiqu\xE9."
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
+  - text: "Je refuse en pr\xE9textant \xEAtre malade."
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+  - text: "Je donne la responsabilit\xE9 \xE0 quelqu\u2019un d\u2019autre."
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+  - text: "Je fais comme si j\u2019\xE9tais expert sur le sujet."
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}

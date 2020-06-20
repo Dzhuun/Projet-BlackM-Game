@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_12
   m_EditorClassIdentifier: 
   id: 12
-  description: "On me jette un bout de pain \xE0 la figure : "
+  description: "On me jette un bout de pain \xE0 la figure."
   starCost: 1
   commonAnswers:
   - text: 'Je lui demande des explications. '

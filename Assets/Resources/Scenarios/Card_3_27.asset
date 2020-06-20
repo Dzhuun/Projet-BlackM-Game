@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 27
   description: "Mon ami d\u2019enfance est dans une situation d\xE9licate avec la
-    justice :"
+    justice."
   starCost: 3
   commonAnswers:
   - text: "Je l\u2019aide quitte \xE0 me faire entra\xEEner."

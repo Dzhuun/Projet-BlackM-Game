@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_24
   m_EditorClassIdentifier: 
   id: 24
-  description: "L\u2019antivol sonne et j\u2019ai oubli\xE9 le ticket \xE0 la caisse
-    :"
+  description: "L\u2019antivol sonne et j\u2019ai oubli\xE9 le ticket \xE0 la caisse."
   starCost: 3
   commonAnswers:
   - text: "J\u2019essaye d\u2019expliquer la situation au vigile."

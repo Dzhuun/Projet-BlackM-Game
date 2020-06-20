@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_14
   m_EditorClassIdentifier: 
   id: 14
-  description: "Je suis invit\xE9(e) \xE0 une soir\xE9e mondaine, ma tenue :"
+  description: "Je suis invit\xE9(e) \xE0 une soir\xE9e mondaine, ma tenue."
   starCost: 4
   commonAnswers:
   - text: Je choisis une tenue sobre.

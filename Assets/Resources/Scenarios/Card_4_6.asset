@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_6
   m_EditorClassIdentifier: 
   id: 6
-  description: 'Un de mes rivaux a fait un meilleur acte que moi :'
+  description: Un de mes rivaux a fait un meilleur acte que moi.
   starCost: 4
   commonAnswers:
   - text: "Je r\xE9fl\xE9chis comment faire mieux."

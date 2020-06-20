@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_2
   m_EditorClassIdentifier: 
   id: 2
-  description: "Je cherche un moyen d\u2019avoir plus de followers :"
+  description: "Je cherche un moyen d\u2019avoir plus de followers."
   starCost: 3
   commonAnswers:
   - text: "J'ach\xE8te des gens pour me suivre."

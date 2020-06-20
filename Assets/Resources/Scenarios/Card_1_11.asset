@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_11
   m_EditorClassIdentifier: 
   id: 11
-  description: "Je d\xE9nonce ma situation sur Social Dive, mais les gens m\u2019ignorent"
+  description: "Je d\xE9nonce ma situation sur Social Dive, mais les gens m\u2019ignorent."
   starCost: 1
   commonAnswers:
   - text: 'Je poste des choses choquantes dessus. '

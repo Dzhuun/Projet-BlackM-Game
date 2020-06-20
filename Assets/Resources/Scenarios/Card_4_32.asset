@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_32
   m_EditorClassIdentifier: 
   id: 32
-  description: "Des marques me demandent de poser selon leurs crit\xE8res :"
+  description: "Des marques me demandent de poser selon leurs crit\xE8res."
   starCost: 4
   commonAnswers:
   - text: Je fais des poses provocatrices.

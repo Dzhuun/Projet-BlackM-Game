@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 5
   description: "Je critique quelqu\u2019un avant de me rendre compte qu\u2019il est
-    derri\xE8re :"
+    derri\xE8re."
   starCost: 2
   commonAnswers:
   - text: "Je pr\xE9cise qu\u2019il s\u2019agissait d\u2019une autre personne."

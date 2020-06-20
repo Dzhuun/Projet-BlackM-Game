@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_30
   m_EditorClassIdentifier: 
   id: 30
-  description: "J\u2019ai un sac, mais ce n\u2019est pas le mien :"
+  description: "J\u2019ai un sac, mais ce n\u2019est pas le mien."
   starCost: 3
   commonAnswers:
   - text: Je le fouille pour trouver des indices.

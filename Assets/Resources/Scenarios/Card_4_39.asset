@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 39
   description: "J\u2019ai vu un article qui peut int\xE9resser mes voisins sur un
-    sujet sensible :"
+    sujet sensible."
   starCost: 4
   commonAnswers:
   - text: "Je cite l\u2019article sur leur profil. "

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_12
   m_EditorClassIdentifier: 
   id: 12
-  description: 'Je percute une personne et nous renverse une boisson dessus :'
+  description: Je percute une personne et je nous renverse une boisson dessus.
   starCost: 2
   commonAnswers:
   - text: "Je m\u2019excuse."

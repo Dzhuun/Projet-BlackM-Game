@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Card_1_17
   m_EditorClassIdentifier: 
   id: 17
-  description: "\xC0 cause de mon rang, je n\u2019ai plus droit aux diff\xE9rents
-    types de transports"
+  description: "\xC0 cause de ma popularit\xE9, je n\u2019ai plus droit aux diff\xE9rents
+    types de transports."
   starCost: 1
   commonAnswers:
   - text: Je fraude.

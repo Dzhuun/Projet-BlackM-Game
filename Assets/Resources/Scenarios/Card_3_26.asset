@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_26
   m_EditorClassIdentifier: 
   id: 26
-  description: "On me questionne : privil\xE9gier le syst\xE8me ou des proches : "
+  description: "On me questionne : faut-il privil\xE9gier le syst\xE8me ou des proches."
   starCost: 3
   commonAnswers:
   - text: Je ne me mouille pas.

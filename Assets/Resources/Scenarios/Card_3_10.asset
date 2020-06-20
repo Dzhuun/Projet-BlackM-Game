@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 10
   description: "Ma nouvelle moiti\xE9 tombe sur des photos de mon ex encore sur mon
-    profil :"
+    profil."
   starCost: 3
   commonAnswers:
   - text: Je l'apaise et garde mes photos.

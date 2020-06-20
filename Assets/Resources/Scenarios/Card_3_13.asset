@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 13
   description: "J\u2019ai une urgence au travail, mais j\u2019avais promis d\u2019\xEAtre
-    avec ma famille :"
+    avec ma famille."
   starCost: 3
   commonAnswers:
   - text: "J\u2019explique pourquoi je fais tel choix."

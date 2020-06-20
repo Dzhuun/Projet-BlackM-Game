@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_23
   m_EditorClassIdentifier: 
   id: 23
-  description: "Je suis surpris(e) \xE0 \xE9pier une conversation : "
+  description: "Je suis surpris(e) \xE0 \xE9pier une conversation."
   starCost: 2
   commonAnswers:
   - text: "Je pr\xE9texte un mauvais timing."

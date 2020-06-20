@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_18
   m_EditorClassIdentifier: 
   id: 18
-  description: "Je fais tomber une pile de documents, ils sont m\xE9lang\xE9s :"
+  description: "Je fais tomber une pile de documents, ils sont m\xE9lang\xE9s."
   starCost: 2
   commonAnswers:
   - text: Je pose tout sur le bureau de la personne.

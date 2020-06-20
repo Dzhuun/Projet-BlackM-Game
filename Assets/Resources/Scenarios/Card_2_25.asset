@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Card_2_25
   m_EditorClassIdentifier: 
   id: 25
-  description: 'On me surprend dans la chambre avec un(e) mineur(e), mais je n''ai
-    rien fait :'
+  description: On me surprend dans la chambre avec un(e) mineur(e), mais je n'ai rien
+    fait.
   starCost: 2
   commonAnswers:
   - text: "Je me d\xE9fends."

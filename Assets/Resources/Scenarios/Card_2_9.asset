@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_9
   m_EditorClassIdentifier: 
   id: 9
-  description: "Je suis en retard \xE0 une r\xE9union importante :"
+  description: "Je suis en retard \xE0 une r\xE9union importante."
   starCost: 2
   commonAnswers:
   - text: "J'esp\xE8re que l'accueil a pass\xE9 le mot."

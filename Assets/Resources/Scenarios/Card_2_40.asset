@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_40
   m_EditorClassIdentifier: 
   id: 40
-  description: 'Mon ex me menace de publier des photos compromettantes : '
+  description: Mon ex me menace de publier des photos compromettantes.
   starCost: 2
   commonAnswers:
   - text: "Je la d\xE9nonce."

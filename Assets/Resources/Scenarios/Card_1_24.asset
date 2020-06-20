@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 24
   description: "La veste que j\u2019essayais de r\xE9cup\xE9rer est en fait \xE0 ce
-    2 \xE9toiles :"
+    2 \xE9toiles."
   starCost: 1
   commonAnswers:
   - text: "Je l\xE2che avec des excuses."

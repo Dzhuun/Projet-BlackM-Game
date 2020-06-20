@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_35
   m_EditorClassIdentifier: 
   id: 35
-  description: "On me surprend en train de regarder quelqu\u2019un, c\u2019est \u201Cr\xE9pugnant\u201D
-    :"
+  description: "On me surprend en train de regarder quelqu\u2019un, c\u2019est \u201Cr\xE9pugnant\u201D."
   starCost: 1
   commonAnswers:
   - text: "Je n'essaye pas d\u2019argumenter. "

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_7
   m_EditorClassIdentifier: 
   id: 7
-  description: "Je veux me faire de la pub dans mon groupe sur le r\xE9seau : "
+  description: "Je veux me faire de la pub dans mon groupe sur le r\xE9seau."
   starCost: 3
   commonAnswers:
   - text: "Je demande un espace d\xE9di\xE9 aux pubs."

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_37
   m_EditorClassIdentifier: 
   id: 37
-  description: "Je sors d\u2019une soir\xE9e ivre, un groupe m\u2019intercepte :"
+  description: "Je sors d\u2019une soir\xE9e ivre, un groupe m\u2019intercepte."
   starCost: 2
   commonAnswers:
   - text: "Je crie le plus fort possible \u201C\xE0 l\u2019aide\u201D."

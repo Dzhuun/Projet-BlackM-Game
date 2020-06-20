@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_30
   m_EditorClassIdentifier: 
   id: 30
-  description: 'Mon entourage a honte de moi et j''abandonne :'
+  description: Mon entourage a honte de moi et j'abandonne.
   starCost: 1
   commonAnswers:
   - text: Je supprime mes liens sur Social Dive.

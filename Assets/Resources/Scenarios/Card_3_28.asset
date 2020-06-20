@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_28
   m_EditorClassIdentifier: 
   id: 28
-  description: "Je fais une erreur irr\xE9parable au travail, je ne suis pas soup\xE7onn\xE9(e)
-    :"
+  description: "Je fais une erreur irr\xE9parable au travail, je ne suis pas soup\xE7onn\xE9(e)."
   starCost: 3
   commonAnswers:
   - text: "Je propose qu\u2019on passe \xE0 autre chose."
@@ -47,7 +46,7 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
       traitRespected: 10
       traitNotRespected: -5
-  - text: "Je surveiller l\u2019enqu\xEAte quitte \xE0 la saboter."
+  - text: "Je surveille l\u2019enqu\xEAte quitte \xE0 la saboter."
     likesValue: 10
     traits:
     - trait: {fileID: 11400000, guid: 750c54b71a4f0cb4b93abaa8c5127983, type: 2}

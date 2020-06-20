@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Card_1_19
   m_EditorClassIdentifier: 
   id: 19
-  description: "Partout o\xF9 je vais, des remarques ou regards m'accompagnent :"
+  description: "Partout o\xF9 je vais, des remarques ou regards m'accompagnent."
   starCost: 1
   commonAnswers:
-  - text: J'essaye de pas les voir ni les entendre.
+  - text: J'essaye de ne pas les voir ni les entendre.
     likesValue: 0
     traits:
     - trait: {fileID: 11400000, guid: 649686944069ed8488cdc42bbf157959, type: 2}

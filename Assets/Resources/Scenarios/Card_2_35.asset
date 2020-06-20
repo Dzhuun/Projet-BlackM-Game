@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_35
   m_EditorClassIdentifier: 
   id: 35
-  description: "Je fais tomber un objet de mon balcon sur quelqu\u2019un :"
+  description: "Je fais tomber un objet de mon balcon sur quelqu\u2019un."
   starCost: 2
   commonAnswers:
   - text: "Je me cache, pour ne pas \xEAtre vu(e)."

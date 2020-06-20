@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_19
   m_EditorClassIdentifier: 
   id: 19
-  description: "Je suis dans la file depuis 1h, un 4 \xE9toiles passe devant moi :"
+  description: "Je suis dans la file depuis 1h, un 4 \xE9toiles passe devant moi."
   starCost: 3
   commonAnswers:
   - text: Je fais une remarque.

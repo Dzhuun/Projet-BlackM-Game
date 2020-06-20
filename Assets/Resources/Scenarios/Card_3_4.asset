@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_4
   m_EditorClassIdentifier: 
   id: 4
-  description: "On m\u2019accuse d\u2019avoir trich\xE9 \xE0 un concours :"
+  description: "On m\u2019accuse d\u2019avoir trich\xE9 \xE0 un concours."
   starCost: 3
   commonAnswers:
   - text: "Je demande \xE0 des gens de t\xE9moigner."
@@ -46,7 +46,7 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: 80f232a101df311409ed662d778dacce, type: 2}
       traitRespected: 10
       traitNotRespected: -5
-  - text: "Je d\xE9nonce le fait qu\u2019on veuille discr\xE9diter ma victoire"
+  - text: "Je d\xE9nonce le fait qu\u2019on veuille discr\xE9diter ma victoire."
     likesValue: 10
     traits:
     - trait: {fileID: 11400000, guid: 211c90b6d30e8cc42b507225240fc219, type: 2}

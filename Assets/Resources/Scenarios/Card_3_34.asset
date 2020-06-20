@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 34
   description: "J\u2019ai sign\xE9 pour un don d\u2019organe, on me dit allergique
-    aux anesth\xE9siques  "
+    aux anesth\xE9siques."
   starCost: 3
   commonAnswers:
-  - text: Finalement je refuse.
+  - text: Finalement, je refuse.
     likesValue: 30
     traits:
     - trait: {fileID: 11400000, guid: 649686944069ed8488cdc42bbf157959, type: 2}
@@ -32,7 +32,7 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: ef026e37720128f4db56fa54fc564361, type: 2}
       traitRespected: 10
       traitNotRespected: -5
-  - text: Je cherche un autre donateur.
+  - text: Je cherche un autre donneur.
     likesValue: 20
     traits:
     - trait: {fileID: 11400000, guid: 211c90b6d30e8cc42b507225240fc219, type: 2}

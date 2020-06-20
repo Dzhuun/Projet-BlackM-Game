@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_1
   m_EditorClassIdentifier: 
   id: 1
-  description: "Un(e) ado sort de nulle part en me demandant un test d\u2019ADN :"
+  description: "Un(e) ado sort de nulle part en me demandant un test d\u2019ADN."
   starCost: 3
   commonAnswers:
   - text: "Je suis certain(e) de n\u2019avoir aucun lien de parent\xE9."

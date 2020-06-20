@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_31
   m_EditorClassIdentifier: 
   id: 31
-  description: "J'ai perdu les alliances confi\xE9es :"
+  description: "J'ai perdu les alliances que l\u2019on m\u2019a confi\xE9es."
   starCost: 3
   commonAnswers:
   - text: "Je demande de l\u2019aide aux parents."

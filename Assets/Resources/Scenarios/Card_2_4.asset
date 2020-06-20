@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   description: "Oblig\xE9(e) de faire de l\u2019auto-stop, le seul v\xE9hicule qui
-    s\u2019arr\xEAte semble louche :"
+    s\u2019arr\xEAte semble louche."
   starCost: 2
   commonAnswers:
   - text: "R\xE9sign\xE9(e), je monte."

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_24
   m_EditorClassIdentifier: 
   id: 24
-  description: 'On me propose un pot-de-vin contre des informations :'
+  description: On me propose un pot-de-vin contre des informations.
   starCost: 4
   commonAnswers:
   - text: "Je p\xE8se le pour et le contre avant de me prononcer. "
@@ -53,7 +53,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
   specificAnswers:
-  - text: "Je refuse c\u2019est contre ma morale"
+  - text: "Je refuse c\u2019est contre ma morale."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
@@ -72,7 +72,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
-  - text: Je demande plus
+  - text: Je demande plus.
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 7d4a84a3d5ce4544db9af25dabc62426, type: 2}

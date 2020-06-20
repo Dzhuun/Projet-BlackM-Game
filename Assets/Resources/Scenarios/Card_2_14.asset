@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_14
   m_EditorClassIdentifier: 
   id: 14
-  description: 'On me surcharge de travail volontairement :'
+  description: On me surcharge de travail volontairement.
   starCost: 2
   commonAnswers:
   - text: J'encaisse sans rien dire.

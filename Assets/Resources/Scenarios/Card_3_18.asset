@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_18
   m_EditorClassIdentifier: 
   id: 18
-  description: "Un autre a d\xE9pens\xE9 mon argent suite \xE0 une erreur de la banque
-    :"
+  description: "Un autre a d\xE9pens\xE9 mon argent suite \xE0 une erreur de la banque."
   starCost: 3
   commonAnswers:
   - text: Je vais porter plainte.

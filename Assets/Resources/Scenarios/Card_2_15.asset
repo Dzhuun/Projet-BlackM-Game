@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_15
   m_EditorClassIdentifier: 
   id: 15
-  description: "Mon coll\xE8gue me r\xE9veille pendant une r\xE9union :"
+  description: "Mon coll\xE8gue me r\xE9veille pendant une r\xE9union."
   starCost: 2
   commonAnswers:
   - text: Je feins la concentration.

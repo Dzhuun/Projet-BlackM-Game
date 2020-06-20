@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_37
   m_EditorClassIdentifier: 
   id: 37
-  description: "J\u2019ai des doutes r\xE9cents sur la fiabilit\xE9 de mon Bras Droit
-    :"
+  description: "J\u2019ai des doutes r\xE9cents sur la fiabilit\xE9 de mon Bras Droit."
   starCost: 4
   commonAnswers:
   - text: Je le fais suivre.

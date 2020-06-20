@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_3
   m_EditorClassIdentifier: 
   id: 3
-  description: "Je vais \xE0 une agence immobili\xE8re, mais on ferme devant moi"
+  description: "Je vais \xE0 une agence immobili\xE8re, mais on ferme devant moi."
   starCost: 1
   commonAnswers:
   - text: "Je leur annonce ne plus bouger jusqu'\xE0 l\u2019ouverture."

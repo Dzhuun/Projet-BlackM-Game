@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_16
   m_EditorClassIdentifier: 
   id: 16
-  description: "Je suis dans les bouchons, mon patron m\u2019a en ligne de mire : "
+  description: "Je suis dans les bouchons, mon patron m\u2019a en ligne de mire."
   starCost: 2
   commonAnswers:
   - text: "Je demande \xE0 mes coll\xE8gues d\u2019allumer mon pc."

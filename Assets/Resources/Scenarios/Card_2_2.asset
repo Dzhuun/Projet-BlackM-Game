@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_2
   m_EditorClassIdentifier: 
   id: 2
-  description: 'Je bouscule un enfant qui tombe :'
+  description: Je bouscule un enfant qui tombe.
   starCost: 2
   commonAnswers:
   - text: "Je le rel\xE8ve et le d\xE9poussi\xE8re."

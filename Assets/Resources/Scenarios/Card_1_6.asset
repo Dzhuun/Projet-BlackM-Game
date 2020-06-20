@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Card_1_6
   m_EditorClassIdentifier: 
   id: 6
-  description: "J\u2019ai un accident du travail, mais mon rang ne permet pas d\u2019acc\xE9der
-    aux soins"
+  description: "J\u2019ai un accident du travail, mais ma popularit\xE9 ne permet
+    pas d\u2019acc\xE9der aux soins."
   starCost: 1
   commonAnswers:
   - text: "J\u2019insiste pour \xEAtre pris(e) dans un h\xF4pital."
