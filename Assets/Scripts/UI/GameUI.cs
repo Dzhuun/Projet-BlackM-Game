@@ -21,7 +21,13 @@ public class GameUI : MonoBehaviour
     public TextMeshProUGUI playerDescription;
 
     [Header("Start")]
-    public GameObject charactersDisplay;
+    public GameObject startPhaseDisplay;
+    public GameObject startPhase1;
+    public TextMeshProUGUI startPhaseText;
+    public GameObject startPhase2;
+    public Button startFirstTurnButton;
+    public GameObject startFirstTurnIcon;
+    public GameObject startFirstTurnText;
 
     [Header("DrawCard")]
     public GameObject drawCardDisplay;
@@ -98,6 +104,7 @@ public class GameUI : MonoBehaviour
     {
         Instance = this;
 
+        startPhaseDisplay.SetActive(false);
         drawCardDisplay.SetActive(false);
         waitForDrawCardDisplay.SetActive(false);
         answerDisplay.SetActive(false);
@@ -108,12 +115,43 @@ public class GameUI : MonoBehaviour
         shoppingDisplay.SetActive(false);
     }
 
+
     /// <summary>
-    /// Fades out the initial display of characters.
+    /// Shows the first part of the beginning of the game.
     /// </summary>
-    public void HideCharacters()
+    public void ShowStartPhase1(NetworkPlayer player)
     {
-        animatorUI.SetTrigger("HideCharacters");
+        InitializeAvatars();
+
+        ShowPlayerInfos(player);
+
+        startPhaseDisplay.SetActive(true);
+
+        startPhase1.SetActive(true);
+        startPhase2.SetActive(false);
+
+        startPhaseText.text = string.Format("Tu incarnes {0}, voici ton profil.", player.character.GetFirstName());
+    }
+
+    /// <summary>
+    /// Shows the second part of the beginning of the game.
+    /// </summary>
+    public void ShowStartPhase2()
+    {
+        startPhase1.SetActive(false);
+        startPhase2.SetActive(true);
+
+        startFirstTurnIcon.SetActive(false);
+    }
+
+    /// <summary>
+    /// Deactivates the button that sets ready for the first turn.
+    /// </summary>
+    public void DeactivateFirstTurnButton()
+    {
+        startFirstTurnButton.interactable = false;
+        startFirstTurnIcon.SetActive(true);
+        startFirstTurnText.SetActive(false);
     }
 
     /// <summary>
@@ -122,14 +160,8 @@ public class GameUI : MonoBehaviour
     /// <param name="currentPlayer">The network player that is currently playing.</param>
     public void BeginTurn(NetworkPlayer currentPlayer)
     {
-        _currentPlayer = currentPlayer;
-        _isLocal = _currentPlayer == NetworkPlayer.LocalPlayerInstance;
+        _isLocal = currentPlayer == NetworkPlayer.LocalPlayerInstance;
         _observedPlayer = NetworkPlayer.LocalPlayerInstance;
-        //itemsLostText.text = "";
-        
-        InitializeAvatars();
-
-        ShowPlayerInfos(_observedPlayer);
     }
 
     /// <summary>
@@ -211,6 +243,7 @@ public class GameUI : MonoBehaviour
     {
         int fameLevel = Mathf.FloorToInt(player.fame);
 
+        startPhaseDisplay.SetActive(false);
         shoppingDisplay.SetActive(false);
         waitForShoppingDisplay.SetActive(false);
 

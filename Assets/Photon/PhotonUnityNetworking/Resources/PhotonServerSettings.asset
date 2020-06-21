@@ -59,6 +59,8 @@ MonoBehaviour:
   - TestRPC
   - SendNewTrait
   - SendSkipToShop
+  - AddPlayerReadyForFirstTurn
+  - StartFirstTurn
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

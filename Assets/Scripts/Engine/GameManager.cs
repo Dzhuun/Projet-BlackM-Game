@@ -32,7 +32,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int _currentTurnCount = 0;
     private int _maxTurnCount = 0;
     private bool _playersReady;
-    private GameState _state = GameState.Start;
+    private int _playersFirstTurnReadyCount = 0;
+    private GameState _state = GameState.None;
     private int[] _playersLikes;
     private int _societyLikesValue = 0;
     private int _updateMentalHealth = 0;
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     enum GameState
     {
+        None,
         Start,
         BeginTurn,
         DrawScenario,
@@ -154,12 +156,49 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         // The game will end after 10 complete rounds
         _maxTurnCount = PhotonNetwork.CurrentRoom.PlayerCount * 10;
-
-        //gameUI.DisplayCharacters();
-
+        
         SettingsManager.transition.FadeOut();
+        
+        // State : Start -> BeginTurn
+        MoveToNextState();
+    }
 
-        StartCoroutine(StartGameDelay());
+    /// <summary>
+    /// Shows the informations on the start of the game.
+    /// </summary>
+    private void StartGamePhase()
+    {
+        GameUI.Instance.ShowStartPhase1(NetworkPlayer.LocalPlayerInstance);
+    }
+
+    /// <summary>
+    /// Indicates the master client that a player is ready for the first turn.
+    /// </summary>
+    public void SendFirstTurnReady()
+    {
+        GameUI.Instance.DeactivateFirstTurnButton();
+
+        photonView.RPC("AddPlayerReadyForFirstTurn", RpcTarget.MasterClient);
+    }
+
+    [PunRPC]
+    private void AddPlayerReadyForFirstTurn()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            _playersFirstTurnReadyCount++;
+
+            if(_playersFirstTurnReadyCount == PhotonNetwork.CurrentRoom.PlayerCount)
+            {
+                photonView.RPC("StartFirstTurn", RpcTarget.All);
+            }
+        }
+    }
+
+    [PunRPC]
+    private void StartFirstTurn()
+    {
+        MoveToNextState();
     }
 
     /// <summary>
@@ -183,26 +222,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Starts the game after a short delay.
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator StartGameDelay()
-    {
-        yield return new WaitForSeconds(4);
-
-        //gameUI.HideCharacters();
-
-        // State : Start -> BeginTurn
-        MoveToNextState();
-    }
-
-    /// <summary>
     /// Move to the next state of the game according to the current state.
     /// </summary>
     private void MoveToNextState()
     {
         switch (_state)
         {
+            case GameState.None:
+                _state = GameState.Start;
+                StartGamePhase();
+                break;
+
             case GameState.Start:
                 _state = GameState.BeginTurn;
                 BeginTurn();
