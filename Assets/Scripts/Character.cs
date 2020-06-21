@@ -19,5 +19,14 @@ public class Character : ScriptableObject
         male = charToCopy.male; 
         traits = new List<CharacterTrait>(charToCopy.traits);
     }
+
+    /// <summary>
+    /// Gets the character's first name.
+    /// </summary>
+    /// <returns>The character's first name.</returns>
+    public string GetFirstName()
+    {
+        return nickname.Split(' ')[0];
+    }
 }
 

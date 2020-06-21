@@ -26,24 +26,27 @@ public class GameUI : MonoBehaviour
     [Header("DrawCard")]
     public GameObject drawCardDisplay;
     public TextMeshProUGUI drawText;
+    public TMP_InputField drawCardInputField;
 
     [Header("WaitForDrawCard")]
     public GameObject waitForDrawCardDisplay;
     public TextMeshProUGUI waitDrawTitle;
+    public Image waitDrawAvatar;
     public TextMeshProUGUI waitDrawText;
 
     [Header("Answer")]
     public GameObject answerDisplay;
-    public GameObject waitForAnswerDisplay;
     public TextMeshProUGUI scenarioDescription;
-    public TextMeshProUGUI scenarioDescriptionWhenWaiting;
-    public TextMeshProUGUI waitingAnswerText;
     public List<AnswerDisplay> answersToSelect;
+
+    [Header("WaitForAnswer")]
+    public GameObject waitForAnswerDisplay;
+    public TextMeshProUGUI waitForAnswerTitle;
+    public TextMeshProUGUI scenarioDescriptionWhenWaiting;
     public List<AnswerDisplay> answersWhenWaiting;
 
     [Header("ChooseOpinion")]
     public GameObject chooseOpinionDisplay;
-    public GameObject waitForOpinionDisplay;
     public Button validateOpinionButton;
     public GameObject validatedOpinionIcon;
     public GameObject validateOpinionText;
@@ -54,9 +57,16 @@ public class GameUI : MonoBehaviour
     public TextMeshProUGUI noteValue;
     public LikesIncrementHandler likesIncrementHandler;
 
+    [Header("WaitForOpinion")]
+    public GameObject waitForOpinionDisplay;
+    public TextMeshProUGUI waitForOpinionTitle;
+    public TextMeshProUGUI waitForOpinionText;
+
 
     [Header("ShowOpinion")]
     public GameObject showOpinionDisplay;
+    public GameObject opinionPanel;
+    public GameObject lostFamePanel;
     public TextMeshProUGUI scenarioDescription_showOpinion;
     public TextMeshProUGUI answerText_showOpinion;
     public TextMeshProUGUI positivePlayersLikesUpdateValue;
@@ -72,7 +82,11 @@ public class GameUI : MonoBehaviour
 
     [Header("Shopping")]
     public GameObject shoppingDisplay;
+    public TextMeshProUGUI shoppingText;
+
+    [Header("WaitForShopping")]
     public GameObject waitForShoppingDisplay;
+    public TextMeshProUGUI waitForShoppingText;
 
     private bool _isLocal;
     private NetworkPlayer _currentPlayer;
@@ -152,7 +166,15 @@ public class GameUI : MonoBehaviour
 
         // Display graphics UI
         fameGauge.SetGauge(player.fame);
-        mentalHealthUI.SetMentalHealth(player);
+
+        if(player == NetworkPlayer.LocalPlayerInstance)
+        {
+            mentalHealthUI.SetMentalHealth(player);
+        }
+        else
+        {
+            mentalHealthUI.SetActive(false);
+        }
 
         // Display traits
         string traitsText = string.Empty;
@@ -187,13 +209,25 @@ public class GameUI : MonoBehaviour
     /// <param name="currentPlayer">True if it is the local player's turn.</param>
     public void ShowDrawCardDisplay(NetworkPlayer player)
     {
+        int fameLevel = Mathf.FloorToInt(player.fame);
+
         shoppingDisplay.SetActive(false);
         waitForShoppingDisplay.SetActive(false);
 
         drawCardDisplay.SetActive(_isLocal);
         waitForDrawCardDisplay.SetActive(!_isLocal);
 
-        drawText.text = string.Format("Pioche une carte évènement {0} étoiles", Mathf.FloorToInt(player.fame));
+        if(_isLocal)
+        {
+            drawText.text = string.Format("Pioche une carte évènement {0} étoile{1}", fameLevel, fameLevel > 1 ? "s" : string.Empty);
+            drawCardInputField.text = string.Empty;
+        }
+        else
+        {
+            waitDrawTitle.text = string.Format("A {0} de jouer !", player.character.GetFirstName());
+            waitDrawAvatar.sprite = player.character.avatar;
+            waitDrawText.text = string.Format("En attente que {0} pioche une carte {1} étoile{2}..", player.character.GetFirstName(), fameLevel, fameLevel > 1 ? "s" : string.Empty);
+        }
     }
 
     /// <summary>
@@ -202,12 +236,12 @@ public class GameUI : MonoBehaviour
     /// <param name="scenarioID">The ID of the drawn scenario.</param>
     /// <param name="character">The character that draws the scenario.</param>
     /// <param name="isLocal">Indicates if the local player has to select the answer.</param>
-    public void ShowAnswers(int scenarioID, Character character)
+    public void ShowAnswers(int scenarioID, NetworkPlayer player)
     {
         drawCardDisplay.SetActive(false);
         waitForDrawCardDisplay.SetActive(false);
 
-        Scenario scenario = Database.GetScenario(GameManager.currentPlayer.fame, scenarioID);
+        Scenario scenario = Database.GetScenario(player.fame, scenarioID);
 
         if(scenario.commonAnswers.Count < 3)
         {
@@ -227,9 +261,7 @@ public class GameUI : MonoBehaviour
         }
 
         // Find the answer that correspond to the current character then setups the UI
-        answers[3].SetupInfos(scenario.specificAnswers.Find(x => x.character.nickname == character.nickname));
-        scenarioDescription.text = scenario.description;
-        scenarioDescriptionWhenWaiting.text = scenario.description;
+        answers[3].SetupInfos(scenario.specificAnswers.Find(x => x.character.nickname == player.character.nickname));
 
         // Randomize answers order
         List<int> transformOrder = new List<int>();
@@ -246,7 +278,15 @@ public class GameUI : MonoBehaviour
             transformOrder.RemoveAt(randomIndex);
         }
         
-        //animatorUI.SetTrigger("ShowAnswers");
+        if(_isLocal)
+        {
+            scenarioDescription.text = scenario.description;
+        }
+        else
+        {
+            scenarioDescriptionWhenWaiting.text = scenario.description;
+            waitForAnswerTitle.text = string.Format("A {0} de jouer !", player.character.GetFirstName());
+        }
     }
 
     /// <summary>
@@ -269,12 +309,10 @@ public class GameUI : MonoBehaviour
 
         scenarioDescription_chooseOpinion.text = question;
         answerText_chooseOpinion.text = answer;
-        voteTitle.text = string.Format("Note {0}",GameManager.currentPlayer.character.nickname.Split(' ')[0]);
+        voteTitle.text = string.Format("Note {0}",GameManager.currentPlayer.character.GetFirstName());
 
         likesIncrementHandler.UpdateSettings(NetworkPlayer.LocalPlayerInstance.fame);
         maxVoteText.text = string.Format("Tu peux distribuer {0} votes au maximum", LikesIncrementHandler.maxValue);
-        
-        //animatorUI.SetTrigger("ChooseOpinion");
     }
 
     /// <summary>
@@ -323,6 +361,8 @@ public class GameUI : MonoBehaviour
         waitForOpinionDisplay.SetActive(false);
 
         showOpinionDisplay.SetActive(true);
+        opinionPanel.SetActive(true);
+        lostFamePanel.SetActive(false);
 
         RefreshPlayerInfos();
 
@@ -375,14 +415,33 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
+    /// Activates the UI that shows the fame and items lost.
+    /// </summary>
+    public void ShowFameLost()
+    {
+        opinionPanel.SetActive(false);
+        lostFamePanel.SetActive(true);
+    }
+
+    /// <summary>
     /// Activates the UI that shows the shop.
     /// </summary>
-    public void ShowShop()
+    public void ShowShop(NetworkPlayer player)
     {
         showOpinionDisplay.SetActive(false);
 
         shoppingDisplay.SetActive(_isLocal);
         waitForShoppingDisplay.SetActive(!_isLocal);
+
+        if(_isLocal)
+        {
+            int fameLevel = Mathf.FloorToInt(player.fame);
+            shoppingText.text = string.Format("Souhaites-tu acheter un bien {0} étoile{1}", fameLevel, fameLevel > 1 ? "s" : string.Empty);
+        }
+        else
+        {
+            waitForShoppingText.text = string.Format("Patience, {0} effectue ses achats", player.character.GetFirstName());
+        }
 
         ShopManager.Instance.UpdateDisplays();
 

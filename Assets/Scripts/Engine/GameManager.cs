@@ -20,11 +20,13 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     #endregion
     
+    public static GameManager Instance { get; private set; }
     public static List<NetworkPlayer> orderedPlayers;
     public static NetworkPlayer currentPlayer;
     private static List<NetworkPlayer> _players = new List<NetworkPlayer>();
     private List<Answer> _answers = new List<Answer>();
     private Scenario _currentScenario;
+    private AnswerDisplay _clickedAnswer;
     private Answer _selectedAnswer;
     private int _currentIndexTurn = -1;
     private int _currentTurnCount = 0;
@@ -35,10 +37,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int _societyLikesValue = 0;
     private int _updateMentalHealth = 0;
     private int _opinionCount = 0;
+    private bool _hasLostFame;
 
     #region MonoBehaviour
     private void Awake()
     {
+        Instance = this;
+
         // Fill the ordererd players list with null value
         // These null values will be replaced by the players and their index will correspond to their turn order
         orderedPlayers = new List<NetworkPlayer>();
@@ -280,7 +285,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         else
         {
             // Display error message
-
+            Debug.LogError("Wrong card ID");
         }
     }
 
@@ -305,16 +310,32 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void SelectAnswerPhase()
     {
-        GameUI.Instance.ShowAnswers(_currentScenario.id, currentPlayer.character);
+        _clickedAnswer = null;
+
+        GameUI.Instance.ShowAnswers(_currentScenario.id, currentPlayer);
+    }
+
+    /// <summary>
+    /// Selects an answer.
+    /// </summary>
+    /// <param name="answerDisplay">The UI element that was selected.</param>
+    public void SelectAnswer(AnswerDisplay answerDisplay)
+    {
+        if(_clickedAnswer != null)
+        {
+            _clickedAnswer.Deselect();
+        }
+
+        _clickedAnswer = answerDisplay;
     }
 
     /// <summary>
     /// Indicates all the clients the selected answer.
     /// </summary>
     /// <param name="answerID">The ID of the selected answer.</param>
-    public void SelectAnswer(int answerID)
+    public void ValidateAnswer()
     {
-        _selectedAnswer = _answers[answerID - 1];
+        _selectedAnswer = _answers[_clickedAnswer.answerID - 1];
         _societyLikesValue = _selectedAnswer.likesValue;
         _updateMentalHealth = 0;
 
@@ -340,7 +361,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         ComputeMentalHealth(_updateMentalHealth);
 
-        photonView.RPC("ReceiveSelectedAnswer", RpcTarget.Others, answerID, _societyLikesValue, _updateMentalHealth);
+        photonView.RPC("ReceiveSelectedAnswer", RpcTarget.Others, _clickedAnswer.answerID, _societyLikesValue, _updateMentalHealth);
 
         if (currentPlayer.GetMentalHealthLevel() >= 2 && !currentPlayer.hasInactiveTrait)
         {
@@ -431,6 +452,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void OpinionPhase()
     {
         _opinionCount = 0;
+        _hasLostFame = false;
 
         _playersLikes = new int[PhotonNetwork.CurrentRoom.PlayerCount - 1];
 
@@ -465,12 +487,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (_opinionCount == PhotonNetwork.CurrentRoom.PlayerCount - 1)
             {
                 // Compute first the likes and fame earned locally
-                ComputeLikes(NetworkPlayer.LocalPlayerInstance.orderIndex, _playersLikes, _societyLikesValue);
+                ComputeLikes(_playersLikes, _societyLikesValue);
 
                 // In order to check if a trait was earned or not
                 ComputeEarnedTraits();
 
-                photonView.RPC("ComputeLikes", RpcTarget.Others, NetworkPlayer.LocalPlayerInstance.orderIndex, _playersLikes, _societyLikesValue);
+                photonView.RPC("ComputeLikes", RpcTarget.Others, _playersLikes, _societyLikesValue);
             }
         }
     }
@@ -481,7 +503,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// <param name="orderIndex">The order index of the character that has its like value updated.</param>
     /// <param name="newValue">The new like value of the character.</param>
     [PunRPC]
-    private void ComputeLikes(int orderIndex, int[] playersLikes, int societyLikes)
+    private void ComputeLikes(int[] playersLikes, int societyLikes)
     {
         int likesUpdate = societyLikes;
 
@@ -519,11 +541,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         likesUpdate += mentalHealthDislikes;
 
-        orderedPlayers[orderIndex].likes += likesUpdate;
+        currentPlayer.likes += likesUpdate;
 
-        if (orderedPlayers[orderIndex].likes < 0)
+        if (currentPlayer.likes < 0)
         {
-            orderedPlayers[orderIndex].likes = 0;
+            currentPlayer.likes = 0;
         }
         
         float popularityUpdate = likesUpdate * 0.02f;
@@ -531,17 +553,22 @@ public class GameManager : MonoBehaviourPunCallbacks
         // Correcting some floating point precision error (hoping it really does)
         popularityUpdate = Mathf.Round(popularityUpdate * 100) / 100;
 
-        if (orderedPlayers[orderIndex].fame + popularityUpdate > 5)
+        float previousFame = currentPlayer.fame;
+
+        if (previousFame + popularityUpdate > 5)
         {
-            popularityUpdate = 5 - orderedPlayers[orderIndex].fame;
-            orderedPlayers[orderIndex].fame = 5;
+            popularityUpdate = 5 - previousFame;
+            currentPlayer.fame = 5;
         }
         else
         {
-            orderedPlayers[orderIndex].fame += popularityUpdate;
+            currentPlayer.fame += popularityUpdate;
         }
 
-        ComputeLostItems();
+        if(Mathf.FloorToInt(previousFame) > Mathf.FloorToInt(currentPlayer.fame))
+        {
+            ComputeLostItems();
+        }
 
         GameUI.Instance.ShowOpinionResults(positivePlayerLikes, negativePlayerLikes, _societyLikesValue, mentalHealthDislikes, likesUpdate, popularityUpdate, _selectedAnswer.text, _currentScenario.description);
     }
@@ -611,6 +638,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ComputeLostItems()
     {
+        _hasLostFame = true;
+
         float popularityLevel = Mathf.Floor(currentPlayer.fame);
 
         if(popularityLevel < 1)
@@ -680,7 +709,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Informs all player to continue to the shopping phase.
+    /// Informs all player to continue to the next state.
     /// </summary>
     public void SkipOpinion()
     {
@@ -688,12 +717,37 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Continues to the shopping after the opinion results were shown.
+    /// Continues to the shopping or show the fame lost.
     /// </summary>
     [PunRPC]
     private void SendSkipOpinion()
     {
+        if(_hasLostFame)
+        {
+            GameUI.Instance.ShowFameLost();
+        }
+        else
+        {
+            // Opinion -> Shopping
+            MoveToNextState();
+        }
+    }
+
+    /// <summary>
+    /// Informs all player to continue to the shoppping phase.
+    /// </summary>
+    public void SkipToShop()
+    {
         // Opinion -> Shopping
+        photonView.RPC("SendSkipToShop", RpcTarget.All);
+    }
+
+    /// <summary>
+    /// Continues to the shop.
+    /// </summary>
+    [PunRPC]
+    private void SendSkipToShop()
+    {
         MoveToNextState();
     }
 
@@ -702,7 +756,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ShoppingPhase()
     {
-        GameUI.Instance.ShowShop();
+        GameUI.Instance.ShowShop(currentPlayer);
     }
 
     /// <summary>

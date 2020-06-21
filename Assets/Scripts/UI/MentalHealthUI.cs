@@ -28,11 +28,15 @@ public class MentalHealthUI : MonoBehaviour
         panel.SetActive(false);
     }
 
+    /// <summary>
+    /// Updates the mental Health UI.
+    /// </summary>
+    /// <param name="player">The player concerned.</param>
     public void SetMentalHealth(NetworkPlayer player)
     {
+        gameObject.SetActive(true);
 
         float mentalHealth = player.mentalHealth;
-        Debug.Log("MentalHealth = " + mentalHealth);
 
         // The visual graphic of the mental health is a slider between 5% and 95% of the fill amount of the image
         // Let's linearly interpolate the mentalHealth value (between 0 and 100) to the interval [0.05;0.95]
@@ -53,7 +57,6 @@ public class MentalHealthUI : MonoBehaviour
 
         mentalHealthValue.text = string.Format("{0}%", mentalHealth);
         panelGauge.fillAmount = mentalHealth / 100;
-        Debug.Log("Fill AMoune= " + panelGauge.fillAmount);
 
         int mentalLevel = player.GetMentalHealthLevel();
 
@@ -63,8 +66,20 @@ public class MentalHealthUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Toggles the active state of the mental health panel.
+    /// </summary>
     public void TogglePanel()
     {
         panel.SetActive(!panel.activeInHierarchy);
+    }
+
+    /// <summary>
+    /// Hides the complete mental Health UI.
+    /// </summary>
+    public void SetActive(bool active)
+    {
+        panel.SetActive(active);
+        gameObject.SetActive(active);
     }
 }
