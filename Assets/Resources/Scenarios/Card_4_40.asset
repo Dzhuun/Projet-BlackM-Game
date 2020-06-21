@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 40
   description: "J\u2019ai \xE9t\xE9 invit\xE9(e) sur un plateau, on me pose des questions
-    pi\xE8ges :"
+    pi\xE8ges."
   starCost: 4
   commonAnswers:
-  - text: "Je d\xE9tourne la conversation"
+  - text: "Je d\xE9tourne le sujet de conversation."
     likesValue: 45
     traits:
     - trait: {fileID: 11400000, guid: e5319631c7c9a604ebf3e9f2f664f2db, type: 2}

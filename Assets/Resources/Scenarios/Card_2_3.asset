@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_3
   m_EditorClassIdentifier: 
   id: 3
-  description: "Dans ma chute, je casse un objet tr\xE8s cher :"
+  description: "Dans ma chute, je casse un objet tr\xE8s cher."
   starCost: 2
   commonAnswers:
   - text: "Je m\u2019excuse le plus platement possible."

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_36
   m_EditorClassIdentifier: 
   id: 36
-  description: 'Le chat des voisins fait tout le temps ses griffes chez moi :'
+  description: Le chat des voisins fait tout le temps ses griffes chez moi.
   starCost: 2
   commonAnswers:
   - text: Je lui donne une bonne correction.

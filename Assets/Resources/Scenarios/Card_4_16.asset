@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 16
   description: "Je suis invit\xE9(e) \xE0 un \xE9v\xE9nement qui ne m\u2019int\xE9resse
-    pas :"
+    pas."
   starCost: 4
   commonAnswers:
   - text: "J\u2019arrive pile \xE0 l\u2019heure les mains vides."

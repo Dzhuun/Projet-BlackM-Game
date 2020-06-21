@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 28
   description: "L\u2019objet que je veux acheter est plus cher en magasin que sur
-    leur site :"
+    leur site."
   starCost: 4
   commonAnswers:
   - text: Je vais faire la remarque au manager.

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_17
   m_EditorClassIdentifier: 
   id: 17
-  description: "La faim me tenaille le ventre, et le buffet semble d\xE9licieux :"
+  description: "La faim me tenaille le ventre, et le buffet semble d\xE9licieux."
   starCost: 4
   commonAnswers:
   - text: "Je grignote et me r\xE9serve pour chez moi."

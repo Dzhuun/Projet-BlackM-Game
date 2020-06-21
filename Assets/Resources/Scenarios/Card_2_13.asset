@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 13
   description: "Je critique quelqu\u2019un au t\xE9l\xE9phone, mais il n\u2019\xE9tait
-    pas en attente :"
+    pas en attente."
   starCost: 2
   commonAnswers:
   - text: "Je transf\xE8re l\u2019appel, g\xEAn\xE9(e)."

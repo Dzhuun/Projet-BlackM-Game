@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_11
   m_EditorClassIdentifier: 
   id: 11
-  description: "La soir\xE9e de r\xE9ception s'\xE9ternise :"
+  description: "La soir\xE9e de r\xE9ception s'\xE9ternise."
   starCost: 4
   commonAnswers:
   - text: "Je surveille le d\xE9part de l\u2019invit\xE9 d\u2019honneur."

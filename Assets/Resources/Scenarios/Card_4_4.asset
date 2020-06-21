@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   description: "Pour un poste, j\u2019ai le choix entre mon ami d\u2019enfance 4*,
-    et le candidat id\xE9al 2* :"
+    et le candidat id\xE9al 2*."
   starCost: 4
   commonAnswers:
-  - text: "Je choisis le candidat et assumerais les r\xE9percussions."
+  - text: "Je choisis le candidat et assumerai les r\xE9percussions."
     likesValue: 45
     traits:
     - trait: {fileID: 11400000, guid: 81681b5bc28ac134784fbc25e59c465e, type: 2}
@@ -29,7 +29,7 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: be7b88e254ba08a4a8d73e8b7b8fc01c, type: 2}
       traitRespected: 10
       traitNotRespected: -5
-  - text: "Je choisis mon ami et assumerais les cons\xE9quences."
+  - text: "Je choisis mon ami et assumerai les cons\xE9quences."
     likesValue: 30
     traits:
     - trait: {fileID: 11400000, guid: 5faf2bf1b02fe9242a594cf48f8b4e00, type: 2}

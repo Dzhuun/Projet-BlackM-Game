@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_17
   m_EditorClassIdentifier: 
   id: 17
-  description: 'Je casse mon outil de travail :'
+  description: Je casse mon outil de travail.
   starCost: 2
   commonAnswers:
   - text: Je demande conseil.

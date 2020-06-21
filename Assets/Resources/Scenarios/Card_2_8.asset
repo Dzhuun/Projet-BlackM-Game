@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 8
   description: "Je m'\xE9nerve contre une personne, puis je comprends qu\u2019elle
-    est muette :"
+    est muette."
   starCost: 2
   commonAnswers:
   - text: "Je m\u2019excuse, je ne savais pas."

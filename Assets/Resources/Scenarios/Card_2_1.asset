@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_1
   m_EditorClassIdentifier: 
   id: 1
-  description: 'J''envoie un message compromettant au mauvais destinataire : '
+  description: J'envoie un message compromettant au mauvais destinataire.
   starCost: 2
   commonAnswers:
   - text: Je feins une blague.
@@ -62,7 +62,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -2
   specificAnswers:
-  - text: "J\u2019avoue, mais ne lui donne pas de nom."
+  - text: "J\u2019avoue, mais je ne lui dis pas qui \xE9tait le destinataire."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}

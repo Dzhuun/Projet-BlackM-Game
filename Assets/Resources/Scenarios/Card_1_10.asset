@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_10
   m_EditorClassIdentifier: 
   id: 10
-  description: "Mon appartement n\u2019\xE9tait pas aux normes, il prend feu"
+  description: "Mon appartement n\u2019\xE9tait pas aux normes, il prend feu."
   starCost: 1
   commonAnswers:
   - text: Je sauve ce que je peux.

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_29
   m_EditorClassIdentifier: 
   id: 29
-  description: 'Je poste des photos de moi :'
+  description: Je poste des photos de moi.
   starCost: 4
   commonAnswers:
   - text: "Je retouche le moindre d\xE9tail pour \xEAtre parfait."

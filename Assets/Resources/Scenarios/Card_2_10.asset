@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_10
   m_EditorClassIdentifier: 
   id: 10
-  description: "J\u2019ai vendu un produit d\xE9fectueux, le client vient se plaindre
-    :"
+  description: "J\u2019ai vendu un produit d\xE9fectueux, le client vient se plaindre."
   starCost: 2
   commonAnswers:
   - text: "Je ne suis qu\u2019un(e) employ\xE9(e), je m\u2019excuse."

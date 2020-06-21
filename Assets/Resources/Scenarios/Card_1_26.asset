@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 26
   description: "On demande de me mettre \xE0 jour sur le versement de mes imp\xF4ts
-    d\xE9j\xE0 pay\xE9s :"
+    d\xE9j\xE0 pay\xE9s."
   starCost: 1
   commonAnswers:
   - text: Je vais poser des questions.

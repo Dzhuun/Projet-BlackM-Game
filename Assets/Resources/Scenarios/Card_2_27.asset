@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_27
   m_EditorClassIdentifier: 
   id: 27
-  description: 'Un SDF vole une pomme dans la boutique ou je travaille :'
+  description: "Un SDF vole une pomme dans la boutique o\xF9 je travaille."
   starCost: 2
   commonAnswers:
   - text: "J\u2019appelle la police."

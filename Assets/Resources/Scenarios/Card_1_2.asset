@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_2
   m_EditorClassIdentifier: 
   id: 2
-  description: "Le pc du travail est infect\xE9, mon coll\xE8gue m\u2019accuse"
+  description: "Le pc du travail est infect\xE9, mon coll\xE8gue m\u2019accuse."
   starCost: 1
   commonAnswers:
   - text: Je cherche des preuves.

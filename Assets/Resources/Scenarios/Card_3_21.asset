@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_21
   m_EditorClassIdentifier: 
   id: 21
-  description: "Mon num\xE9ro de file d'attente est zapp\xE9 :"
+  description: "Mon num\xE9ro de file d'attente est zapp\xE9."
   starCost: 3
   commonAnswers:
   - text: Je vais voir la personne au guichet.

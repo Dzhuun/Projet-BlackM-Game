@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_12
   m_EditorClassIdentifier: 
   id: 12
-  description: "Je me rends compte que je commence \xE0 avoir des \xE9conomies :"
+  description: "Je me rends compte que je commence \xE0 avoir des \xE9conomies."
   starCost: 3
   commonAnswers:
   - text: "Je demande \xE0 ma banque d\u2019ouvrir un livret."

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_6
   m_EditorClassIdentifier: 
   id: 6
-  description: "Un drame a eu lieu, \xE7a me semble surr\xE9aliste :"
+  description: "Un drame a eu lieu, \xE7a me semble surr\xE9aliste."
   starCost: 2
   commonAnswers:
   - text: "Je commence \xE0 rire nerveusement."

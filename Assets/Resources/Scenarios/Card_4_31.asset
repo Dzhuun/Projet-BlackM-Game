@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_31
   m_EditorClassIdentifier: 
   id: 31
-  description: 'Je suis en vacances avec ma famille, sur Social Dive :'
+  description: Je suis en vacances avec ma famille, sur Social Dive.
   starCost: 4
   commonAnswers:
   - text: "Je poste un nombre de photos \xE0 des heures pr\xE9cises."

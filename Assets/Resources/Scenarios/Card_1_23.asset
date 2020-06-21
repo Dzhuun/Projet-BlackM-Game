@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 23
   description: "La personne que j\u2019ai bouscul\xE9e m\u2019accuse de lui avoir
-    tordu la cheville :"
+    tordu la cheville."
   starCost: 1
   commonAnswers:
   - text: "J'appelle de l\u2019aide."

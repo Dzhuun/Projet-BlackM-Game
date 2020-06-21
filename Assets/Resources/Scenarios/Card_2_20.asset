@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_20
   m_EditorClassIdentifier: 
   id: 20
-  description: 'On me bouscule constamment dans la rue :'
+  description: On me bouscule constamment dans la rue.
   starCost: 2
   commonAnswers:
   - text: "\xC0 bout, je m\u2019\xE9nerve."

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_5
   m_EditorClassIdentifier: 
   id: 5
-  description: "Je croise mon voisin qui a des probl\xE8mes d\u2019apr\xE8s sa femme
-    :"
+  description: "Je croise mon voisin qui a des probl\xE8mes d\u2019apr\xE8s sa femme."
   starCost: 4
   commonAnswers:
   - text: "Je lui demande s\u2019il va mieux."

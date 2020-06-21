@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 15
   description: "Mon seul \u201Cami\u201D me fait du chantage affectif pour que je
-    fasse une chose immorale"
+    fasse une chose immorale."
   starCost: 1
   commonAnswers:
   - text: "Je c\xE8de, je n\u2019ai personne d\u2019autre."

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 30
   description: "J\u2019ai l\u2019impression que le bonheur n\u2019est pas forc\xE9ment
-    ou je l\u2019attends :"
+    o\xF9 je l\u2019attends."
   starCost: 4
   commonAnswers:
   - text: "J\u2019en parle avec mes proches."

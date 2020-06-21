@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_11
   m_EditorClassIdentifier: 
   id: 11
-  description: "Je dois penser \xE0 l\u2019avenir de mes enfants, on me demande pourquoi
-    :"
+  description: "Je dois penser \xE0 l\u2019avenir de mes enfants, on me demande pourquoi."
   starCost: 3
   commonAnswers:
   - text: "Je les envoie dans le priv\xE9."

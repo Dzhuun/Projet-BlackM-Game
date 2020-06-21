@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_8
   m_EditorClassIdentifier: 
   id: 8
-  description: "Je veux m\u2019entourer de nouvelles personnes :"
+  description: "Je veux m\u2019entourer de nouvelles personnes."
   starCost: 3
   commonAnswers:
   - text: Je rajoute toutes celles qui ont une meilleure influence.

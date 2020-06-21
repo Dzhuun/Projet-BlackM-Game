@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 25
   description: "Je suis face \xE0 une situation qui m\u2019\xE9nerve au plus haut
-    point :"
+    point."
   starCost: 4
   commonAnswers:
   - text: "Je garde mon self contr\xF4le."
@@ -54,7 +54,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
   specificAnswers:
-  - text: "J\u2019essaye de calmer le jeu"
+  - text: "J\u2019essaye de calmer le jeu."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}

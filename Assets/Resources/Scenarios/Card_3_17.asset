@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_17
   m_EditorClassIdentifier: 
   id: 17
-  description: 'Mon patron me rajoute sur Social Dive :'
+  description: Mon patron me rajoute sur Social Dive.
   starCost: 3
   commonAnswers:
   - text: "Je l\u2019accepte."

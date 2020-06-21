@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_38
   m_EditorClassIdentifier: 
   id: 38
-  description: "Je r\xE9primande un enfant pour une b\xEAtise, il se met \xE0 hurler
-    :"
+  description: "Je r\xE9primande un enfant pour une b\xEAtise, il se met \xE0 hurler."
   starCost: 2
   commonAnswers:
   - text: J'essaye de le calmer.

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_13
   m_EditorClassIdentifier: 
   id: 13
-  description: "Je suis chez des gens, je n\u2019ai pas de poche pour mon smartphone
-    :"
+  description: "Je suis chez des gens, je n\u2019ai pas de poche pour mon smartphone."
   starCost: 4
   commonAnswers:
   - text: "Je le d\xE9pose sur un coin de table."

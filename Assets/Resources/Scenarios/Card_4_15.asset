@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_15
   m_EditorClassIdentifier: 
   id: 15
-  description: 'Mon entourage critique des personnes absentes :'
+  description: Mon entourage critique des personnes absentes.
   starCost: 4
   commonAnswers:
   - text: "Je m\u2019abstiens de tout commentaire."

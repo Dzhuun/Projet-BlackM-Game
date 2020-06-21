@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_16
   m_EditorClassIdentifier: 
   id: 16
-  description: 'Il se passe quelque chose de dramatique : '
+  description: Il se passe quelque chose de dramatique.
   starCost: 3
   commonAnswers:
   - text: "J\u2019observe la sc\xE8ne."

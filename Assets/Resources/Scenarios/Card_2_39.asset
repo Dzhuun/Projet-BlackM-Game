@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_39
   m_EditorClassIdentifier: 
   id: 39
-  description: "En faisant un geste brusque, je donne un coup \xE0 un 4 \xE9toiles
-    :"
+  description: "En faisant un geste brusque, je donne un coup \xE0 un 4 \xE9toiles."
   starCost: 2
   commonAnswers:
   - text: Je le supplie de ne pas me dislike.

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_15
   m_EditorClassIdentifier: 
   id: 15
-  description: "J\u2019ai un d\xE9saccord sur Social Dive social :"
+  description: "J\u2019ai un d\xE9saccord sur Social Dive."
   starCost: 3
   commonAnswers:
   - text: "Je continue d\u2019apporter des arguments."
@@ -46,7 +46,7 @@ MonoBehaviour:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
       traitRespected: 10
       traitNotRespected: -5
-  - text: "On passe en priv\xE9 le ton monte."
+  - text: "On passe en priv\xE9 et le ton monte."
     likesValue: 10
     traits:
     - trait: {fileID: 11400000, guid: 16296033f9b02044fb7d24bb0419a973, type: 2}
@@ -100,7 +100,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
-  - text: "Je montre pourquoi la personne \xE0 tort."
+  - text: Je montre pourquoi la personne a tort.
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}

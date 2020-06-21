@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_20
   m_EditorClassIdentifier: 
   id: 20
-  description: 'On me demande de donner des conseils devant un public :'
+  description: On me demande de donner des conseils devant un public.
   starCost: 4
   commonAnswers:
   - text: Je parle de mes volontariats.

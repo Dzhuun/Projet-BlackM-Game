@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_32
   m_EditorClassIdentifier: 
   id: 32
-  description: "Mon pass\xE9 sombre refait surface sur Social Dive :"
+  description: "Mon pass\xE9 sombre refait surface sur Social Dive."
   starCost: 1
   commonAnswers:
   - text: "Je signale comme contenu ind\xE9sirable."

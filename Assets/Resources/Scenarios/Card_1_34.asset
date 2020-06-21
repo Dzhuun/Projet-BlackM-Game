@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_34
   m_EditorClassIdentifier: 
   id: 34
-  description: "Des forces de l\u2019ordre me confondent avec un(e) criminel(le)"
+  description: "Des forces de l\u2019ordre me confondent avec un(e) criminel(le)."
   starCost: 1
   commonAnswers:
   - text: "Je me d\xE9bats le plus possible."

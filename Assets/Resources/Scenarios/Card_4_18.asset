@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Card_4_18
   m_EditorClassIdentifier: 
   id: 18
-  description: 'Dans un magasin de luxe, le vendeur manipule les produits sans ses
-    gants :'
+  description: Dans un magasin de luxe, le vendeur manipule les produits sans ses
+    gants.
   starCost: 4
   commonAnswers:
   - text: "Je lui fais remarquer, et note en cons\xE9quence."

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_9
   m_EditorClassIdentifier: 
   id: 9
-  description: 'Dans un groupe de conversation :'
+  description: Dans un groupe de conversation.
   starCost: 4
   commonAnswers:
   - text: Je discute simplement.

@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_29
   m_EditorClassIdentifier: 
   id: 29
-  description: "Je suis pouss\xE9(e) sur les rails, je r\xE9ussis \xE0 m\u2019en extirper
-    :"
+  description: "Je suis pouss\xE9(e) sur les rails, je r\xE9ussis \xE0 m\u2019en extirper."
   starCost: 1
   commonAnswers:
   - text: "Persuad\xE9(e) que tout le monde est contre moi, je pars."

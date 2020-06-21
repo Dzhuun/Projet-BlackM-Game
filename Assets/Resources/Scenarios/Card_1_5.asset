@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Card_1_5
   m_EditorClassIdentifier: 
   id: 5
-  description: "Il me manque quelques centimes pour manger, la caissi\xE8re est intransigeante"
+  description: "Il me manque quelques centimes pour m\u2019acheter \xE0 manger, la
+    caissi\xE8re est intransigeante."
   starCost: 1
   commonAnswers:
   - text: "J'insiste quitte \xE0 ce qu\u2019on me jette dehors."

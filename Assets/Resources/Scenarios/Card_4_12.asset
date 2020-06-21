@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_12
   m_EditorClassIdentifier: 
   id: 12
-  description: "Ma moiti\xE9 pr\xE9pare une visite surprise aux parents :"
+  description: "Ma moiti\xE9 pr\xE9pare une visite surprise aux parents."
   starCost: 4
   commonAnswers:
   - text: "Je lui sugg\xE8re de les pr\xE9venir."

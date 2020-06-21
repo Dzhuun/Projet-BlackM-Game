@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_14
   m_EditorClassIdentifier: 
   id: 14
-  description: "On veut m\u2019embarquer pour une \u201Cinfraction\u201D :"
+  description: "On veut m\u2019embarquer pour une \u201Cinfraction\u201D."
   starCost: 1
   commonAnswers:
   - text: Je demande des explications.

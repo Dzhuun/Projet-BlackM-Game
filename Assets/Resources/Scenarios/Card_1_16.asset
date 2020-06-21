@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 16
   description: "Mon patron m\u2019oblige \xE0 faire des choses humiliantes sous peine
-    de me virer"
+    de me virer."
   starCost: 1
   commonAnswers:
   - text: J'encaisse.

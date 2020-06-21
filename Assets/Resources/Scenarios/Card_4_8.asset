@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_8
   m_EditorClassIdentifier: 
   id: 8
-  description: "Ma moiti\xE9 me d\xE9clare ne plus vouloir travailler :"
+  description: "Ma moiti\xE9 me d\xE9clare ne plus vouloir travailler."
   starCost: 4
   commonAnswers:
   - text: Pourquoi je suis pour.

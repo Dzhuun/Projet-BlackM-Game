@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_20
   m_EditorClassIdentifier: 
   id: 20
-  description: "Le distributeur a vol\xE9 ma pi\xE8ce :"
+  description: "Le distributeur a vol\xE9 ma pi\xE8ce."
   starCost: 3
   commonAnswers:
   - text: "J'appelle le num\xE9ro de service."

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_21
   m_EditorClassIdentifier: 
   id: 21
-  description: "Mon enfant demande quelque chose d\u2019absurde pour ses 18 ans :"
+  description: "Mon enfant demande quelque chose d\u2019absurde pour ses 18 ans."
   starCost: 4
   commonAnswers:
   - text: "On a 18 ans qu\u2019une fois, il aura ce qu\u2019il veut."

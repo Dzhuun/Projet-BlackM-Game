@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_30
   m_EditorClassIdentifier: 
   id: 30
-  description: "Je suis \xE0 un enterrement, je ris nerveusement :"
+  description: "Je suis \xE0 un enterrement, je ris nerveusement."
   starCost: 2
   commonAnswers:
   - text: Je fais mine de tousser.

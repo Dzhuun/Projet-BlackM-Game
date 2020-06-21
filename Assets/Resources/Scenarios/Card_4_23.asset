@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_23
   m_EditorClassIdentifier: 
   id: 23
-  description: 'Des rumeurs de corruption circulent sur moi :'
+  description: Des rumeurs de corruption circulent sur moi.
   starCost: 4
   commonAnswers:
   - text: Je nie tout et refuse les interviews.

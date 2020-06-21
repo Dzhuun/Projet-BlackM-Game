@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_26
   m_EditorClassIdentifier: 
   id: 26
-  description: 'Mon neveu est couvert de bleu :'
+  description: Mon neveu est couvert de bleus.
   starCost: 2
   commonAnswers:
   - text: Je lui pose des questions sur leur provenance.

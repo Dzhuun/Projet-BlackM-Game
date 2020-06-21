@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_38
   m_EditorClassIdentifier: 
   id: 38
-  description: "Les personnes autour de moi parlent d\u2019un sujet priv\xE9 :"
+  description: "Les personnes autour de moi parlent d\u2019un sujet priv\xE9."
   starCost: 4
   commonAnswers:
   - text: "Je fais mine d\u2019\xEAtre occup\xE9(e) le temps qu\u2019ils terminent. "

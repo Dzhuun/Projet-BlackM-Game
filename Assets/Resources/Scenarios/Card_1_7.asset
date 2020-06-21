@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7
   description: "Je pensais avoir reconnu quelqu\u2019un, elle crie pour que je la
-    l\xE2che"
+    l\xE2che."
   starCost: 1
   commonAnswers:
   - text: "Je prends la fuite face aux gens alert\xE9s."

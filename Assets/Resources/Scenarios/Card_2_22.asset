@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_22
   m_EditorClassIdentifier: 
   id: 22
-  description: "Mon coll\xE8gue malade m\u2019\xE9ternue dessus :"
+  description: "Mon coll\xE8gue malade m\u2019\xE9ternue dessus."
   starCost: 2
   commonAnswers:
   - text: Je dislike sans rien dire.

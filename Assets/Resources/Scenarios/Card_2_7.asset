@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 7
   description: "Persuad\xE9(e) d\u2019avoir raison, je corrige une personne qui disait
-    vrai :"
+    vrai."
   starCost: 2
   commonAnswers:
   - text: Je ne sais pas quoi dire.

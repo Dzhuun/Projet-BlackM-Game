@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_2
   m_EditorClassIdentifier: 
   id: 2
-  description: "Une personne 2 \xE9toiles vient me parler :"
+  description: "Une personne 2 \xE9toiles vient me parler."
   starCost: 4
   commonAnswers:
   - text: "Je l\u2019ignore, cette personne ne m\xE9rite pas de me parler. "

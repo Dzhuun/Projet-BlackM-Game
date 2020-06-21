@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_36
   m_EditorClassIdentifier: 
   id: 36
-  description: "Des sujets font pol\xE9miques sur mon profil Social Dive :"
+  description: "Des sujets font pol\xE9mique sur mon profil Social Dive."
   starCost: 4
   commonAnswers:
   - text: Je donne un avis constructif.

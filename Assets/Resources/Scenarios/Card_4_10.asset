@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_10
   m_EditorClassIdentifier: 
   id: 10
-  description: "Je n\u2019ai plus de cachet pour mon \u201Cmal de dos\u201D :"
+  description: "Je n\u2019ai plus de cachet pour mon \u201Cmal de dos\u201D."
   starCost: 4
   commonAnswers:
   - text: "Je vais voir un th\xE9rapeute pr\xE9cis."

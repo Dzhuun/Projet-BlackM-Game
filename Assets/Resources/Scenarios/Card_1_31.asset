@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_31
   m_EditorClassIdentifier: 
   id: 31
-  description: "Je croise un 4 \xE9toiles qui fait un \xE9cart face \xE0 moi :"
+  description: "Je croise un 4 \xE9toiles qui fait un \xE9cart face \xE0 moi."
   starCost: 1
   commonAnswers:
   - text: "J\u2019insinue qu\u2019il doit \xEAtre corrompu."

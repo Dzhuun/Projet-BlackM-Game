@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_29
   m_EditorClassIdentifier: 
   id: 29
-  description: "On me fait des r\xE9flexions en public sur mon alimentation :"
+  description: "On me fait des r\xE9flexions en public sur mon alimentation."
   starCost: 2
   commonAnswers:
   - text: J'ignore les commentaires.

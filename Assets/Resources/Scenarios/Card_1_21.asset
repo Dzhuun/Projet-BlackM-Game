@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 21
   description: "Le fast-food s\u2019est tromp\xE9 dans ma commande, on me demande
-    de partir :"
+    de partir."
   starCost: 1
   commonAnswers:
   - text: "J\u2019exige ma commande compl\xE8te. "

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_29
   m_EditorClassIdentifier: 
   id: 29
-  description: "Je perds un objet de valeur qu\u2019on m\u2019a pr\xEAt\xE9 :"
+  description: "Je perds un objet de valeur qu\u2019on m\u2019a pr\xEAt\xE9."
   starCost: 3
   commonAnswers:
   - text: "Je l\u2019avoue en m\u2019excusant."

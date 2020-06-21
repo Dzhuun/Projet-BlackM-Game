@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_32
   m_EditorClassIdentifier: 
   id: 32
-  description: "Je vire un client probl\xE9matique, il est l\u2019ami de mon sup\xE9rieur
-    :"
+  description: "Je vire un client probl\xE9matique, il est l\u2019ami de mon sup\xE9rieur."
   starCost: 3
   commonAnswers:
   - text: "J\u2019explique la situation \xE0 mon chef."

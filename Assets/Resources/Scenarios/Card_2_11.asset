@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_11
   m_EditorClassIdentifier: 
   id: 11
-  description: "J\u2019\xE9crase le pied d\u2019un 3 \xE9toiles :"
+  description: "J\u2019\xE9crase le pied d\u2019un 4 \xE9toiles."
   starCost: 2
   commonAnswers:
   - text: "Je tente l\u2019humour."
@@ -62,7 +62,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -2
   specificAnswers:
-  - text: Je lui demande de faire attention
+  - text: Je lui demande de faire attention.
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}

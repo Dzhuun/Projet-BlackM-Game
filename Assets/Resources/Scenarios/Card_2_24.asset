@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_24
   m_EditorClassIdentifier: 
   id: 24
-  description: "J\u2019ouvre la porte pendant une r\xE9union au lieu d\u2019un bureau
-    :"
+  description: "J\u2019ouvre la porte pendant une r\xE9union au lieu d\u2019un bureau."
   starCost: 2
   commonAnswers:
   - text: "Je pars avant d\u2019\xEAtre rep\xE9r\xE9(e)."

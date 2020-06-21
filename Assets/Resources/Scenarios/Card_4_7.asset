@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_7
   m_EditorClassIdentifier: 
   id: 7
-  description: "Mon enfant me pose des probl\xE8mes d\u2019image :"
+  description: "Mon enfant me pose des probl\xE8mes d\u2019image."
   starCost: 4
   commonAnswers:
   - text: "Je l\u2019oblige \xE0 faire des excuses publiques."

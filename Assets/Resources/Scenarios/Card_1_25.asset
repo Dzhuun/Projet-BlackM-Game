@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_1_25
   m_EditorClassIdentifier: 
   id: 25
-  description: 'Mon bureau est dans un sous-sol humide :'
+  description: Mon bureau est dans un sous-sol humide.
   starCost: 1
   commonAnswers:
   - text: "J'essaye de le d\xE9corer."
@@ -53,7 +53,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
   specificAnswers:
-  - text: "Je soutiens \xE0 un coll\xE8gue, que le patron a donn\xE9 son accord pour
+  - text: "Je soutiens \xE0 un coll\xE8gue que le patron a donn\xE9 son accord pour
       \xE9changer."
     likesValue: 5
     traits:
@@ -86,7 +86,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
-  - text: "Je pr\xE9tends des rhumatisme et reste \xE0 l\u2019infirmerie."
+  - text: "Je pr\xE9tends des rhumatismes et reste \xE0 l\u2019infirmerie."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: d08f39a6a1ff7e74c886bc798fce828b, type: 2}

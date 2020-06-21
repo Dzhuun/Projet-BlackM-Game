@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 34
   description: "Une vieille dame exige une r\xE9compense, elle a ramass\xE9 \u201Cmon
-    alliance\u201D :"
+    alliance\u201D."
   starCost: 2
   commonAnswers:
   - text: "Je l\u2019ignore et pars."

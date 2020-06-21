@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_2_19
   m_EditorClassIdentifier: 
   id: 19
-  description: "J\u2019ai oubli\xE9 les documents de la r\xE9union chez moi  :"
+  description: "J\u2019ai oubli\xE9 les documents de la r\xE9union chez moi."
   starCost: 2
   commonAnswers:
   - text: "Je pr\xE9f\xE8re arriver en retard avec ce qu\u2019il faut."
@@ -110,7 +110,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
     character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
-  - text: "Je propose de faire la r\xE9union sans"
+  - text: "Je propose de faire la r\xE9union sans."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 92a1b70f3040444449fc404f71baeb93, type: 2}

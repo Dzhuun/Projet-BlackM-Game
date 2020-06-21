@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_3
   m_EditorClassIdentifier: 
   id: 3
-  description: "Les personnes autour semblent avoir oubli\xE9 les codes de conduite
-    :"
+  description: "Les personnes autour semblent avoir oubli\xE9 les codes de conduite."
   starCost: 4
   commonAnswers:
   - text: Je fais des remarques avec humour.

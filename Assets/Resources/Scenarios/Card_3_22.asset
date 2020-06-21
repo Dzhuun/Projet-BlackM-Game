@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Card_3_22
   m_EditorClassIdentifier: 
   id: 22
-  description: "Je n'ai plus d\u2019acc\xE8s internet, et j\u2019\xE9tais en visioconf\xE9rence
-    :"
+  description: "Je n'ai plus d\u2019acc\xE8s internet, et j\u2019\xE9tais en visioconf\xE9rence."
   starCost: 3
   commonAnswers:
   - text: J'envoie un mail aux personnes.

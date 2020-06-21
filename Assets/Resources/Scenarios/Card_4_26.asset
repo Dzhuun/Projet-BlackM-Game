@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_26
   m_EditorClassIdentifier: 
   id: 26
-  description: "Un ami avec qui je suis en froid m\u2019appelle :"
+  description: "Un ami avec qui je suis en froid m\u2019appelle."
   starCost: 4
   commonAnswers:
   - text: "Je refuse de lui r\xE9pondre."
@@ -53,7 +53,7 @@ MonoBehaviour:
       traitRespected: 10
       traitNotRespected: -5
   specificAnswers:
-  - text: "J\u2019envoie un texto pour savoir quelle est l\u2019urgence"
+  - text: "J\u2019envoie un texto pour savoir quelle est l\u2019urgence."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 15a6248264fdf7e42b62ee0d4a86095f, type: 2}
@@ -72,7 +72,7 @@ MonoBehaviour:
       traitRespected: 3
       traitNotRespected: -45
     character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
-  - text: "Je vais voir chez lui ce qu\u2019il se passe"
+  - text: "Je vais voir chez lui ce qu\u2019il se passe."
     likesValue: 5
     traits:
     - trait: {fileID: 11400000, guid: 7d4a84a3d5ce4544db9af25dabc62426, type: 2}

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 349ce3bf85629ff48b964fd107ad87de, type: 3}
+  m_Name: Card_5_1
+  m_EditorClassIdentifier: 
+  id: 1
+  description: "Je dois d\xE9cerner un prix Nobel pour une d\xE9couverte que la personne
+    n'a pas faite."
+  starCost: 5
+  commonAnswers:
+  - text: "J\u2019essaye de le pi\xE9ger en posant des questions sur ses d\xE9couvertes."
+    likesValue: 0
+    traits: []
+  - text: "Je demande s\u2019il n\u2019y a pas eu une erreur sur la personne."
+    likesValue: 0
+    traits: []
+  - text: Je lui remets le prix sans rien dire.
+    likesValue: 0
+    traits: []
+  specificAnswers:
+  - text: "Je donne le nom de la vraie personne qui a fait la d\xE9couverte."
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
+  - text: Je dis une phrase lourde de sous-entendus.
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
+  - text: Je donne son nom, mais je ne lui donne pas le prix.
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
+  - text: "Je demande \xE0 partir de sc\xE8ne."
+    likesValue: 0
+    traits: []
+    character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}

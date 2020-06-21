@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Card_4_34
   m_EditorClassIdentifier: 
   id: 34
-  description: "Je re\xE7ois beaucoup de commentaires n\xE9gatifs :"
+  description: "Je re\xE7ois beaucoup de commentaires n\xE9gatifs."
   starCost: 4
   commonAnswers:
   - text: "Je ne r\xE9ponds qu\u2019aux positifs."
