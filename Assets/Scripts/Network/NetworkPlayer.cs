@@ -79,6 +79,11 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     public Item friends;
 
     /// <summary>
+    /// The final score of the player.
+    /// </summary>
+    public int totalScore;
+
+    /// <summary>
     /// Indicates whether the player has earned it's first trait (after reaching 3.0 of fame).
     /// </summary>
     public bool firstTraitEarned = false;
@@ -110,11 +115,11 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
         PlayerName = photonView.Owner.NickName;
         gameObject.name = PlayerName;
 
-        car = new Item(ItemType.Voiture);
-        house = new Item(ItemType.Maison);
-        work = new Item(ItemType.Travail);
-        friends = new Item(ItemType.Amis);
-        family = new Item(ItemType.Famille);
+        car = new Item(ItemType.Voiture, 2);
+        house = new Item(ItemType.Maison, 2);
+        work = new Item(ItemType.Travail, 2);
+        friends = new Item(ItemType.Amis, 2);
+        family = new Item(ItemType.Famille, 1);
     }
 
     /// <summary>
@@ -135,8 +140,6 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SetCharacter(string name, int playerOrder)
     {
-        Debug.LogError($"Set character {name} at order '{playerOrder}'");
-
         character = Database.characters.Find(x => x.nickname == name);
         ResetTraits();
 
@@ -211,5 +214,13 @@ public class NetworkPlayer : MonoBehaviourPunCallbacks
                 family.level++;
                 break;
         }
+    }
+
+    /// <summary>
+    /// Computes the final score and stores it into a variable.
+    /// </summary>
+    public void ComputeTotalScore()
+    {
+        totalScore = car.level + house.level + work.level + friends.level + family.level + Mathf.FloorToInt(fame);
     }
 }

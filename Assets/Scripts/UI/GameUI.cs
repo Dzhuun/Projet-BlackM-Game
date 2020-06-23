@@ -7,9 +7,10 @@ using TMPro;
 public class GameUI : MonoBehaviour
 {
     [Header("Core")]
-    public Animator animatorUI;
+    public GameObject mainPanel;
 
     [Header("Player Infos")]
+    public GameObject playersUI;
     public PlayerSelectorUI playerSelectorUI;
     public FameGauge fameGauge;
     public MentalHealthUI mentalHealthUI;
@@ -65,8 +66,9 @@ public class GameUI : MonoBehaviour
 
     [Header("WaitForOpinion")]
     public GameObject waitForOpinionDisplay;
-    public TextMeshProUGUI waitForOpinionTitle;
-    public TextMeshProUGUI waitForOpinionText;
+    public TextMeshProUGUI scenarioDescription_waitOpinion;
+    public TextMeshProUGUI answerText_waitOpinion;
+    public SocietyResultUI societyResult;
 
 
     [Header("ShowOpinion")]
@@ -94,6 +96,14 @@ public class GameUI : MonoBehaviour
     public GameObject waitForShoppingDisplay;
     public TextMeshProUGUI waitForShoppingText;
 
+    [Header("End")]
+    public GameObject endPhaseDisplay;
+    public GameObject playerScoresDisplay;
+    public GameObject winnerDisplay;
+    public List<PlayerScoresUI> playerScores;
+    public WinnerUI winnerUI;
+    public List<WinnerUI> loserUIs;
+
     private bool _isLocal;
     private NetworkPlayer _currentPlayer;
     private NetworkPlayer _observedPlayer;
@@ -104,6 +114,9 @@ public class GameUI : MonoBehaviour
     {
         Instance = this;
 
+        mainPanel.SetActive(true);
+        playersUI.SetActive(true);
+
         startPhaseDisplay.SetActive(false);
         drawCardDisplay.SetActive(false);
         waitForDrawCardDisplay.SetActive(false);
@@ -113,6 +126,7 @@ public class GameUI : MonoBehaviour
         showOpinionDisplay.SetActive(false);
         waitForOpinionDisplay.SetActive(false);
         shoppingDisplay.SetActive(false);
+        endPhaseDisplay.SetActive(false);
     }
 
 
@@ -326,7 +340,7 @@ public class GameUI : MonoBehaviour
     /// Activates the UI that shows the opinion to give.
     /// </summary>
     /// <param name="answerID">The ID of the answer.</param>
-    public void ShowChooseOpinion(string answer, string question)
+    public void ShowChooseOpinion(string answer, string question, int societyLikes)
     {
         answerDisplay.SetActive(false);
         waitForAnswerDisplay.SetActive(false);
@@ -336,16 +350,24 @@ public class GameUI : MonoBehaviour
         chooseOpinionDisplay.SetActive(!_isLocal);
         waitForOpinionDisplay.SetActive(_isLocal);
 
-        validateOpinionButton.interactable = true;
-        validateOpinionText.SetActive(true);
-        validatedOpinionIcon.SetActive(false);
+        if(_isLocal)
+        {
+            scenarioDescription_waitOpinion.text = question;
+            answerText_waitOpinion.text = answer;
+            societyResult.ShowResult(societyLikes, GameManager.currentPlayer.fame);
+        }
+        else
+        {
+            validateOpinionButton.interactable = true;
+            validateOpinionText.SetActive(true);
+            validatedOpinionIcon.SetActive(false);
+            scenarioDescription_chooseOpinion.text = question;
+            answerText_chooseOpinion.text = answer;
+            voteTitle.text = string.Format("Note {0}",GameManager.currentPlayer.character.GetFirstName());
 
-        scenarioDescription_chooseOpinion.text = question;
-        answerText_chooseOpinion.text = answer;
-        voteTitle.text = string.Format("Note {0}",GameManager.currentPlayer.character.GetFirstName());
-
-        likesIncrementHandler.UpdateSettings(NetworkPlayer.LocalPlayerInstance.fame);
-        maxVoteText.text = string.Format("Tu peux distribuer {0} votes au maximum", LikesIncrementHandler.maxValue);
+            likesIncrementHandler.UpdateSettings(NetworkPlayer.LocalPlayerInstance.fame);
+            maxVoteText.text = string.Format("Tu peux distribuer {0} votes au maximum", LikesIncrementHandler.maxValue);
+        }
     }
 
     /// <summary>
@@ -469,7 +491,7 @@ public class GameUI : MonoBehaviour
         if(_isLocal)
         {
             int fameLevel = Mathf.FloorToInt(player.fame);
-            shoppingText.text = string.Format("Souhaites-tu acheter un bien {0} étoile{1}", fameLevel, fameLevel > 1 ? "s" : string.Empty);
+            shoppingText.text = string.Format("Tu peux acheter des biens d'une valeur maximale de {0} étoile{1}.", fameLevel, fameLevel > 1 ? "s" : string.Empty);
         }
         else
         {
@@ -477,18 +499,63 @@ public class GameUI : MonoBehaviour
         }
 
         ShopManager.Instance.UpdateDisplays();
-
-        //animatorUI.SetTrigger("Shop");
     }
 
     /// <summary>
     /// Activates the UI that shows the winner.
     /// </summary>
     /// <param name="winner">The winning player.</param>
-    public void ShowEndUI(NetworkPlayer winner)
+    public void ShowEndUI()
     {
-        // UI stuff
+        mainPanel.SetActive(false);
+        playersUI.SetActive(false);
+        shoppingDisplay.SetActive(false);
 
-        animatorUI.SetTrigger("GameEnd");
+        endPhaseDisplay.SetActive(true);
+
+        playerScoresDisplay.SetActive(true);
+        winnerDisplay.SetActive(false);
+
+        for(int i = 0; i < playerScores.Count; i++)
+        {
+            if(i < GameManager.orderedPlayers.Count)
+            {
+                playerScores[i].SetupInfos(GameManager.orderedPlayers[i]);
+            }
+            else
+            {
+                playerScores[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Activates the UI that shows the winner.
+    /// </summary>
+    /// <param name="winner">The winning player.</param>
+    public void ShowWinnerUI(NetworkPlayer winner)
+    {
+        playerScoresDisplay.SetActive(false);
+        winnerDisplay.SetActive(true);
+
+        // Show winner UI
+        winnerUI.SetupInfos(winner);
+
+        // Show losers UI
+        List<NetworkPlayer> players = new List<NetworkPlayer>(GameManager.orderedPlayers);
+        players.Remove(winner);
+        
+        for(int i = 0; i < loserUIs.Count; i++)
+        {
+            if(i < players.Count)
+            {
+                loserUIs[i].SetupInfos(players[i]);
+            }
+            else
+            {
+                loserUIs[i].gameObject.SetActive(false);
+            }
+        }
+
     }
 }

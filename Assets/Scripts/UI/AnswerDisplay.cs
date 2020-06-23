@@ -19,10 +19,7 @@ public class AnswerDisplay : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        if(border != null)
-        {
-            border.gameObject.SetActive(false);
-        }
+        Deselect();
 
         answerText.text = answer.text;
     }
@@ -43,7 +40,14 @@ public class AnswerDisplay : MonoBehaviour
     /// </summary>
     public void Deselect()
     {
-        border.gameObject.SetActive(false);
-        button.interactable = true;
+        if(border != null)
+        {
+            border.gameObject.SetActive(false);
+        }
+
+        if(button != null)
+        {
+            button.interactable = true;
+        }
     }
 }

@@ -36,7 +36,7 @@ public class SceneTransition : MonoBehaviour
 
     public void OnTransitionEnded()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);      
+        SceneManager.LoadScene(SettingsManager.GAME_SCENE);      
     }
 
     public void FadeIn()

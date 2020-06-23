@@ -17,12 +17,25 @@ public class Scenario : ScriptableObject
 public class Answer
 {
     public string text;
-    public int likesValue;
+    public AnswerResultType resultType;
     public List<AnswerTrait> traits;
+
+    public int GetLikesValue(int fameRank)
+    {
+        return SettingsManager.Instance.answerResultHandler.GetLikesValue(fameRank, resultType);
+    }
 }
 
 [System.Serializable]
 public class SpecificAnswer : Answer
 {
     public Character character;
+}
+
+public enum AnswerResultType
+{
+    Bon,
+    Commun,
+    Insuffisant,
+    Mauvais
 }

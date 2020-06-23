@@ -52,6 +52,7 @@ MonoBehaviour:
   likes: 0
   mentalHealth: 100
   orderIndex: 0
+  totalScore: 0
   firstTraitEarned: 0
   secondTraitEarned: 0
 --- !u!114 &114245543697400752

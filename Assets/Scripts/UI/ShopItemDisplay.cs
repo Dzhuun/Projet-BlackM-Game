@@ -28,19 +28,23 @@ public class ShopItemDisplay : ItemDisplay
     {
         base.SetupInfos();
         
-        if (currentItemLevel == 5)
+        if (currentItemLevel + 1 > Mathf.FloorToInt(GameManager.currentPlayer.fame))
         {
-            likesIcon.gameObject.SetActive(false);
-            upgradeCostValue.text = string.Empty;
             buyButton.interactable = false;
-            return;
+
+            if(currentItemLevel == 5)
+            {
+                likesIcon.gameObject.SetActive(false);
+                upgradeCostValue.text = string.Empty;
+                return;
+            }
         }
 
         // Show the level of the next upgrade
         stars[currentItemLevel].SetActive(true);
 
-        // The cost is equal to the base cost (10) plus the next level upgrade * 10
-        _upgradeCost = 10 * (currentItemLevel + 2);
+        // The cost is equal to the base cost (10) plus the current level * 10
+        _upgradeCost = 10 * (currentItemLevel + 1);
 
         // Activate the upgrade button only if the player has enough likes
         if (_upgradeCost <= GameManager.currentPlayer.likes)

@@ -7,9 +7,9 @@ public class Item
     public int level;
     private ItemType _itemType;
 
-    public Item(ItemType itemType)
+    public Item(ItemType itemType, int currentLevel)
     {
-        level = 2;
+        level = currentLevel;
         _itemType = itemType;
     }
 }

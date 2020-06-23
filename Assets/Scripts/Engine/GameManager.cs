@@ -6,6 +6,7 @@ using TMPro;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static List<NetworkPlayer> orderedPlayers;
     public static NetworkPlayer currentPlayer;
     private static List<NetworkPlayer> _players = new List<NetworkPlayer>();
+    private NetworkPlayer _winner;
     private List<Answer> _answers = new List<Answer>();
     private Scenario _currentScenario;
     private AnswerDisplay _clickedAnswer;
@@ -74,6 +76,11 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             InitializeGame();
         }
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(SettingsManager.LOBBY_SCENE);
     }
 
     #endregion
@@ -366,7 +373,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void ValidateAnswer()
     {
         _selectedAnswer = _answers[_clickedAnswer.answerID - 1];
-        _societyLikesValue = _selectedAnswer.likesValue;
+        _societyLikesValue = _selectedAnswer.GetLikesValue(_currentScenario.starCost);
         _updateMentalHealth = 0;
 
         bool traitRespected = false;
@@ -486,7 +493,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         _playersLikes = new int[PhotonNetwork.CurrentRoom.PlayerCount - 1];
 
-        GameUI.Instance.ShowChooseOpinion(_selectedAnswer.text, _currentScenario.description);
+        GameUI.Instance.ShowChooseOpinion(_selectedAnswer.text, _currentScenario.description, _societyLikesValue);
     }
 
     /// <summary>
@@ -800,57 +807,79 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Check if the game is over or begin an other turn.
+    /// Sends the end turn callback to all clients.
     /// </summary>
     public void ValidateShopping()
+    {
+        photonView.RPC("EndTurn", RpcTarget.All);
+    }
+
+    [PunRPC]
+    /// <summary>
+    /// Check if the game is over or begin an other turn.
+    /// </summary>
+    public void EndTurn()
     {
         // Game end condition
         if(_currentTurnCount >= _maxTurnCount)
         {
-            NetworkPlayer winner = null;
-
-            foreach(NetworkPlayer player in orderedPlayers)
-            {
-                if(winner == null)
-                {
-                    winner = player;
-                }
-                else
-                {
-                    // TO DO : handle draw
-                    if(player.fame > winner.fame)
-                    {
-                        winner = player;
-                    }
-                }
-            }
-
-            photonView.RPC("EndGame", RpcTarget.All, winner.PlayerID);
+            EndGame();
         }
         else
         {
-            photonView.RPC("EndTurn", RpcTarget.All);
+            MoveToNextState();
         }
     }
 
+    /// <summary>
+    /// Button used for the presentation to force the game to end.
+    /// </summary>
+    public void ForceEndGame()
+    {
+        photonView.RPC("EndGame", RpcTarget.All);
+    }
+
+    [PunRPC]
     /// <summary>
     /// Ends the game.
     /// </summary>
     /// <param name="playerID">The ID of the winning player.</param>
-    [PunRPC]
-    private void EndGame(int playerID)
+    private void EndGame()
     {
-        GameUI.Instance.ShowEndUI(orderedPlayers.Find(x => x.PlayerID == playerID));
+        foreach (NetworkPlayer player in orderedPlayers)
+        {
+            player.ComputeTotalScore();
+
+            if (_winner == null)
+            {
+                _winner = player;
+            }
+            else
+            {
+                // TO DO : handle draw
+                if (player.totalScore > _winner.totalScore)
+                {
+                    _winner = player;
+                }
+            }
+        }
+        
+        GameUI.Instance.ShowEndUI();
     }
 
     /// <summary>
-    /// Ends the turn.
+    /// Shows the winner UI.
     /// </summary>
-    [PunRPC]
-    private void EndTurn()
+    public void ShowWinner()
     {
-        // State : Shopping -> BeginTurn
-        MoveToNextState();
+        GameUI.Instance.ShowWinnerUI(_winner);
     }
 
+    /// <summary>
+    /// Leave the current session.
+    /// </summary>
+    public void LeaveSession()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
 }

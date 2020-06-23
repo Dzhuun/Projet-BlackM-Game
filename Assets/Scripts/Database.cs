@@ -41,6 +41,7 @@ public class Database : MonoBehaviour
 
         switch(starCost)
         {
+            case 0:
             case 1:
 
                 return scenarios_1.Find(x => x.id == scenarioID);

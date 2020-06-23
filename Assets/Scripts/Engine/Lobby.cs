@@ -233,7 +233,15 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
         if (!playerName.Equals(""))
         {
             PhotonNetwork.LocalPlayer.NickName = playerName;
-            PhotonNetwork.ConnectUsingSettings();
+
+            if(PhotonNetwork.IsConnected)
+            {
+                SetActivePanel(SelectionPanel.name);
+            }
+            else
+            {
+                PhotonNetwork.ConnectUsingSettings();
+            }
         }
         else
         {

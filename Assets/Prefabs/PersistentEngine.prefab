@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7165003818994091503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7165003818994091501}
+  - component: {fileID: 7165003818994091500}
+  - component: {fileID: 7165003818994091506}
+  - component: {fileID: 7165003818994091507}
+  m_Layer: 0
+  m_Name: PersistentEngine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7165003818994091501
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7165003818994091503}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 467.8005, y: 250.195, z: -4.875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7165003818994091500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7165003818994091503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342776cc3057ca543968eaee7462c143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7165003818994091506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7165003818994091503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 275a741332dc7d54f8fe71f7dc5a780d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  answerResultHandler:
+    result_0_1:
+      answerResults:
+      - resultType: 0
+        likesValue: 10
+      - resultType: 1
+        likesValue: 5
+      - resultType: 2
+        likesValue: 0
+      - resultType: 3
+        likesValue: -5
+    result_2:
+      answerResults:
+      - resultType: 0
+        likesValue: 20
+      - resultType: 1
+        likesValue: 10
+      - resultType: 2
+        likesValue: 5
+      - resultType: 3
+        likesValue: -10
+    result_3:
+      answerResults:
+      - resultType: 0
+        likesValue: 30
+      - resultType: 1
+        likesValue: 15
+      - resultType: 2
+        likesValue: 7
+      - resultType: 3
+        likesValue: -15
+    result_4:
+      answerResults:
+      - resultType: 0
+        likesValue: 45
+      - resultType: 1
+        likesValue: 23
+      - resultType: 2
+        likesValue: 11
+      - resultType: 3
+        likesValue: -23
+    result_5:
+      answerResults:
+      - resultType: 0
+        likesValue: 60
+      - resultType: 1
+        likesValue: 30
+      - resultType: 2
+        likesValue: 15
+      - resultType: 3
+        likesValue: -60
+  _transition: {fileID: 0}
+--- !u!114 &7165003818994091507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7165003818994091503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b28dd60f6abf16d4094cf0f642a043e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 0
