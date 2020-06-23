@@ -18,28 +18,28 @@ MonoBehaviour:
   starCost: 5
   commonAnswers:
   - text: Je vire les instigateurs du mouvement.
-    likesValue: 0
+    resultType: 3
     traits: []
   - text: "J\u2019\xE9coute les revendications de mes employ\xE9s."
-    likesValue: 0
+    resultType: 0
     traits: []
   - text: "Je paye les m\xE9dias pour qu\u2019ils \xE9touffent l\u2019histoire."
-    likesValue: 0
+    resultType: 2
     traits: []
   specificAnswers:
   - text: "Je donne une prime \xE0 tous ceux qui reprennent le travail."
-    likesValue: 0
+    resultType: 1
     traits: []
     character: {fileID: 11400000, guid: 02a651b6f6f198947aa41b9a4fb63d1f, type: 2}
   - text: "Je ne m\u2019en pr\xE9occupe pas, ils reviendront travailler."
-    likesValue: 0
+    resultType: 0
     traits: []
     character: {fileID: 11400000, guid: b5951b2028179e04d96763c0dca725cc, type: 2}
   - text: "Je prends un avocat pour me d\xE9fendre."
-    likesValue: 0
+    resultType: 1
     traits: []
     character: {fileID: 11400000, guid: 10fe3b374dabd07429934a5576cff1bc, type: 2}
   - text: "J\u2019essaye de semer la discorde au sein du mouvement."
-    likesValue: 0
+    resultType: 3
     traits: []
     character: {fileID: 11400000, guid: d0f141a8a39d5b8439e2a91e056f121e, type: 2}
