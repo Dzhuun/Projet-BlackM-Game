@@ -26,7 +26,7 @@ public class SocietyResultUI : MonoBehaviour
     /// Show the opinion of the society depending on the value of likes given by the society.
     /// </summary>
     /// <param name="opinion">The likes value given by the society.</param>
-    public void ShowResult(int opinionValue, float playerRank)
+    public void ShowResult(AnswerResultType resultType, float playerRank)
     {
         int rankLevel = Mathf.FloorToInt(playerRank);
 
@@ -34,28 +34,23 @@ public class SocietyResultUI : MonoBehaviour
         {
             case 0:
             case 1:
-
-                textResult.text = result_0_1.GetComment(opinionValue);
+                textResult.text = result_0_1.GetComment(resultType);
                 break;
 
             case 2:
-
-                textResult.text = result_2.GetComment(opinionValue);
+                textResult.text = result_2.GetComment(resultType);
                 break;
 
             case 3:
-
-                textResult.text = result_3.GetComment(opinionValue);
+                textResult.text = result_3.GetComment(resultType);
                 break;
 
             case 4:
-
-                textResult.text = result_4.GetComment(opinionValue);
+                textResult.text = result_4.GetComment(resultType);
                 break;
 
             case 5:
-
-                textResult.text = result_5.GetComment(opinionValue);
+                textResult.text = result_5.GetComment(resultType);
                 break;
         }
     }
@@ -66,17 +61,17 @@ public class SocietySpecificResult
 {
     public List<SocietyResult> societyResults = new List<SocietyResult>(4);
 
-    public string GetComment(int value)
+    public string GetComment(AnswerResultType resultType)
     {
         foreach(SocietyResult result in societyResults)
         {
-            if(result.value == value)
+            if(result.resultType == resultType)
             {
                 return result.comment;
             }
         }
 
-        Debug.LogError("No text has been linked with the society likes value given at this rank.");
+        Debug.LogError(string.Format("No text has been linked with the society for the resultType ({0}).", resultType.ToString()));
 
         return string.Empty;
     }
@@ -85,6 +80,6 @@ public class SocietySpecificResult
 [System.Serializable]
 public class SocietyResult
 {
-    public int value;
+    public AnswerResultType resultType;
     [TextArea(1, 2)] public string comment;
 }

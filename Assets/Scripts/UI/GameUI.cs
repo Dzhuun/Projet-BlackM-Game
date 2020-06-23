@@ -44,6 +44,7 @@ public class GameUI : MonoBehaviour
     [Header("Answer")]
     public GameObject answerDisplay;
     public TextMeshProUGUI scenarioDescription;
+    public Button validateAnswerButton;
     public List<AnswerDisplay> answersToSelect;
 
     [Header("WaitForAnswer")]
@@ -74,7 +75,8 @@ public class GameUI : MonoBehaviour
     [Header("ShowOpinion")]
     public GameObject showOpinionDisplay;
     public GameObject opinionPanel;
-    public GameObject lostFamePanel;
+    public GameObject bilanPanel;
+    public OpinionResultUI opinionResultUI;
     public TextMeshProUGUI scenarioDescription_showOpinion;
     public TextMeshProUGUI answerText_showOpinion;
     public TextMeshProUGUI positivePlayersLikesUpdateValue;
@@ -107,6 +109,7 @@ public class GameUI : MonoBehaviour
     private bool _isLocal;
     private NetworkPlayer _currentPlayer;
     private NetworkPlayer _observedPlayer;
+    private List<LostItemData> _lostItems;
 
     public static GameUI Instance { get; private set; }
 
@@ -176,6 +179,8 @@ public class GameUI : MonoBehaviour
     {
         _isLocal = currentPlayer == NetworkPlayer.LocalPlayerInstance;
         _observedPlayer = NetworkPlayer.LocalPlayerInstance;
+
+        _lostItems = new List<LostItemData>();
     }
 
     /// <summary>
@@ -328,6 +333,7 @@ public class GameUI : MonoBehaviour
         if(_isLocal)
         {
             scenarioDescription.text = scenario.description;
+            validateAnswerButton.interactable = false;
         }
         else
         {
@@ -340,7 +346,7 @@ public class GameUI : MonoBehaviour
     /// Activates the UI that shows the opinion to give.
     /// </summary>
     /// <param name="answerID">The ID of the answer.</param>
-    public void ShowChooseOpinion(string answer, string question, int societyLikes)
+    public void ShowChooseOpinion(string answer, string question, AnswerResultType resultType)
     {
         answerDisplay.SetActive(false);
         waitForAnswerDisplay.SetActive(false);
@@ -354,7 +360,7 @@ public class GameUI : MonoBehaviour
         {
             scenarioDescription_waitOpinion.text = question;
             answerText_waitOpinion.text = answer;
-            societyResult.ShowResult(societyLikes, GameManager.currentPlayer.fame);
+            societyResult.ShowResult(resultType, GameManager.currentPlayer.fame);
         }
         else
         {
@@ -404,7 +410,7 @@ public class GameUI : MonoBehaviour
     /// <param name="newLevel"></param>
     public void AddLostItem(ItemType itemType, int previousLevel, int newLevel)
     {
-        //itemsLostText.text = string.Format("{0} Vous avez perdu votre {1} niveau {2}. Ce bien a été rétrogradé au niveau {3}.", itemsLostText.text, itemType.ToString(), previousLevel, newLevel);
+        _lostItems.Add(new LostItemData(itemType, previousLevel, newLevel));
     }
 
     /// <summary>
@@ -417,7 +423,7 @@ public class GameUI : MonoBehaviour
 
         showOpinionDisplay.SetActive(true);
         opinionPanel.SetActive(true);
-        lostFamePanel.SetActive(false);
+        bilanPanel.SetActive(false);
 
         RefreshPlayerInfos();
 
@@ -472,10 +478,12 @@ public class GameUI : MonoBehaviour
     /// <summary>
     /// Activates the UI that shows the fame and items lost.
     /// </summary>
-    public void ShowFameLost()
+    public void ShowBilan(NetworkPlayer player, int previousRank, int newRank, string firstNewTrait, string secondNewTrait)
     {
         opinionPanel.SetActive(false);
-        lostFamePanel.SetActive(true);
+        bilanPanel.SetActive(true);
+
+        opinionResultUI.SetupInfos(player, _lostItems, previousRank, newRank, firstNewTrait, secondNewTrait);
     }
 
     /// <summary>
@@ -557,5 +565,23 @@ public class GameUI : MonoBehaviour
             }
         }
 
+    }
+}
+
+public class LostItemData
+{
+    public ItemType itemType;
+
+    public int previousLevel;
+
+    public int newLevel;
+
+    public LostItemData(ItemType _itemType, int _previousLevel, int _newLevel)
+    {
+        itemType = _itemType;
+
+        previousLevel = _previousLevel;
+
+        newLevel = _newLevel;
     }
 }

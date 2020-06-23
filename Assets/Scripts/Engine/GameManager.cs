@@ -39,8 +39,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     private int[] _playersLikes;
     private int _societyLikesValue = 0;
     private int _updateMentalHealth = 0;
+    private string _firstNewTraitEarned = "";
+    private string _secondNewTraitEarned = "";
     private int _opinionCount = 0;
-    private bool _hasLostFame;
+    private bool _showBilan;
+    private int _previousRank;
 
     #region MonoBehaviour
     private void Awake()
@@ -78,10 +81,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnLeftRoom()
-    {
-        SceneManager.LoadScene(SettingsManager.LOBBY_SCENE);
-    }
+    //public override void OnLeftRoom()
+    //{
+    //    SceneManager.LoadScene(SettingsManager.LOBBY_SCENE);
+    //}
 
     #endregion
 
@@ -489,11 +492,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void OpinionPhase()
     {
         _opinionCount = 0;
-        _hasLostFame = false;
+        _showBilan = false;
+        _firstNewTraitEarned = string.Empty;
+        _secondNewTraitEarned = string.Empty;
 
         _playersLikes = new int[PhotonNetwork.CurrentRoom.PlayerCount - 1];
 
-        GameUI.Instance.ShowChooseOpinion(_selectedAnswer.text, _currentScenario.description, _societyLikesValue);
+        GameUI.Instance.ShowChooseOpinion(_selectedAnswer.text, _currentScenario.description, _selectedAnswer.resultType);
     }
 
     /// <summary>
@@ -526,8 +531,6 @@ public class GameManager : MonoBehaviourPunCallbacks
                 // Compute first the likes and fame earned locally
                 ComputeLikes(_playersLikes, _societyLikesValue);
 
-                // In order to check if a trait was earned or not
-                ComputeEarnedTraits();
 
                 photonView.RPC("ComputeLikes", RpcTarget.Others, _playersLikes, _societyLikesValue);
             }
@@ -587,10 +590,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         
         float popularityUpdate = likesUpdate * 0.02f;
 
-        // Correcting some floating point precision error (hoping it really does)
-        popularityUpdate = Mathf.Round(popularityUpdate * 100) / 100;
-
         float previousFame = currentPlayer.fame;
+
+        _previousRank = Mathf.FloorToInt(previousFame);
 
         if (previousFame + popularityUpdate > 5)
         {
@@ -602,9 +604,22 @@ public class GameManager : MonoBehaviourPunCallbacks
             currentPlayer.fame += popularityUpdate;
         }
 
+        // if the player has lost a rank, compute any lost items
         if(Mathf.FloorToInt(previousFame) > Mathf.FloorToInt(currentPlayer.fame))
         {
             ComputeLostItems();
+        }
+
+        // if the player has reached a superior rank, show the next bilan UI
+        if(Mathf.FloorToInt(previousFame) < Mathf.FloorToInt(currentPlayer.fame))
+        {
+            _showBilan = true;
+        }
+
+        // In order to check if a trait was earned or not
+        if(currentPlayer == NetworkPlayer.LocalPlayerInstance)
+        {
+            ComputeEarnedTraits();
         }
 
         GameUI.Instance.ShowOpinionResults(positivePlayerLikes, negativePlayerLikes, _societyLikesValue, mentalHealthDislikes, likesUpdate, popularityUpdate, _selectedAnswer.text, _currentScenario.description);
@@ -621,7 +636,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (currentPlayer.fame >= 3)
             {
                 // Add first random trait
-                AddRandomTrait(currentPlayer);
+                _firstNewTraitEarned = AddRandomTrait(currentPlayer);
                 currentPlayer.firstTraitEarned = true;
             }
         }
@@ -631,7 +646,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if(currentPlayer.fame >= 4)
             {
                 // Add second random trait
-                AddRandomTrait(currentPlayer);
+                _secondNewTraitEarned = AddRandomTrait(currentPlayer);
                 currentPlayer.secondTraitEarned = true;
             }
         }
@@ -641,7 +656,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// Adds a random (not already owned) trait the a player.
     /// </summary>
     /// <param name="player">The player to add a random trait.</param>
-    private void AddRandomTrait(NetworkPlayer player)
+    private string AddRandomTrait(NetworkPlayer player)
     {
         List<Trait> traits = new List<Trait>(Database.positiveTraits);
         
@@ -655,6 +670,8 @@ public class GameManager : MonoBehaviourPunCallbacks
         player.character.traits.Add(newTrait);
 
         photonView.RPC("SendNewTrait", RpcTarget.Others, newTrait.trait.GetTraitName(player.character));
+
+        return newTrait.trait.GetTraitName(player.character);
     }
 
     /// <summary>
@@ -675,7 +692,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ComputeLostItems()
     {
-        _hasLostFame = true;
+        _showBilan = true;
 
         float popularityLevel = Mathf.Floor(currentPlayer.fame);
 
@@ -686,65 +703,35 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         if (currentPlayer.car.level > popularityLevel)
         {
-            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Voiture, currentPlayer.car.level, (int)popularityLevel);
+            GameUI.Instance.AddLostItem(ItemType.Voiture, currentPlayer.car.level, (int)popularityLevel);
+            currentPlayer.car.level = (int)popularityLevel;
         }
 
         if (currentPlayer.house.level > popularityLevel)
         {
-            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Maison, currentPlayer.house.level, (int)popularityLevel);
+            GameUI.Instance.AddLostItem(ItemType.Maison, currentPlayer.house.level, (int)popularityLevel);
+            currentPlayer.house.level = (int)popularityLevel;
         }
 
         if (currentPlayer.work.level > popularityLevel)
         {
-            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Travail, currentPlayer.work.level, (int)popularityLevel);
+            GameUI.Instance.AddLostItem(ItemType.Travail, currentPlayer.work.level, (int)popularityLevel);
+            currentPlayer.work.level = (int)popularityLevel;
         }
 
         if (currentPlayer.friends.level > popularityLevel)
         {
-            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Amis, currentPlayer.friends.level, (int)popularityLevel);
+            GameUI.Instance.AddLostItem(ItemType.Amis, currentPlayer.friends.level, (int)popularityLevel);
+            currentPlayer.friends.level = (int)popularityLevel;
         }
 
         if (currentPlayer.family.level > popularityLevel)
         {
-            photonView.RPC("SendLostItem", RpcTarget.All, ItemType.Famille, currentPlayer.family.level, (int)popularityLevel);
+            GameUI.Instance.AddLostItem(ItemType.Famille, currentPlayer.family.level, (int)popularityLevel);
+            currentPlayer.family.level = (int)popularityLevel;
         }
     }
-
-    /// <summary>
-    /// Informs all the players that an item has been downgraded.
-    /// </summary>
-    /// <param name="itemType">The downgraded item.</param>
-    /// <param name="previousLevel">The previous level of the item.</param>
-    /// <param name="newLevel">The new level of the item.</param>
-    [PunRPC]
-    private void SendLostItem(ItemType itemType, int previousLevel, int newLevel)
-    {
-        GameUI.Instance.AddLostItem(itemType, previousLevel, newLevel);
-
-        switch(itemType)
-        {
-            case ItemType.Voiture:
-                currentPlayer.car.level = newLevel;
-                break;
-
-            case ItemType.Travail:
-                currentPlayer.work.level = newLevel;
-                break;
-
-            case ItemType.Amis:
-                currentPlayer.friends.level = newLevel;
-                break;
-
-            case ItemType.Maison:
-                currentPlayer.house.level = newLevel;
-                break;
-
-            case ItemType.Famille:
-                currentPlayer.family.level = newLevel;
-                break;
-        }
-    }
-
+    
     /// <summary>
     /// Informs all player to continue to the next state.
     /// </summary>
@@ -759,9 +746,16 @@ public class GameManager : MonoBehaviourPunCallbacks
     [PunRPC]
     private void SendSkipOpinion()
     {
-        if(_hasLostFame)
+        if(_showBilan)
         {
-            GameUI.Instance.ShowFameLost();
+            if(_firstNewTraitEarned != string.Empty)
+            {
+                GameUI.Instance.ShowBilan(currentPlayer, _previousRank, Mathf.FloorToInt(currentPlayer.fame), _firstNewTraitEarned, _secondNewTraitEarned);
+            }
+            else
+            {
+                GameUI.Instance.ShowBilan(currentPlayer, _previousRank, Mathf.FloorToInt(currentPlayer.fame), _secondNewTraitEarned, string.Empty);
+            }
         }
         else
         {
@@ -880,6 +874,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     public void LeaveSession()
     {
-        PhotonNetwork.LeaveRoom();
+        //PhotonNetwork.LeaveRoom();
     }
 }

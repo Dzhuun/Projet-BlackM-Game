@@ -33,6 +33,7 @@ public class AnswerDisplay : MonoBehaviour
         button.interactable = false;
 
         GameManager.Instance.SelectAnswer(this);
+        GameUI.Instance.validateAnswerButton.interactable = true;
     }
 
     /// <summary>
