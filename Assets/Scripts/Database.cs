@@ -12,6 +12,7 @@ public class Database : MonoBehaviour
     private static List<Scenario> scenarios_2;
     private static List<Scenario> scenarios_3;
     private static List<Scenario> scenarios_4;
+    private static List<Scenario> scenarios_5;
 
     public static List<Trait> positiveTraits;
 
@@ -31,6 +32,7 @@ public class Database : MonoBehaviour
         scenarios_2 = scenarios.FindAll(x => x.starCost == 2);
         scenarios_3 = scenarios.FindAll(x => x.starCost == 3);
         scenarios_4 = scenarios.FindAll(x => x.starCost == 4);
+        scenarios_5 = scenarios.FindAll(x => x.starCost == 5);
 
         positiveTraits = Resources.LoadAll<Trait>("Traits/Positifs").ToList();
     }
@@ -57,6 +59,10 @@ public class Database : MonoBehaviour
             case 4:
 
                 return scenarios_4.Find(x => x.id == scenarioID);
+
+            case 5:
+
+                return scenarios_5.Find(x => x.id == scenarioID);
 
             default:
 

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using TMPro;
 
 public class MyRoomListEntry : MonoBehaviour
 {
-    public Text RoomNameText;
-    public Text RoomPlayersText;
+    public TextMeshProUGUI RoomNameText;
+    public TextMeshProUGUI RoomPlayersText;
     public Button JoinRoomButton;
 
     private string roomName;

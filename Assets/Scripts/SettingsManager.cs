@@ -36,6 +36,8 @@ public class SettingsManager : MonoBehaviour
     public static SceneTransition transition;
 
     #region Inspector
+    public byte MAX_PLAYERS;
+
     [SerializeField] private SceneTransition _transition;
 
     public AnswerResultHandler answerResultHandler;

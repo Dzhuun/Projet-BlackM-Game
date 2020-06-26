@@ -57,6 +57,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275a741332dc7d54f8fe71f7dc5a780d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MAX_PLAYERS: 4
+  _transition: {fileID: 0}
   answerResultHandler:
     result_0_1:
       answerResults:
@@ -108,7 +110,6 @@ MonoBehaviour:
         likesValue: 15
       - resultType: 3
         likesValue: -60
-  _transition: {fileID: 0}
 --- !u!114 &7165003818994091507
 MonoBehaviour:
   m_ObjectHideFlags: 0

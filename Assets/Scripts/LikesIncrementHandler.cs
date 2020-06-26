@@ -34,8 +34,10 @@ public class LikesIncrementHandler : MonoBehaviour
         GameUI.Instance.UpdateOpinion(noteValue);
     }
 
-    public static void IncrementNote(int increment)
+    public static void IncrementNote(int increment, ParticleSystem particleSystem)
     {
+        particleSystem.Play();
+
         noteValue = Mathf.Clamp(noteValue + increment, -maxValue, maxValue);
         GameUI.Instance.UpdateOpinion(noteValue);
     }

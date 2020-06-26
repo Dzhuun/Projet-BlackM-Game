@@ -8,6 +8,9 @@ public class GameUI : MonoBehaviour
 {
     [Header("Core")]
     public GameObject mainPanel;
+    public GameObject turnCountPanel;
+    public TextMeshProUGUI currentTurnCount;
+    public TextMeshProUGUI maxTurnCount;
 
     [Header("Player Infos")]
     public GameObject playersUI;
@@ -63,6 +66,8 @@ public class GameUI : MonoBehaviour
     public TextMeshProUGUI voteTitle;
     public TextMeshProUGUI maxVoteText;
     public TextMeshProUGUI noteValue;
+    public ParticleSystem likeParticles;
+    public ParticleSystem dislikeParticles;
     public LikesIncrementHandler likesIncrementHandler;
 
     [Header("WaitForOpinion")]
@@ -87,6 +92,7 @@ public class GameUI : MonoBehaviour
     public Image totalLikesUpdateIcon;
     public TextMeshProUGUI fameUpdateValue;
     public TextMeshProUGUI mentalHealthUpdateValue;
+    public TextMeshProUGUI mentalHealthDislikesValue;
     public TextMeshProUGUI mentalHealthValue;
     public Button skipOpinionButton;
 
@@ -120,6 +126,7 @@ public class GameUI : MonoBehaviour
         mainPanel.SetActive(true);
         playersUI.SetActive(true);
 
+        turnCountPanel.SetActive(false);
         startPhaseDisplay.SetActive(false);
         drawCardDisplay.SetActive(false);
         waitForDrawCardDisplay.SetActive(false);
@@ -141,6 +148,10 @@ public class GameUI : MonoBehaviour
         InitializeAvatars();
 
         ShowPlayerInfos(player);
+
+        turnCountPanel.SetActive(true);
+        maxTurnCount.text = GameManager.Instance.turnCount.ToString();
+
 
         startPhaseDisplay.SetActive(true);
 
@@ -175,12 +186,13 @@ public class GameUI : MonoBehaviour
     /// Initializes the needed informations of the turn.
     /// </summary>
     /// <param name="currentPlayer">The network player that is currently playing.</param>
-    public void BeginTurn(NetworkPlayer currentPlayer)
+    public void BeginTurn(NetworkPlayer currentPlayer, int currentTurn)
     {
         _isLocal = currentPlayer == NetworkPlayer.LocalPlayerInstance;
         _observedPlayer = NetworkPlayer.LocalPlayerInstance;
 
         _lostItems = new List<LostItemData>();
+        currentTurnCount.text = (currentTurn + 1).ToString();
     }
 
     /// <summary>
@@ -416,7 +428,7 @@ public class GameUI : MonoBehaviour
     /// <summary>
     /// Activates the UI that shows the results of the opinion phase.
     /// </summary>
-    public void ShowOpinionResults(int positivePlayersLikes, int negativePlayersLikes, int societyLikes, int mentalHealthDislikes, int totalLikesUpdate, float popularityUpdate, string answer, string situation)
+    public void ShowOpinionResults(int positivePlayersLikes, int negativePlayersLikes, int societyLikes, int mentalHealthUpdate, int mentalHealthDislikes, int totalLikesUpdate, float popularityUpdate, string answer, string situation)
     {
         chooseOpinionDisplay.SetActive(false);
         waitForOpinionDisplay.SetActive(false);
@@ -432,7 +444,15 @@ public class GameUI : MonoBehaviour
         scenarioDescription_showOpinion.text = situation;
         answerText_showOpinion.text = answer;
 
-        positivePlayersLikesUpdateValue.text = string.Format("+{0}", positivePlayersLikes);
+        if(positivePlayersLikes > 0)
+        {
+            positivePlayersLikesUpdateValue.text = string.Format("+{0}", positivePlayersLikes);
+        }
+        else
+        {
+            positivePlayersLikesUpdateValue.text = positivePlayersLikes.ToString();
+        }
+
         negativePlayersLikesUpdateValue.text = negativePlayersLikes.ToString();
 
         if (societyLikes > 0)
@@ -465,14 +485,19 @@ public class GameUI : MonoBehaviour
         {
             fameUpdateValue.text = popularityUpdate.ToString("F2");
         }
+
+        if(mentalHealthUpdate > 0)
+        {
+            mentalHealthUpdateValue.text = string.Format("+{0}", mentalHealthUpdate);
+        }
+        else
+        {
+            mentalHealthUpdateValue.text = mentalHealthUpdate.ToString();
+        }
         
-        mentalHealthUpdateValue.text = mentalHealthDislikes.ToString();    
-
-        //likesValue.text = GameManager.currentPlayer.likes.ToString();
-        //fameValue.text = GameManager.currentPlayer.fame.ToString("F2");
+        mentalHealthDislikesValue.text = mentalHealthDislikes.ToString();    
+        
         mentalHealthValue.text = string.Format("{0}%", GameManager.currentPlayer.mentalHealth);
-
-        //animatorUI.SetTrigger("ShowOpinion");
     }
 
     /// <summary>
@@ -555,9 +580,22 @@ public class GameUI : MonoBehaviour
         
         for(int i = 0; i < loserUIs.Count; i++)
         {
-            if(i < players.Count)
+            int score = 0;
+            NetworkPlayer nextPlayer = null;
+
+            for(int j = 0; j < players.Count; j++)
             {
-                loserUIs[i].SetupInfos(players[i]);
+                if(players[j].totalScore > score)
+                {
+                    nextPlayer = players[j];
+                    score = nextPlayer.totalScore;
+                }
+            }
+
+            if(nextPlayer != null)
+            {
+                loserUIs[i].SetupInfos(nextPlayer);
+                players.Remove(nextPlayer);
             }
             else
             {

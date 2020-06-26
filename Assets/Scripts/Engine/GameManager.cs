@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public GameObject playerPrefab;
 
     [Header("Settings")]
+    public int turnCount;
     public int positiveTraitRespected;
     public int negativeTraitRespected;
     public int traitNotRespected;
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     private string _secondNewTraitEarned = "";
     private int _opinionCount = 0;
     private bool _showBilan;
+    private bool _inShop;
     private int _previousRank;
 
     #region MonoBehaviour
@@ -64,6 +66,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (NetworkPlayer.LocalPlayerInstance == null)
         {
             PhotonNetwork.Instantiate(playerPrefab.name, Vector3.zero, Quaternion.identity);
+        }
+    }
+
+    private void Update()
+    {
+        if(_inShop && Input.GetKeyDown(KeyCode.Escape) && currentPlayer == NetworkPlayer.LocalPlayerInstance)
+        {
+            ForceEndGame();
         }
     }
 
@@ -165,7 +175,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     private void StartGame()
     {
         // The game will end after 10 complete rounds
-        _maxTurnCount = PhotonNetwork.CurrentRoom.PlayerCount * 10;
+        _maxTurnCount = PhotonNetwork.CurrentRoom.PlayerCount * turnCount;
+
+        if(PhotonNetwork.IsMasterClient)
+        {
+            AudioManager.Instance.PlayMusic();
+        }
         
         SettingsManager.transition.FadeOut();
         
@@ -291,7 +306,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         currentPlayer = orderedPlayers[_currentIndexTurn];
 
-        GameUI.Instance.BeginTurn(currentPlayer);
+        GameUI.Instance.BeginTurn(currentPlayer, Mathf.FloorToInt(1.0f * (_currentTurnCount - 1) / PhotonNetwork.CurrentRoom.PlayerCount));
 
         // State : BeginTurn -> DrawScenario
         MoveToNextState();
@@ -466,6 +481,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         _selectedAnswer = _answers[answerID - 1];
         _societyLikesValue = societyLikes;
+        _updateMentalHealth = mentalHealthUpdate;
 
         ComputeMentalHealth(mentalHealthUpdate);
 
@@ -622,7 +638,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             ComputeEarnedTraits();
         }
 
-        GameUI.Instance.ShowOpinionResults(positivePlayerLikes, negativePlayerLikes, _societyLikesValue, mentalHealthDislikes, likesUpdate, popularityUpdate, _selectedAnswer.text, _currentScenario.description);
+        GameUI.Instance.ShowOpinionResults(positivePlayerLikes, negativePlayerLikes, _societyLikesValue, _updateMentalHealth, mentalHealthDislikes, likesUpdate, popularityUpdate, _selectedAnswer.text, _currentScenario.description);
     }
 
     /// <summary>
@@ -737,18 +753,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     public void SkipOpinion()
     {
-        photonView.RPC("SendSkipOpinion", RpcTarget.All);
-    }
-
-    /// <summary>
-    /// Continues to the shopping or show the fame lost.
-    /// </summary>
-    [PunRPC]
-    private void SendSkipOpinion()
-    {
         if(_showBilan)
         {
-            if(_firstNewTraitEarned != string.Empty)
+            if (_firstNewTraitEarned != string.Empty)
             {
                 GameUI.Instance.ShowBilan(currentPlayer, _previousRank, Mathf.FloorToInt(currentPlayer.fame), _firstNewTraitEarned, _secondNewTraitEarned);
             }
@@ -759,9 +766,18 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            // Opinion -> Shopping
-            MoveToNextState();
+            photonView.RPC("SendSkipOpinion", RpcTarget.All);
         }
+    }
+
+    /// <summary>
+    /// Continues to the shopping or show the fame lost.
+    /// </summary>
+    [PunRPC]
+    private void SendSkipOpinion()
+    {
+        // Opinion -> Shopping
+        MoveToNextState();
     }
 
     /// <summary>
@@ -787,6 +803,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     private void ShoppingPhase()
     {
+        _inShop = true;
         GameUI.Instance.ShowShop(currentPlayer);
     }
 
@@ -805,6 +822,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     public void ValidateShopping()
     {
+        _inShop = false;
         photonView.RPC("EndTurn", RpcTarget.All);
     }
 
@@ -830,6 +848,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     /// </summary>
     public void ForceEndGame()
     {
+        _inShop = false;
         photonView.RPC("EndGame", RpcTarget.All);
     }
 
@@ -850,10 +869,16 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
             else
             {
-                // TO DO : handle draw
                 if (player.totalScore > _winner.totalScore)
                 {
                     _winner = player;
+                }
+                else if (player.totalScore == _winner.totalScore)
+                {
+                    if(player.likes > _winner.likes)
+                    {
+                        _winner = player;
+                    }
                 }
             }
         }

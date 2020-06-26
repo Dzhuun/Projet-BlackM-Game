@@ -15,13 +15,16 @@ using ExitGames.Client.Photon;
 using Photon.Realtime;
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
+using TMPro;
 
 public class MyPlayerListEntry : MonoBehaviour
 {
     [Header("UI References")]
-    public Text PlayerNameText;
+    public TextMeshProUGUI PlayerNameText;
 
     public Image PlayerColorImage;
+    public Color pairColor;
+    public Color impairColor;
     public Button PlayerReadyButton;
     public Image PlayerReadyImage;
 
@@ -29,12 +32,7 @@ public class MyPlayerListEntry : MonoBehaviour
     private bool isPlayerReady;
 
     #region UNITY
-
-    public void OnEnable()
-    {
-        PlayerNumbering.OnPlayerNumberingChanged += OnPlayerNumberingChanged;
-    }
-
+    
     public void Start()
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber != ownerId)
@@ -63,33 +61,20 @@ public class MyPlayerListEntry : MonoBehaviour
         }
     }
 
-    public void OnDisable()
-    {
-        PlayerNumbering.OnPlayerNumberingChanged -= OnPlayerNumberingChanged;
-    }
-
     #endregion
 
     public void Initialize(int playerId, string playerName)
     {
         ownerId = playerId;
         PlayerNameText.text = playerName;
-    }
 
-    private void OnPlayerNumberingChanged()
-    {
-        foreach (Player p in PhotonNetwork.PlayerList)
-        {
-            if (p.ActorNumber == ownerId)
-            {
-                PlayerColorImage.color = SettingsManager.GetColor(p.GetPlayerNumber());
-            }
-        }
+        PlayerNameText.text = playerName + (playerId == PhotonNetwork.LocalPlayer.ActorNumber ? "(vous)" : string.Empty);
+        PlayerColorImage.color = playerId % 2 == 0 ? pairColor : impairColor;
     }
 
     public void SetPlayerReady(bool playerReady)
     {
-        PlayerReadyButton.GetComponentInChildren<Text>().text = playerReady ? "Ready!" : "Ready?";
+        PlayerReadyButton.GetComponentInChildren<TextMeshProUGUI>().text = playerReady ? "Ready!" : "Ready?";
         PlayerReadyImage.enabled = playerReady;
     }
 }

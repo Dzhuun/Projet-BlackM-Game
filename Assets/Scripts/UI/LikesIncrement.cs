@@ -6,6 +6,7 @@ using TMPro;
 
 public class LikesIncrement : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
+    public ParticleSystem particleSystem;
     public bool positiveIncrement;
     
     private float _heldDelay = 0.5f;
@@ -56,7 +57,7 @@ public class LikesIncrement : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     /// </summary>
     private void IncrementNote()
     {
-        LikesIncrementHandler.IncrementNote(_incrementValue); 
+        LikesIncrementHandler.IncrementNote(_incrementValue, particleSystem); 
     }
 
     public void OnPointerEnter(PointerEventData eventData)

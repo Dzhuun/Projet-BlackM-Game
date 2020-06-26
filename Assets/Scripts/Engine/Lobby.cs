@@ -5,23 +5,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Photon.Pun.Demo.Asteroids;
+using TMPro;
 
 public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
 {
+    [Header("FadeIn")]
+    public Image background;
+    public float fadeDuration;
+
     [Header("Login Panel")]
     public GameObject LoginPanel;
 
-    public InputField PlayerNameInput;
+    public TMP_InputField PlayerNameInput;
 
     [Header("Selection Panel")]
     public GameObject SelectionPanel;
 
     [Header("Create Room Panel")]
     public GameObject CreateRoomPanel;
+    public TMP_InputField RoomNameInputField;
 
-    public InputField RoomNameInputField;
-    public InputField MaxPlayersInputField;
 
     [Header("Room List Panel")]
     public GameObject RoomListPanel;
@@ -31,14 +34,16 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
 
     [Header("Inside Room Panel")]
     public GameObject InsideRoomPanel;
-
+    public GameObject PlayersList;
     public Button StartGameButton;
     public GameObject PlayerListEntryPrefab;
+
 
 
     private Dictionary<string, RoomInfo> cachedRoomList;
     private Dictionary<string, GameObject> roomListEntries;
     private Dictionary<int, GameObject> playerListEntries;
+    private MyPlayerListEntry _localPlayerListEntry;
 
     private RaiseEventOptions _raiseEventOptions;
 
@@ -54,6 +59,12 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
 
         cachedRoomList = new Dictionary<string, RoomInfo>();
         roomListEntries = new Dictionary<string, GameObject>();
+    }
+
+    private void Start()
+    {
+        StartCoroutine(FadeScreen());
+        SetActivePanel(LoginPanel.name);
     }
 
     #endregion
@@ -101,9 +112,12 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
         foreach (Player p in PhotonNetwork.PlayerList)
         {
             GameObject entry = Instantiate(PlayerListEntryPrefab);
-            entry.transform.SetParent(InsideRoomPanel.transform);
+            entry.transform.SetParent(PlayersList.transform);
             entry.transform.localScale = Vector3.one;
-            entry.GetComponent<MyPlayerListEntry>().Initialize(p.ActorNumber, p.NickName);
+
+            _localPlayerListEntry = entry.GetComponent<MyPlayerListEntry>();
+
+            _localPlayerListEntry.Initialize(p.ActorNumber, p.NickName);
 
             object isPlayerReady;
             if (p.CustomProperties.TryGetValue(SettingsManager.KEY_PLAYER_READY, out isPlayerReady))
@@ -139,7 +153,7 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         GameObject entry = Instantiate(PlayerListEntryPrefab);
-        entry.transform.SetParent(InsideRoomPanel.transform);
+        entry.transform.SetParent(PlayersList.transform);
         entry.transform.localScale = Vector3.one;
         entry.GetComponent<MyPlayerListEntry>().Initialize(newPlayer.ActorNumber, newPlayer.NickName);
 
@@ -211,12 +225,8 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         string roomName = RoomNameInputField.text;
         roomName = (roomName.Equals(string.Empty)) ? "Room " + Random.Range(1000, 10000) : roomName;
-
-        byte maxPlayers;
-        byte.TryParse(MaxPlayersInputField.text, out maxPlayers);
-        maxPlayers = (byte) Mathf.Clamp(maxPlayers, 2, 8);
-
-        RoomOptions options = new RoomOptions {MaxPlayers = maxPlayers};
+        
+        RoomOptions options = new RoomOptions {MaxPlayers = SettingsManager.Instance.MAX_PLAYERS};
 
         PhotonNetwork.CreateRoom(roomName, options, null);
     }
@@ -269,6 +279,25 @@ public class Lobby : MonoBehaviourPunCallbacks, IOnEventCallback
     }
 
     #endregion
+    
+    private System.Collections.IEnumerator FadeScreen()
+    {
+        Color fadeScreenColor = background.color;
+
+        for (float f = 1; f > 0; f -= Time.deltaTime / fadeDuration)
+        {
+            fadeScreenColor.a = f;
+            background.color = fadeScreenColor;
+
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+
+        fadeScreenColor.a = 0;
+        background.color = fadeScreenColor;
+
+        background.gameObject.SetActive(false);
+        
+    }
 
     private bool CheckPlayersReady()
     {
